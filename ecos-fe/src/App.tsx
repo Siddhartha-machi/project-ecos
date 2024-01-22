@@ -1,5 +1,7 @@
+import Box from "@mui/material/Box";
+
 function App() {
-  return <div> Project ECOS</div>;
+  return <Box>Ecos App</Box>;
 }
 
 export default App;
