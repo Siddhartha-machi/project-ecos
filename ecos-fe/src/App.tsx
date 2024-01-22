@@ -1,7 +1,14 @@
-import Box from "@mui/material/Box";
+import { Provider } from "react-redux";
+
+import store from "./redux/store";
+import AuthLayer from "./layout/AuthLayer";
 
 function App() {
-  return <Box>Ecos App</Box>;
+  return (
+    <Provider store={store}>
+      <AuthLayer />
+    </Provider>
+  );
 }
 
 export default App;
