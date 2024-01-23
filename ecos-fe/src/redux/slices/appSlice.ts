@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import { appState } from "../../Types/reduxTypes";
+// import { appState } from "../../Types/reduxTypes"; --fix
 
 const initialState = {
   loading: true,

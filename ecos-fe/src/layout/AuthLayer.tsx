@@ -4,10 +4,10 @@ import { RouterProvider } from "react-router-dom";
 
 import router from "../routing/routes";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { Box, Button } from "@mui/material";
-import { setCurrentUser } from "../redux/slices/userSlice";
+
 import { appLoading } from "../redux/slices/appSlice";
 import GlobalLoader from "../atoms/GlobalLoader";
+import authRouter from "../routing/AuthRoutes";
 
 const AuthLayer = () => {
   const dispatch = useAppDispatch();
@@ -30,18 +30,7 @@ const AuthLayer = () => {
   }, [role, timedCall]);
 
   if (!role) {
-    return (
-      <Box>
-        Login page
-        <Button
-          onClick={() => {
-            dispatch(setCurrentUser({ role: "admin" }));
-          }}
-        >
-          Login
-        </Button>
-      </Box>
-    );
+    return <RouterProvider router={authRouter} />;
   }
 
   if (loading) {
