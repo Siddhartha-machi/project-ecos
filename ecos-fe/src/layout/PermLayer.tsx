@@ -1,6 +1,12 @@
+import React from "react";
+import { Suspense } from "react";
+
+import { Box } from "@mui/material";
+
 import { useAppSelector } from "../redux/hooks";
 import { ROLES } from "../global/constants";
-import PageNotFound from "./PageNotFound";
+
+const PageNotFound = React.lazy(() => import("./PageNotFound"));
 
 // import { authWapperProps } from "../Types/layoutTypes"; --fix
 
@@ -8,14 +14,14 @@ const PermsWrap = (props) => {
   const { adminView, Component } = props;
   const { role } = useAppSelector((store) => store.user.currentUser);
 
-  if (adminView) {
-    if (role === ROLES.admin) {
-      return <Component />;
-    } else {
-      return <PageNotFound />;
-    }
+  if (adminView && role !== ROLES.admin) {
+    return <PageNotFound />;
   }
-  return <Component />;
+  return (
+    <Suspense fallback={<Box>loading...</Box>}>
+      <Component />
+    </Suspense>
+  );
 };
 
 export default PermsWrap;

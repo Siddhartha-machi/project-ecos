@@ -99,25 +99,6 @@ export const auth = createStyles({
     letterSpacing: 3,
     fontWeight: "bold",
   },
-  formTitle: {
-    fontSize: "20px",
-    fontWeight: "bold",
-    pb: 1,
-    borderBottom: "3px solid",
-    borderBottomColor: "primary.main",
-    borderBottomWidth: "50%",
-    mr: "auto",
-  },
-  submitButton: {
-    textTransform: "none",
-    fontWeight: "bold",
-    my: 1,
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    "&:disabled": {
-      backgroundColor: "rgba(255,255,255,0.3)",
-      color: "rgba(255,255,255,0.4)",
-    },
-  },
   formToggleText: {
     fontSize: "13px",
     textAlign: "center",
@@ -137,25 +118,7 @@ export const auth = createStyles({
 });
 
 export const login = createStyles({
-  container: {
-    width: "90%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    my: 1.2,
-    gap: 2.5,
-  },
-  loginError: {
-    display: "flex",
-    fontSize: "14px",
-    fontWeight: "bold",
-    bgcolor: "error.light",
-    alignItems: "center",
-    justifyContent: "center",
-    py: 1,
-    gap: 1,
-    borderRadius: APP_CONSTATNTS.borderRadius,
-  },
+  
 });
 
 export const register = createStyles({});

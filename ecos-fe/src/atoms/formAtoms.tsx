@@ -1,8 +1,8 @@
 import React from "react";
 
-import { Box, InputBase, Typography } from "@mui/material";
+import { Box, InputBase, MenuItem, Select, Typography } from "@mui/material";
 
-import { inputBoxProps } from "../typeDefs/formAtoms";
+import { inputBoxProps, selectProps } from "../typeDefs/formAtoms";
 import { formAtom } from "../styles/formAtom";
 
 export const InputBox = (props: inputBoxProps) => {
@@ -37,6 +37,46 @@ export const InputBox = (props: inputBoxProps) => {
         }}
       />
       {isError && <Typography sx={formAtom.errorText}>{error}</Typography>}
+    </Box>
+  );
+};
+
+export const SelectField = (props: selectProps) => {
+  const { label, value, options, placeHolder } = props;
+  const { changeHandler } = props;
+
+  return (
+    <Box sx={formAtom.inputContainer}>
+      <Typography sx={formAtom.formLabel({ check: false })}>{label}</Typography>
+      <Select
+        displayEmpty
+        value={value.val}
+        onChange={changeHandler}
+        //   input={<InputBase />}
+        sx={formAtom.inputBox}
+        renderValue={() => {
+          if (!value.val) {
+            return <em>Select</em>;
+          }
+
+          return (
+            <Box>
+              {value.Icon && <value.Icon />}
+              {value.val}
+            </Box>
+          );
+        }}
+      >
+        <MenuItem disabled value="">
+          <em>{placeHolder.val}</em>
+        </MenuItem>
+        {options.map((item) => (
+          <MenuItem key={item.val} value={item.val}>
+            {item.Icon && <item.Icon />}
+            {item.val}
+          </MenuItem>
+        ))}
+      </Select>
     </Box>
   );
 };

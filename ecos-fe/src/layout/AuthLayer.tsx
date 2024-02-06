@@ -1,17 +1,15 @@
-import React from "react";
+import React, { Suspense } from "react";
 
-import { RouterProvider } from "react-router-dom";
-
-import router from "../routing/routes";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-
 import { appLoading } from "../redux/slices/appSlice";
 import GlobalLoader from "../atoms/GlobalLoader";
-import authRouter from "../routing/AuthRoutes";
+
+const Router = React.lazy(() => import("../routing/Router"));
+const AuthRouter = React.lazy(() => import("../routing/AuthRoutes"));
 
 const AuthLayer = () => {
   const dispatch = useAppDispatch();
-  const { role } = useAppSelector((store) => store.user.currentUser);
+  const { role, active } = useAppSelector((store) => store.user.currentUser);
   const { loading } = useAppSelector((store) => store.app);
 
   const timedCall = React.useCallback(async () => {
@@ -29,14 +27,29 @@ const AuthLayer = () => {
     }
   }, [role, timedCall]);
 
-  if (!role) {
-    return <RouterProvider router={authRouter} />;
+  if (!role || !active) {
+    return (
+      <Suspense
+        fallback={
+          <GlobalLoader loadLabel="Taking you to login page... please wait..." />
+        }
+      >
+        <AuthRouter />
+      </Suspense>
+    );
   }
 
   if (loading) {
-    return <GlobalLoader />;
+    return <GlobalLoader loadLabel="Taking you into app... please wait..." />;
   }
-  return <RouterProvider router={router} />;
+  return (
+    <Suspense
+      fallback={
+        <GlobalLoader loadLabel="Setting up few last things... please wait..." />
+      }
+    >
+      <Router />
+    </Suspense>
+  );
 };
-
 export default AuthLayer;

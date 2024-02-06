@@ -1,6 +1,7 @@
 import { GiAtomicSlashes } from "@react-icons/all-files/gi/GiAtomicSlashes";
 
 export enum ROLES {
+  unauthenticated = "",
   admin = "admin",
   club_admin = "club_admin",
   user = "user",

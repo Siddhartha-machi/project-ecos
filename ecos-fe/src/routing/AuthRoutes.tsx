@@ -1,33 +1,31 @@
-import { Navigate, createBrowserRouter } from "react-router-dom";
+import React, { Suspense } from "react";
 
-import PageNotFound from "../layout/PageNotFound";
-import AuthLayout from "../pages/Auth/AuthLayout";
-import Register from "../pages/Auth/Register";
-import Login from "../pages/Auth/Login";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-const authRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <AuthLayout />,
-    children: [
-      {
-        path: "/",
-        element: <Navigate to="/signin" />,
-      },
-      {
-        path: "/signin",
-        element: <Login />,
-      },
-      {
-        path: "/signup",
-        element: <Register />,
-      },
-    ],
-  },
-  {
-    path: "*",
-    element: <PageNotFound auth />,
-  },
-]);
+const PageNotFound = React.lazy(() => import("../layout/PageNotFound"));
+const AuthLayout = React.lazy(() => import("../pages/Auth/AuthLayout"));
+const Register = React.lazy(() => import("../pages/Auth/Register"));
+const Login = React.lazy(() => import("../pages/Auth/Login"));
+const PDForm = React.lazy(() => import("../pages/Auth/PDForm"));
 
-export default authRouter;
+const AuthRouter = () => {
+  return (
+    <BrowserRouter>
+      <Suspense
+        fallback={<div style={{ color: "#fff" }}>Loading auth routes..</div>}
+      >
+        <Routes>
+          <Route path="/" element={<AuthLayout />}>
+            <Route path="/" element={<Navigate to="signin" />} />
+            <Route path="/signin" element={<Login />} />
+            <Route path="/signup" element={<Register />} />
+            <Route path="/personal-details" element={<PDForm />} />
+          </Route>
+          <Route path="*" element={<PageNotFound auth />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+  );
+};
+
+export default AuthRouter;
