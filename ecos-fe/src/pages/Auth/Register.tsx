@@ -1,86 +1,73 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
-import { Typography, CircularProgress, Button, Box } from "@mui/material";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
-import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
-import { InputBox } from "../../atoms/formAtoms";
-import { login, auth } from "../../styles/auth";
+import {
+  checkPassEquality,
+  checkPasswordStrength,
+  validateEmail,
+} from "../../global/helpers";
+import { useAppDispatch } from "../../redux/hooks";
+import { setCurrentUser } from "../../redux/slices/userSlice";
+import GenericForm from "../../atoms/GenericForm";
+import { formConfigType, formReturnTypes } from "../../typeDefs/atom";
 
 const Register = () => {
-  const [loading, setLoading] = React.useState(false);
-  const [loginState, setLoginState] = React.useState({
-    formError: "",
-    email: {
-      value: "",
-      error: "",
-    },
-    password: {
-      value: "",
-      error: "",
-    },
-  });
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  // --api conversion
+  const submitHandler = async (formData: formReturnTypes) => {
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  const disableSubmit = React.useMemo(() => {
-    return loginState.email.value === "" || loginState.password.value === "";
-  }, [loginState.email.value, loginState.password.value]);
+    const invalid = formData.Email !== "admin@ecos.com";
+    if (invalid) {
+      return "Unable to sign you up, please try again.";
+    }
+    dispatch(setCurrentUser({ role: "admin" }));
+    navigate("/personal-details");
+    return null;
+  };
+
+  const registerFormConfig: formConfigType[] = React.useMemo(
+    () => [
+      {
+        label: "Email",
+        value: "",
+        placeHolder: "mirana@ecos.com",
+        type: "email",
+        focus: true,
+        startIcon: EmailRoundedIcon,
+        validator: validateEmail,
+      },
+      {
+        label: "Password",
+        value: "",
+        placeHolder: "mirana#2847",
+        type: "password",
+        startIcon: KeyRoundedIcon,
+        validator: checkPasswordStrength,
+      },
+      {
+        label: "Confirm Password",
+        value: "",
+        CVType: true,
+        placeHolder: "mirana#2847",
+        type: "password",
+        startIcon: KeyRoundedIcon,
+        validator: checkPassEquality,
+      },
+    ],
+    []
+  );
 
   return (
-    <Box sx={login.container}>
-      <Typography sx={auth.formTitle}>Sign Up</Typography>
-      {loginState.formError.length > 0 && (
-        <Typography>
-          <ErrorRoundedIcon />
-          Invalid credentials
-        </Typography>
-      )}
-      <InputBox
-        key={"register-email"}
-        label="Email"
-        value={loginState.email.value}
-        type="email"
-        focus
-        changeHandler={() => {}}
-        error={loginState.email.error}
-        placeHolder="mirana@ecos.com"
-        StartIcon={EmailRoundedIcon}
-      />
-      <InputBox
-        key={"register-pass"}
-        label="Password"
-        value={loginState.password.value}
-        type="password"
-        changeHandler={() => {}}
-        error={loginState.password.error}
-        placeHolder="Mirana@8263"
-        StartIcon={KeyRoundedIcon}
-      />
-      <InputBox
-        key={"register-cpass"}
-        label="Confirm Password"
-        value={loginState.password.value}
-        type="password"
-        changeHandler={() => {}}
-        error={loginState.password.error}
-        placeHolder="Mirana@8263"
-        StartIcon={KeyRoundedIcon}
-      />
-      <Button
-        id="next"
-        fullWidth
-        disabled={disableSubmit || loading}
-        variant="contained"
-        // onClick={onSubmitHandler}
-        sx={auth.submitButton}
-      >
-        {loading ? (
-          <CircularProgress size="1.5rem" sx={{ color: "#fff" }} />
-        ) : (
-          "Next"
-        )}
-      </Button>
-    </Box>
+    <GenericForm
+      formFields={registerFormConfig}
+      submitHandler={submitHandler}
+      formTitle={"Sign up"}
+    />
   );
 };
 

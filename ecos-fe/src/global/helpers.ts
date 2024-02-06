@@ -70,3 +70,18 @@ export const checkPasswordStrength = (password: string) => {
       "Password should be atleast 8 characters long and must contain a uppercase, lowercase, sepcial character and a number.",
   };
 };
+
+export const checkPassEquality = (val: string, compare?: string) => {
+
+  const result = {
+    valid: true,
+    message: "",
+  };
+
+  if (val !== compare) {
+    result.valid = false;
+    result.message = "Password and compare password doesn't match.";
+  }
+
+  return result;
+};

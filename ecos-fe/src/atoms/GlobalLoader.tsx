@@ -3,17 +3,16 @@ import React from "react";
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import { Box, Typography } from "@mui/material";
 
-import { useAppSelector } from "../redux/hooks";
 import { gLoader } from "../styles/layout";
 import { APP_CONSTATNTS } from "../global/constants";
+import { GLoaderProps } from "../typeDefs/atom";
 
-const GlobalLoader = () => {
-  const { loadingLabel } = useAppSelector((store) => store.app);
+const GlobalLoader = (props: GLoaderProps) => {
+  const { loadLabel } = props;
 
   const message = React.useMemo(
-    () =>
-      loadingLabel ? loadingLabel : "Taking you into app... please wait...",
-    [loadingLabel]
+    () => (loadLabel ? loadLabel : "Loading, please wait..."),
+    [loadLabel]
   );
   return (
     <Box sx={gLoader.container}>
