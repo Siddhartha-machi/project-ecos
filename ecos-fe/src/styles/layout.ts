@@ -3,8 +3,6 @@ import { createStyles } from "../global/helpers";
 
 export const layout = createStyles({});
 
-
-
 export const gLoader = createStyles({
   container: {
     display: "flex",
@@ -21,15 +19,14 @@ export const gLoader = createStyles({
     fontSize: "14px",
     fontWeight: "bold",
   },
-  animationWrap: {
-    "@keyframes spin": {
-      from: {
-        transform: "rotate(0deg)",
-      },
-      to: {
-        transform: "rotate(360deg)",
-      },
-    },
-    animation: "infinite 1.2s linear spin",
+});
+
+export const pageNotFound = createStyles({
+  container: {
+    display: "flex",
+    height: "100vh",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "#fff",
   },
 });

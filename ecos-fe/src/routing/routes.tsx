@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { createBrowserRouter } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 
 import PageNotFound from "../layout/PageNotFound";
 import PermsWrap from "../layout/PermLayer";
@@ -44,6 +44,14 @@ const router = createBrowserRouter([
         element: <PageNotFound />,
       },
     ],
+  },
+  {
+    path: "/signin",
+    element: <Navigate to="/" />,
+  },
+  {
+    path: "/signup",
+    element: <Navigate to="/" />,
   },
 ]);
 
