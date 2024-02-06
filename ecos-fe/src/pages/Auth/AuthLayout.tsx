@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import { Box, Button, Typography } from "@mui/material";
 import { Outlet, useLocation, useNavigate } from "react-router";
@@ -15,64 +15,6 @@ const AuthLayout = () => {
   const toggleFormMode = () => {
     signinPath ? navigate("/signup") : navigate("/signin");
   };
-
-  //   const switchFocus = (
-  //     e: React.KeyboardEvent<HTMLTextAreaElement | HTMLInputElement>
-  //   ) => {
-  //     if (e.key === "Enter") {
-  //       let focusFieldName = "password";
-  //       if (e.currentTarget.id === "password") {
-  //         focusFieldName = "signin";
-  //       }
-
-  //       e.preventDefault();
-  //       document.getElementById(focusFieldName)?.focus();
-  //     }
-  //   };
-
-  //   const navigateToSignUp = () => {
-  //     // navigate("/signup");
-  //   };
-
-  //   const runValidations = () => {
-  //     let failed = false;
-  //     const newState = { ...formState };
-  //     if (!validateEmail(formState.email.value)) {
-  //       newState.email.error = true;
-  //       failed = true;
-  //     }
-  //     if (!checkPasswordStrength(formState.password.value)) {
-  //       newState.password.error = true;
-  //       failed = true;
-  //     }
-  //     setFormState(newState);
-  //     return failed;
-  //   };
-
-  //   const onSubmitHandler = async () => {
-  //     if (runValidations()) {
-  //       return;
-  //     }
-  //     // const response = await authenticateUser({
-  //     //   loading: (loadVal) => setLoading(loadVal),
-  //     //   dispatch: (data) => dispatch(setCurrentUser(data)),
-  //     //   data: {
-  //     //     formData: {
-  //     //       email: formState.email.value,
-  //     //       password: formState.password.value,
-  //     //     },
-  //     //     type: "user-login",
-  //     //   },
-  //     // });
-  //     // if (response?.status === 200) {
-  //     //   navigate(-1);
-  //     // }
-  //     // setResponseError(true);
-  //   };
-
-  //   const disableSubmit = React.useMemo(() => {
-  //     return loginState.email.value === "" || loginState.password.value === "";
-  //   }, [loginState.email.value, loginState.password.value]);
 
   const currentYear = new Date().getFullYear();
 

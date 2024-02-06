@@ -1,4 +1,5 @@
-import React from "react";
+import * as React from "react";
+
 import { useNavigate } from "react-router";
 
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";

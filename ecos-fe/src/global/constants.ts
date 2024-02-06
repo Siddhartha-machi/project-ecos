@@ -25,3 +25,7 @@ export const APP_CONSTATNTS = {
     animation: "infinite 1.2s linear spin",
   },
 };
+
+export const MESSAGE = {
+  auth: 'Taking you to authentication page...'
+}

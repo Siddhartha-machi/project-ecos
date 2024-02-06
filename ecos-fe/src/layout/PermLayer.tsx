@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Suspense } from "react";
 
 import { Box } from "@mui/material";
@@ -18,7 +18,7 @@ const PermsWrap = (props) => {
     return <PageNotFound />;
   }
   return (
-    <Suspense fallback={<Box>loading...</Box>}>
+    <Suspense fallback={<Box>loading component...</Box>}>
       <Component />
     </Suspense>
   );

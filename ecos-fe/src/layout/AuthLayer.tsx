@@ -1,8 +1,10 @@
-import React, { Suspense } from "react";
+import * as React from "react";
+import { Suspense } from "react";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { appLoading } from "../redux/slices/appSlice";
 import GlobalLoader from "../atoms/GlobalLoader";
+import { MESSAGE } from "../global/constants";
 
 const Router = React.lazy(() => import("../routing/Router"));
 const AuthRouter = React.lazy(() => import("../routing/AuthRoutes"));
@@ -23,15 +25,16 @@ const AuthLayer = () => {
 
   React.useEffect(() => {
     if (role) {
-      timedCall();
+      timedCall(); // --api conversion
     }
   }, [role, timedCall]);
 
+  // Load auth router if the no role found or user is not active
   if (!role || !active) {
     return (
       <Suspense
         fallback={
-          <GlobalLoader loadLabel="Taking you to login page... please wait..." />
+          <GlobalLoader loadLabel={MESSAGE.auth} />
         }
       >
         <AuthRouter />
@@ -39,9 +42,12 @@ const AuthLayer = () => {
     );
   }
 
+  // Show a loader while fetching user data in local forage if exists
   if (loading) {
     return <GlobalLoader loadLabel="Taking you into app... please wait..." />;
   }
+
+  // Load app router if the user is logged in
   return (
     <Suspense
       fallback={

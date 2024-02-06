@@ -1,13 +1,13 @@
-import React from "react";
+import * as React from "react";
 
 import { Box, InputBase, MenuItem, Select, Typography } from "@mui/material";
 
-import { inputBoxProps, selectProps } from "../typeDefs/formAtoms";
+import { inputBoxProps, selectFieldProps } from "../typeDefs/formAtoms";
 import { formAtom } from "../styles/formAtom";
 
 export const InputBox = (props: inputBoxProps) => {
   const { label, type, error, placeHolder, value, changeHandler } = props;
-  const { StartIcon, EndIcon, onKeyDown, focus } = props;
+  const { StartIcon, EndIcon, onKeyDown, initialFocused } = props;
 
   const isError = React.useMemo(() => Boolean(error), [error]);
 
@@ -22,7 +22,7 @@ export const InputBox = (props: inputBoxProps) => {
         error={isError}
         sx={formAtom.inputBox}
         value={value}
-        autoFocus={focus}
+        autoFocus={initialFocused}
         onChange={changeHandler}
         onKeyDown={onKeyDown}
         placeholder={placeHolder}
@@ -41,7 +41,7 @@ export const InputBox = (props: inputBoxProps) => {
   );
 };
 
-export const SelectField = (props: selectProps) => {
+export const SelectField = (props: selectFieldProps) => {
   const { label, value, options, placeHolder } = props;
   const { changeHandler } = props;
 

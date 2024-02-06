@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import {
   Box,
@@ -13,7 +13,7 @@ import { formReturnTypes, genericFormProps } from "../typeDefs/atom";
 import { formAtom } from "../styles/formAtom";
 import { singleNestedCopy } from "../global/helpers";
 import { InputBox, SelectField } from "./formAtoms";
-import { selectDataType } from "../typeDefs/formAtoms";
+import { inputBoxProps, selectConfigType, selectDataType, selectFieldProps } from "../typeDefs/formAtoms";
 
 const GenericForm = (props: genericFormProps) => {
   const { formFields, submitHandler, formTitle } = props;
@@ -83,25 +83,35 @@ const GenericForm = (props: genericFormProps) => {
     //   return newState;
     // });
   };
+  
   const runValidations = () => {
     let valid = true;
     const formData: formReturnTypes = {};
     const newState = formState.map((field, index) => {
       const updatedField = { ...field };
+      let fieldValue = ''
       if (field.validator) {
         const compareFieldIndex = index - 1 > 0 ? index - 1 : 0;
-        const optionalArgs = field.CVType
-          ? formState[compareFieldIndex].value
-          : undefined;
-        const result = field.validator(field.value, optionalArgs);
+        let optionalArgs = '';
+        if(typeof field.value !== 'string'){
+          fieldValue = field.value.val
+          optionalArgs = (formState[compareFieldIndex].value as selectDataType).val
+          
+        }else{
+          fieldValue = field.value
+          optionalArgs = formState[compareFieldIndex].value as string
+        }
+
+        const result = field.validator(fieldValue, optionalArgs);
         updatedField.error = result.message;
         valid = result.valid && valid;
       }
-      formData[field.label] = field.value;
+      formData[field.label] = fieldValue
       return updatedField;
     });
     return { valid, newState, formData };
   };
+  
   const formSubmitHandler = async () => {
     setAPIState((prev) => ({ ...prev, loading: true }));
     let response = "";
@@ -117,7 +127,7 @@ const GenericForm = (props: genericFormProps) => {
 
   return (
     <Box sx={formAtom.container}>
-      {APIState.error.length > 0 && (
+      {APIState.error && (
         <Typography sx={formAtom.loginError}>
           <ErrorRoundedIcon />
           {APIState.error}
@@ -125,13 +135,16 @@ const GenericForm = (props: genericFormProps) => {
       )}
       <Typography sx={formAtom.formTitle}>{formTitle}</Typography>
       {formState.map((field, index) => {
-        if (field.selectOptions) {
+        const options = (field as selectConfigType).options
+        if (options) {
+          const value = (field as selectFieldProps).value
+          const placeHolder = (field as selectFieldProps).placeHolder
           return (
             <SelectField
               label={field.label}
-              value={field.value as selectDataType}
-              placeHolder={field.placeHolder as selectDataType}
-              options={field.selectOptions}
+              value={value}
+              placeHolder={placeHolder}
+              options={options}
               changeHandler={selectHandler}
             />
           );
@@ -141,13 +154,13 @@ const GenericForm = (props: genericFormProps) => {
             key={`login-${field.label}`}
             label={field.label}
             value={field.value as string}
-            type={field.type}
-            focus={field.focus}
+            type={(field as inputBoxProps).type}
+            initialFocused={field.initialFocused}
             changeHandler={(e) => changeHandler(e, index)}
             onKeyDown={(e) => switchFocus(e, index)}
             error={field.error}
             placeHolder={field.placeHolder as string}
-            StartIcon={field.startIcon}
+            StartIcon={field.StartIcon}
           />
         );
       })}

@@ -1,6 +1,9 @@
-import React, { Suspense } from "react";
+import * as React from "react";
+import  { Suspense } from "react";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import GlobalLoader from "../atoms/GlobalLoader";
+import { MESSAGE } from "../global/constants";
 
 const PageNotFound = React.lazy(() => import("../layout/PageNotFound"));
 const AuthLayout = React.lazy(() => import("../pages/Auth/AuthLayout"));
@@ -12,7 +15,7 @@ const AuthRouter = () => {
   return (
     <BrowserRouter>
       <Suspense
-        fallback={<div style={{ color: "#fff" }}>Loading auth routes..</div>}
+        fallback={<GlobalLoader loadLabel={MESSAGE.auth}/>}
       >
         <Routes>
           <Route path="/" element={<AuthLayout />}>

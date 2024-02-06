@@ -1,6 +1,8 @@
-import React, { Suspense } from "react";
+import * as React from "react";
+import { Suspense } from "react";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import GlobalLoader from "../atoms/GlobalLoader";
 
 const PageNotFound = React.lazy(() => import("../layout/PageNotFound"));
 const PermsWrap = React.lazy(() => import("../layout/PermLayer"));
@@ -10,7 +12,7 @@ const UnderProgress = React.lazy(() => import("../layout/UnderProgress"));
 const Router = () => {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div style={{ color: "#fff" }}>Loading..</div>}>
+      <Suspense fallback={<GlobalLoader loadLabel="Taking you to ECOS home"/>}>
         <Routes>
           <Route path="/" element={<PermsWrap Component={UnderProgress} />}>
             <Route

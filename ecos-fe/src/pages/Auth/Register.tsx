@@ -1,4 +1,5 @@
-import React from "react";
+import * as React from "react";
+
 import { useNavigate } from "react-router";
 
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
@@ -12,7 +13,8 @@ import {
 import { useAppDispatch } from "../../redux/hooks";
 import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
-import { formConfigType, formReturnTypes } from "../../typeDefs/atom";
+import { formReturnTypes } from "../../typeDefs/atom";
+import { selectConfigType, inputConfigType } from "../../typeDefs/formAtoms";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +32,7 @@ const Register = () => {
     return null;
   };
 
-  const registerFormConfig: formConfigType[] = React.useMemo(
+  const registerFormConfig: Array<selectConfigType | inputConfigType> = React.useMemo(
     () => [
       {
         label: "Email",

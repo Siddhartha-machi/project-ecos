@@ -1,23 +1,31 @@
 export type selectDataType = {
-  val: string | number;
+  val: string;
   Icon?: React.ElementType;
 };
 
-export interface selectConfigType {
+export interface genericFieldType {
+  required?: boolean;
   label: string;
+  initialFocused?: boolean;
+  error?: string;
+  validator?: (
+    val: string,
+    compare: string
+  ) => { message: string; valid: boolean };
+  StartIcon?: React.ElementType;
+  dependentField?: string;
+}
+
+export interface selectConfigType extends genericFieldType {
   value: selectDataType;
   placeHolder: selectDataType;
   options: selectDataType[];
-  StartIcon?: React.ElementType;
 }
 
-export interface inputConfigType {
-  label: string;
-  value: string | number;
+export interface inputConfigType extends genericFieldType {
+  value: string;
   type: "text" | "email" | "number" | "password" | "date";
   placeHolder: string;
-  error?: string;
-  initialFocused?: boolean;
 }
 
 export interface selectFieldProps extends selectConfigType {
