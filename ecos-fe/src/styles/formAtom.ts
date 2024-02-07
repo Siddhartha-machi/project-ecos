@@ -60,9 +60,67 @@ export const formAtom = createStyles({
       boxShadow: "0 0 10px 0 red",
     },
   },
+  selectBox: {
+    color: "#fff",
+    borderRadius: APP_CONSTATNTS.borderRadius,
+    border: "1px solid #fff",
+    "&.Mui-focused": {
+      boxShadow: "0 0 10px 0 #fff",
+    },
+    "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
+      border: 0,
+    },
+    "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      border: 0,
+    },
+    "&.Mui-error": {
+      border: "1px solid transparent",
+      borderColor: "error.light",
+      boxShadow: "0 0 10px 0 red",
+    },
+    "& .MuiSelect-select": {
+      padding: "12px 0px 12px 16px",
+      fontWeight: "bold",
+    },
+    '.MuiSvgIcon-root ': {
+      fill: "white !important",
+    }
+  },
+  selectOpWrap: {
+    mt: 0.8,
+    "&& .Mui-selected": {
+      bgcolor: '#fff',
+      color: '#000'
+    }
+  },
+  selectPaperWrap: {
+    borderRadius: APP_CONSTATNTS.borderRadius,
+    bgcolor: '#000',
+    border: '1px solid rgba(255,255,255,0.3)',
+    color: '#fff',
+    boxShadow: "0 0 12px 0 #000",
+  },
+  selectItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 2,
+    mx: 1.6,
+    my: 0.6,
+    fontWeight: 'bold', 
+    borderRadius: APP_CONSTATNTS.borderRadius,
+    '&:Hover':{
+      bgcolor: '#fff',
+      color: '#000'
+    }
+  },
+  selectItemDisabled: {
+    mx: 1.6,
+    my: 0.6,
+    fontWeight: 'bold', 
+    borderRadius: APP_CONSTATNTS.borderRadius,
+  },
   startIcon: {
     ml: 1.5,
-    mr: 1.2,
   },
   formLabel: ({ check }: stylesFuncProps) => ({
     fontSize: "14px",

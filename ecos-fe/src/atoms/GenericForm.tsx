@@ -13,7 +13,7 @@ import { formReturnTypes, genericFormProps } from "../typeDefs/atom";
 import { formAtom } from "../styles/formAtom";
 import { singleNestedCopy } from "../global/helpers";
 import { InputBox, SelectField } from "./formAtoms";
-import { inputBoxProps, selectConfigType, selectDataType, selectFieldProps } from "../typeDefs/formAtoms";
+import { inputBoxProps, inputConfigType, selectConfigType, selectDataType, selectFieldProps } from "../typeDefs/formAtoms";
 
 const GenericForm = (props: genericFormProps) => {
   const { formFields, submitHandler, formTitle } = props;
@@ -70,18 +70,20 @@ const GenericForm = (props: genericFormProps) => {
 
   const selectHandler = (
     event: SelectChangeEvent<string>,
-    child: React.ReactNode
-  ) => {
-    console.log({ event, child });
-
-    // setformState((prev) => {
-    //   const newState = singleNestedCopy(prev);
-    //   newState[index].value = (
-    //     e as React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-    //   ).target.value;
-    //   newState[index].error = "";
-    //   return newState;
-    // });
+    child: React.ReactNode,
+    index: number
+  ) => {    
+    const key = (child as React.ReactElement<any, string | React.JSXElementConstructor<any>>)?.key
+    const selectedItemIndex = parseInt(key?.split('-')[1] || "0")
+    setformState((prev) => {
+      const newState = singleNestedCopy(prev);
+      newState[index].value = {
+        Icon: newState[index].options[selectedItemIndex].Icon,
+        val: event.target.value
+      }
+      newState[index].error = "";
+      return newState;
+    });
   };
   
   const runValidations = () => {
@@ -120,6 +122,7 @@ const GenericForm = (props: genericFormProps) => {
       setformState(newState);
     } else {
       // --api conversion
+      console.log({ formData});
       response = await submitHandler(formData);
     }
     setAPIState({ error: response, loading: false });
@@ -141,17 +144,18 @@ const GenericForm = (props: genericFormProps) => {
           const placeHolder = (field as selectFieldProps).placeHolder
           return (
             <SelectField
+              key={`field-${field.label}`}
               label={field.label}
               value={value}
               placeHolder={placeHolder}
               options={options}
-              changeHandler={selectHandler}
+              changeHandler={(e,c) => selectHandler(e, c,index)}
             />
           );
         }
         return (
           <InputBox
-            key={`login-${field.label}`}
+            key={`field-${field.label}`}
             label={field.label}
             value={field.value as string}
             type={(field as inputBoxProps).type}
@@ -160,7 +164,7 @@ const GenericForm = (props: genericFormProps) => {
             onKeyDown={(e) => switchFocus(e, index)}
             error={field.error}
             placeHolder={field.placeHolder as string}
-            StartIcon={field.StartIcon}
+            StartIcon={(field as inputConfigType).StartIcon}
           />
         );
       })}

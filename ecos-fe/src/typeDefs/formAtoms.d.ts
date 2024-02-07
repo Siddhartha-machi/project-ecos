@@ -12,7 +12,6 @@ export interface genericFieldType {
     val: string,
     compare: string
   ) => { message: string; valid: boolean };
-  StartIcon?: React.ElementType;
   dependentField?: string;
 }
 
@@ -26,6 +25,7 @@ export interface inputConfigType extends genericFieldType {
   value: string;
   type: "text" | "email" | "number" | "password" | "date";
   placeHolder: string;
+  StartIcon?: React.ElementType;
 }
 
 export interface selectFieldProps extends selectConfigType {

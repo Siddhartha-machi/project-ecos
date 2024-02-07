@@ -3,11 +3,11 @@ import * as React from "react";
 import { useNavigate } from "react-router";
 
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
-import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import DoDisturbAltIcon from "@mui/icons-material/DoDisturbAlt";
+import InsertInvitationRoundedIcon from '@mui/icons-material/InsertInvitationRounded';
 
 import { useAppDispatch } from "../../redux/hooks";
 import { setCurrentUser } from "../../redux/slices/userSlice";
@@ -37,10 +37,10 @@ const PDForm = () => {
       {
         label: "Full Name",
         value: "",
-        placeHolder: "Mirana",
+        placeHolder: "Mirana Blake",
         type: "text",
         focus: true,
-        startIcon: EmailRoundedIcon,
+        StartIcon: EmailRoundedIcon,
       },
       {
         label: "Gender",
@@ -64,14 +64,13 @@ const PDForm = () => {
             Icon: DoDisturbAltIcon,
           },
         ],
-        startIcon: EmailRoundedIcon,
       },
       {
         label: "Date of birth",
         value: "",
         placeHolder: "12/12/2012",
         type: "date",
-        startIcon: KeyRoundedIcon,
+        StartIcon: InsertInvitationRoundedIcon,
       },
     ],
     []

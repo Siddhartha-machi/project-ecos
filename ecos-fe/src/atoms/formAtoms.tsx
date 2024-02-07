@@ -28,10 +28,10 @@ export const InputBox = (props: inputBoxProps) => {
         placeholder={placeHolder}
         fullWidth
         startAdornment={StartIcon && <StartIcon sx={formAtom.startIcon} />}
-        endAdornment={EndIcon && <EndIcon />} // --cleanup
+        endAdornment={EndIcon && <EndIcon />} // --fix
         inputProps={{
           style: {
-            padding: "12px 0px 12px 0px",
+            padding: "12px 0px 12px 10px",
             fontWeight: "bold",
           },
         }}
@@ -44,38 +44,39 @@ export const InputBox = (props: inputBoxProps) => {
 export const SelectField = (props: selectFieldProps) => {
   const { label, value, options, placeHolder } = props;
   const { changeHandler } = props;
-
+  
   return (
     <Box sx={formAtom.inputContainer}>
       <Typography sx={formAtom.formLabel({ check: false })}>{label}</Typography>
       <Select
-        displayEmpty
+        required
         value={value.val}
         onChange={changeHandler}
-        //   input={<InputBase />}
-        sx={formAtom.inputBox}
-        renderValue={() => {
-          if (!value.val) {
-            return <em>Select</em>;
-          }
-
-          return (
-            <Box>
-              {value.Icon && <value.Icon />}
-              {value.val}
-            </Box>
-          );
+        sx={formAtom.selectBox}
+        MenuProps={{
+          sx: formAtom.selectOpWrap,
+          slotProps:{ paper: {
+            sx:formAtom.selectPaperWrap
+          }}
         }}
+        startAdornment={value.Icon && <value.Icon/>}
+        renderValue={() => value.val}
       >
-        <MenuItem disabled value="">
-          <em>{placeHolder.val}</em>
+        <MenuItem disabled value={placeHolder.val} 
+          sx={formAtom.selectItemDisabled}>
+          {placeHolder.val}
+          {placeHolder.Icon && <placeHolder.Icon />}
         </MenuItem>
-        {options.map((item) => (
-          <MenuItem key={item.val} value={item.val}>
+        {options.map((item, index) => (
+          <MenuItem 
+          key={`select-${index}`}
+          sx={formAtom.selectItem}
+            value={item.val}>
             {item.Icon && <item.Icon />}
             {item.val}
           </MenuItem>
         ))}
+        
       </Select>
     </Box>
   );
