@@ -44,14 +44,14 @@ const AuthLayer = () => {
 
   // Show a loader while fetching user data in local forage if exists
   if (loading) {
-    return <GlobalLoader loadLabel="Taking you into app... please wait..." />;
+    return <GlobalLoader loadLabel="Setting up few last things... please wait..." />;
   }
 
   // Load app router if the user is logged in
   return (
     <Suspense
       fallback={
-        <GlobalLoader loadLabel="Setting up few last things... please wait..." />
+        <GlobalLoader loadLabel="Taking you into app... please wait..." />
       }
     >
       <Router />

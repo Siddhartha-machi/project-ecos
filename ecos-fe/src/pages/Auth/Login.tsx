@@ -33,7 +33,7 @@ const Login = () => {
         placeHolder: "mirana@ecos.com",
         type: "email",
         focus: true,
-        startIcon: EmailRoundedIcon,
+        StartIcon: EmailRoundedIcon,
         validator: validateEmail,
       },
       {
@@ -41,7 +41,7 @@ const Login = () => {
         value: "",
         placeHolder: "mirana#2847",
         type: "password",
-        startIcon: KeyRoundedIcon,
+        StartIcon: KeyRoundedIcon,
         validator: checkPasswordStrength,
       },
     ],

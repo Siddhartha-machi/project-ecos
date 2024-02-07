@@ -40,7 +40,7 @@ const Register = () => {
         placeHolder: "mirana@ecos.com",
         type: "email",
         focus: true,
-        startIcon: EmailRoundedIcon,
+        StartIcon: EmailRoundedIcon,
         validator: validateEmail,
       },
       {
@@ -48,7 +48,7 @@ const Register = () => {
         value: "",
         placeHolder: "mirana#2847",
         type: "password",
-        startIcon: KeyRoundedIcon,
+        StartIcon: KeyRoundedIcon,
         validator: checkPasswordStrength,
       },
       {
@@ -57,7 +57,7 @@ const Register = () => {
         CVType: true,
         placeHolder: "mirana#2847",
         type: "password",
-        startIcon: KeyRoundedIcon,
+        StartIcon: KeyRoundedIcon,
         validator: checkPassEquality,
       },
     ],
