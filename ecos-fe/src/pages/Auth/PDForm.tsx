@@ -1,13 +1,11 @@
 import * as React from "react";
 
-import { useNavigate } from "react-router";
-
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import MaleIcon from "@mui/icons-material/Male";
 import FemaleIcon from "@mui/icons-material/Female";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import DoDisturbAltIcon from "@mui/icons-material/DoDisturbAlt";
-import InsertInvitationRoundedIcon from '@mui/icons-material/InsertInvitationRounded';
+import InsertInvitationRoundedIcon from "@mui/icons-material/InsertInvitationRounded";
 
 import { useAppDispatch } from "../../redux/hooks";
 import { setCurrentUser } from "../../redux/slices/userSlice";
@@ -17,18 +15,16 @@ import { inputConfigType, selectConfigType } from "../../typeDefs/formAtoms";
 
 const PDForm = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   // --api conversion
   const submitHandler = async (formData: formReturnTypes) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    const invalid = formData.Email !== "admin@ecos.com";
+    const invalid = formData["Date of birth"] === "01-01-0001";
     if (invalid) {
       return "Something went wrong, please try again.";
     }
-    dispatch(setCurrentUser({ role: "admin" }));
-    navigate("/personal-details");
+    dispatch(setCurrentUser({ role: "admin", active: true }));
     return null;
   };
 

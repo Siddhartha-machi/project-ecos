@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import { Box, Typography } from "@mui/material";

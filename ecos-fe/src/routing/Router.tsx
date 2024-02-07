@@ -12,7 +12,7 @@ const UnderProgress = React.lazy(() => import("../layout/UnderProgress"));
 const Router = () => {
   return (
     <BrowserRouter>
-      <Suspense fallback={<GlobalLoader loadLabel="Taking you to ECOS home"/>}>
+      <Suspense fallback={<GlobalLoader loadLabel="Taking you to ECOS home" />}>
         <Routes>
           <Route path="/" element={<PermsWrap Component={UnderProgress} />}>
             <Route
@@ -58,6 +58,7 @@ const Router = () => {
             />
           </Route>
           <Route path="/signin" element={<Navigate to={"/"} />} />
+          <Route path="/personal-details" element={<Navigate to={"/"} />} />
           <Route path="/signup" element={<Navigate to={"/"} />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
