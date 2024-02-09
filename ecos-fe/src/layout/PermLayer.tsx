@@ -1,10 +1,8 @@
 import * as React from "react";
-import { Suspense } from "react";
-
-import { Box } from "@mui/material";
 
 import { useAppSelector } from "../redux/hooks";
 import { ROLES } from "../global/constants";
+import { ELHOC } from "./HOCS";
 
 const PageNotFound = React.lazy(() => import("./PageNotFound"));
 
@@ -18,9 +16,9 @@ const PermsWrap = (props) => {
     return <PageNotFound />;
   }
   return (
-    <Suspense fallback={<Box>loading component...</Box>}>
+    <ELHOC loadingLabel="Loading component...">
       <Component />
-    </Suspense>
+    </ELHOC>
   );
 };
 

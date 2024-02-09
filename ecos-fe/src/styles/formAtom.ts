@@ -122,11 +122,18 @@ export const formAtom = createStyles({
     mx: 1.6,
     my: 0.6,
     fontWeight: "bold",
-    // borderRadius: APP_CONSTATNTS.borderRadius,
   },
   startIcon: {
     ml: 1.5,
   },
+  formInputProps: {
+    padding: "12px 0px 12px 3px",
+    marginLeft: "12px",
+    fontWeight: "bold",
+    borderTopRightRadius: APP_CONSTATNTS.borderRadius,
+    borderBottomRightRadius: APP_CONSTATNTS.borderRadius,
+  },
+
   formLabel: ({ check }: stylesFuncProps) => ({
     fontSize: "14px",
     fontWeight: "bold",

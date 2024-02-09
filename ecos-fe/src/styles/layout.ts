@@ -1,4 +1,3 @@
-import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 
 export const layout = createStyles({});
@@ -12,7 +11,6 @@ export const gLoader = createStyles({
     height: "100vh",
     alignItems: "center",
     justifyContent: "center",
-    backgroundImage: APP_CONSTATNTS.backGround,
     color: "#fff",
   },
   loadLabel: {

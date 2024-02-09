@@ -30,10 +30,7 @@ export const InputBox = (props: inputBoxProps) => {
         startAdornment={StartIcon && <StartIcon sx={formAtom.startIcon} />}
         endAdornment={EndIcon && <EndIcon />} // --fix
         inputProps={{
-          style: {
-            padding: "12px 0px 12px 10px",
-            fontWeight: "bold",
-          },
+          style: formAtom.formInputProps,
         }}
       />
       {isError && <Typography sx={formAtom.errorText}>{error}</Typography>}
@@ -44,7 +41,7 @@ export const InputBox = (props: inputBoxProps) => {
 export const SelectField = (props: selectFieldProps) => {
   const { label, value, options, placeHolder } = props;
   const { changeHandler } = props;
-  
+
   return (
     <Box sx={formAtom.inputContainer}>
       <Typography sx={formAtom.formLabel({ check: false })}>{label}</Typography>
@@ -55,28 +52,33 @@ export const SelectField = (props: selectFieldProps) => {
         sx={formAtom.selectBox}
         MenuProps={{
           sx: formAtom.selectOpWrap,
-          slotProps:{ paper: {
-            sx:formAtom.selectPaperWrap
-          }}
+          slotProps: {
+            paper: {
+              sx: formAtom.selectPaperWrap,
+            },
+          },
         }}
-        startAdornment={value.Icon && <value.Icon/>}
+        startAdornment={value.Icon && <value.Icon />}
         renderValue={() => value.val}
       >
-        <MenuItem disabled value={placeHolder.val} 
-          sx={formAtom.selectItemDisabled}>
+        <MenuItem
+          disabled
+          value={placeHolder.val}
+          sx={formAtom.selectItemDisabled}
+        >
           {placeHolder.val}
           {placeHolder.Icon && <placeHolder.Icon />}
         </MenuItem>
         {options.map((item, index) => (
-          <MenuItem 
-          key={`select-${index}`}
-          sx={formAtom.selectItem}
-            value={item.val}>
+          <MenuItem
+            key={`select-${index}`}
+            sx={formAtom.selectItem}
+            value={item.val}
+          >
             {item.Icon && <item.Icon />}
             {item.val}
           </MenuItem>
         ))}
-        
       </Select>
     </Box>
   );
