@@ -13,16 +13,17 @@ const AppRouter = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PermsWrap Component={AppLayout} />}>
-          <Route
-            path="overview"
-            element={<PermsWrap Component={Overview} />}
-          />
+          <Route path="overview" element={<PermsWrap Component={Overview} />} />
           <Route
             path="YECOS"
             element={<PermsWrap Component={UnderProgress} />}
           />
           <Route
             path="settings"
+            element={<PermsWrap Component={UnderProgress} />}
+          />
+          <Route
+            path="users"
             element={<PermsWrap Component={UnderProgress} />}
           />
           <Route
@@ -33,32 +34,33 @@ const AppRouter = () => {
             path="logout"
             element={<PermsWrap Component={UnderProgress} />}
           />
+          <Route
+            path="extensions"
+            element={<PermsWrap Component={UnderProgress} />}
+          >
+            <Route
+              path="clubs"
+              element={<PermsWrap Component={UnderProgress} />}
+            />
+            <Route
+              path="users"
+              element={<PermsWrap Component={UnderProgress} />}
+            />
+            <Route
+              path="todo"
+              element={<PermsWrap Component={UnderProgress} />}
+            />
+            <Route
+              path="expense-manager"
+              element={<PermsWrap Component={UnderProgress} />}
+            />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
         </Route>
-        <Route
-          path="/extensions"
-          element={<PermsWrap Component={UnderProgress} />}
-        >
-          <Route
-            path="clubs"
-            element={<PermsWrap Component={UnderProgress} />}
-          />
-          <Route
-            path="users"
-            element={<PermsWrap Component={UnderProgress} />}
-          />
-          <Route
-            path="todo"
-            element={<PermsWrap Component={UnderProgress} />}
-          />
-          <Route
-            path="expense-manager"
-            element={<PermsWrap Component={UnderProgress} />}
-          />
-        </Route>
+        {/* Redirect from auth routes to app routes */}
         <Route path="/signin" element={<Navigate to={"/"} />} />
         <Route path="/personal-details" element={<Navigate to={"/"} />} />
         <Route path="/signup" element={<Navigate to={"/"} />} />
-        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );

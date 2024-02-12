@@ -5,10 +5,11 @@ import theme from "../global/theme";
 export const toolTip = createStyles({
   container: {
     bgcolor: theme.black1,
-    border: `1px solid ${theme.black10}`,
-    boxShadow: `0 0 30px 0 ${theme.black10}`,
+    boxShadow: `0 0 12px 0 ${theme.black10}`,
     borderRadius: APP_CONSTATNTS.borderRadius,
     p: 0,
+    backdropFilter: "blur(3px)",
+    zIndex: 2000,
   },
   listContainer: {
     display: "flex",

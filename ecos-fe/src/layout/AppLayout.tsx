@@ -46,7 +46,6 @@ const AppLayout = () => {
       <Sidebar />
       <Backdrop sx={{ color: "#fff", zIndex: 10000 }} open={loading}>
         <GlobalLoader
-          // size={65}
           loadLabel={`Loading ${loadingLabel} please wait...`}
         />
       </Backdrop>
