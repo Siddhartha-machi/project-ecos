@@ -1,12 +1,12 @@
 import * as React from "react";
-import { Suspense } from "react";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { appLoading } from "../redux/slices/appSlice";
 import GlobalLoader from "../atoms/GlobalLoader";
 import { MESSAGE } from "../global/constants";
+import { ELHOC } from "./HOCS";
 
-const Router = React.lazy(() => import("../routing/Router"));
+const AppRouter = React.lazy(() => import("../routing/AppRouter"));
 const AuthRouter = React.lazy(() => import("../routing/AuthRoutes"));
 
 const AuthLayer = () => {
@@ -32,30 +32,24 @@ const AuthLayer = () => {
   // Load auth router if the no role found or user is not active
   if (!role || !active) {
     return (
-      <Suspense
-        fallback={
-          <GlobalLoader loadLabel={MESSAGE.auth} />
-        }
-      >
+      <ELHOC loadingLabel={MESSAGE.auth}>
         <AuthRouter />
-      </Suspense>
+      </ELHOC>
     );
   }
 
   // Show a loader while fetching user data in local forage if exists
   if (loading) {
-    return <GlobalLoader loadLabel="Setting up few last things... please wait..." />;
+    return (
+      <GlobalLoader loadLabel="Setting up few last things... please wait..." />
+    );
   }
 
   // Load app router if the user is logged in
   return (
-    <Suspense
-      fallback={
-        <GlobalLoader loadLabel="Taking you into app... please wait..." />
-      }
-    >
-      <Router />
-    </Suspense>
+    <ELHOC loadingLabel="Taking you to ECOS home">
+      <AppRouter />
+    </ELHOC>
   );
 };
 export default AuthLayer;

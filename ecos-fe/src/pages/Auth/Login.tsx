@@ -16,8 +16,9 @@ const Login = () => {
   // --api conversion
   const submitHandler = async (formData: formReturnTypes) => {
     await new Promise((resolve) => setTimeout(resolve, 2000));
-    
+
     const invalid = formData.Email !== "admin@ecos.com";
+
     if (invalid) {
       return "Can't login with provided credentials";
     }
@@ -25,28 +26,29 @@ const Login = () => {
     return null;
   };
 
-  const loginFormConfig: Array<selectConfigType | inputConfigType> = React.useMemo(
-    () => [
-      {
-        label: "Email",
-        value: "",
-        placeHolder: "mirana@ecos.com",
-        type: "email",
-        focus: true,
-        StartIcon: EmailRoundedIcon,
-        validator: validateEmail,
-      },
-      {
-        label: "Password",
-        value: "",
-        placeHolder: "mirana#2847",
-        type: "password",
-        StartIcon: KeyRoundedIcon,
-        validator: checkPasswordStrength,
-      },
-    ],
-    []
-  );
+  const loginFormConfig: Array<selectConfigType | inputConfigType> =
+    React.useMemo(
+      () => [
+        {
+          label: "Email",
+          value: "",
+          placeHolder: "mirana@ecos.com",
+          type: "email",
+          focus: true,
+          StartIcon: EmailRoundedIcon,
+          validator: validateEmail,
+        },
+        {
+          label: "Password",
+          value: "",
+          placeHolder: "mirana#2847",
+          type: "password",
+          StartIcon: KeyRoundedIcon,
+          validator: checkPasswordStrength,
+        },
+      ],
+      []
+    );
 
   return (
     <GenericForm

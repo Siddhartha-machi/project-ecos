@@ -7,10 +7,10 @@ const initialState = {
   currentUser: {
     first_name: "Siddhartha Reddy",
     last_name: "Machi",
-    role: ROLES.unauthenticated,
+    role: ROLES.admin,
     username: null,
     joined_date: "12th July 2012",
-    active: false,
+    active: true,
   },
   usersList: [],
 };
