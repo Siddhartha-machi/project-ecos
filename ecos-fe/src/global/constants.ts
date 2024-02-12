@@ -13,6 +13,7 @@ export const APP_CONSTATNTS = {
   borderRadius: "12px",
   appName: "ECOS",
   appIcon: GiAtomicSlashes,
+  sidebarWidth: 110,
   animation: {
     "@keyframes spin": {
       from: {
@@ -27,5 +28,5 @@ export const APP_CONSTATNTS = {
 };
 
 export const MESSAGE = {
-  auth: 'Taking you to authentication page...'
-}
+  auth: "Taking you to authentication page...",
+};

@@ -9,18 +9,12 @@ import {
 } from "@mui/material";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
-import { formReturnTypes, genericFormProps } from "../typeDefs/atom";
 import { formAtom } from "../styles/formAtom";
 import { singleNestedCopy } from "../global/helpers";
 import { InputBox, SelectField } from "./formAtoms";
-import {
-  inputBoxProps,
-  inputConfigType,
-  selectConfigType,
-  selectDataType,
-  selectFieldProps,
-} from "../typeDefs/formAtoms";
+
 import ErrorContainer from "../layout/ErrorContainer";
+import { formReturnTypes, genericFormProps } from "../typeDefs/atom";
 
 const GenericForm = (props: genericFormProps) => {
   const { formFields, submitHandler, formTitle } = props;

@@ -1,12 +1,18 @@
 import { SxProps } from "@mui/material";
 
-import { stylesFuncProps } from "../typeDefs/helpers";
+import { strFormatArgsType, stylesFuncProps } from "../typeDefs/helpers";
 
 export function createStyles<
   T extends Record<string, SxProps | ((params: stylesFuncProps) => SxProps)>
 >(styles: T) {
   return styles;
 }
+
+export const strFormat = (options: strFormatArgsType) => {
+  const { str, replace, replacement } = options;
+
+  return str.replaceAll(replace, replacement);
+};
 
 export const capFirst = (s: string) => {
   return s
@@ -72,7 +78,6 @@ export const checkPasswordStrength = (password: string) => {
 };
 
 export const checkPassEquality = (val: string, compare?: string) => {
-
   const result = {
     valid: true,
     message: "",

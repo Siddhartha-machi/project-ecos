@@ -1,9 +1,9 @@
-export type selectDataType = {
+type selectDataType = {
   val: string;
   Icon?: React.ElementType;
 };
 
-export interface genericFieldType {
+interface genericFieldType {
   required?: boolean;
   label: string;
   initialFocused?: boolean;
@@ -15,27 +15,27 @@ export interface genericFieldType {
   dependentField?: string;
 }
 
-export interface selectConfigType extends genericFieldType {
+interface selectConfigType extends genericFieldType {
   value: selectDataType;
   placeHolder: selectDataType;
   options: selectDataType[];
 }
 
-export interface inputConfigType extends genericFieldType {
+interface inputConfigType extends genericFieldType {
   value: string;
   type: "text" | "email" | "number" | "password" | "date";
   placeHolder: string;
   StartIcon?: React.ElementType;
 }
 
-export interface selectFieldProps extends selectConfigType {
+interface selectFieldProps extends selectConfigType {
   changeHandler: (
     event: SelectChangeEvent<string>,
     child: React.ReactNode
   ) => void;
 }
 
-export interface inputBoxProps extends inputConfigType {
+interface inputBoxProps extends inputConfigType {
   changeHandler: (
     e:
       | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>

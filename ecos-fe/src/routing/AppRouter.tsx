@@ -6,30 +6,31 @@ const PageNotFound = React.lazy(() => import("../layout/PageNotFound"));
 const PermsWrap = React.lazy(() => import("../layout/PermLayer"));
 const Overview = React.lazy(() => import("../pages/Overview/Overview"));
 const UnderProgress = React.lazy(() => import("../layout/UnderProgress"));
+const AppLayout = React.lazy(() => import("../layout/AppLayout"));
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<PermsWrap Component={UnderProgress} />}>
+        <Route path="/" element={<PermsWrap Component={AppLayout} />}>
           <Route
-            path="/overview"
+            path="overview"
             element={<PermsWrap Component={Overview} />}
           />
           <Route
-            path="/YECOS"
+            path="YECOS"
             element={<PermsWrap Component={UnderProgress} />}
           />
           <Route
-            path="/settings"
+            path="settings"
             element={<PermsWrap Component={UnderProgress} />}
           />
           <Route
-            path="/account"
+            path="account"
             element={<PermsWrap Component={UnderProgress} />}
           />
           <Route
-            path="/logout"
+            path="logout"
             element={<PermsWrap Component={UnderProgress} />}
           />
         </Route>
