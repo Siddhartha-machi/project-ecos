@@ -24,7 +24,7 @@ import GlobalLoader from "../atoms/GlobalLoader";
 import { setSearchDisable } from "../redux/slices/appSlice";
 
 const AppLayout = () => {
-  const { loading, loadingLabel, disableSearch } = useAppSelector(
+  const { localLoading, loadingLabel, disableSearch } = useAppSelector(
     (store) => store.app
   );
   const location = useLocation().pathname;
@@ -44,10 +44,8 @@ const AppLayout = () => {
   return (
     <Box sx={layout.container}>
       <Sidebar />
-      <Backdrop sx={{ color: "#fff", zIndex: 10000 }} open={loading}>
-        <GlobalLoader
-          loadLabel={`Loading ${loadingLabel} please wait...`}
-        />
+      <Backdrop open={localLoading}>
+        <GlobalLoader loadLabel={`Loading ${loadingLabel} please wait...`} />
       </Backdrop>
       <Box sx={layout.content}>
         {!disableSearch && (

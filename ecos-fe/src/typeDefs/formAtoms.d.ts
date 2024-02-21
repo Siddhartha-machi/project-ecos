@@ -1,3 +1,5 @@
+import { SelectChangeEvent } from "@mui/material";
+
 type selectDataType = {
   val: string;
   Icon?: React.ElementType;

@@ -8,7 +8,7 @@ const PageNotFound = React.lazy(() => import("./PageNotFound"));
 
 // import { authWapperProps } from "../Types/layoutTypes"; --fix
 
-const PermsWrap = (props) => {
+const PermLayer = (props) => {
   const { adminView, Component } = props;
   const { role } = useAppSelector((store) => store.user.currentUser);
 
@@ -16,10 +16,10 @@ const PermsWrap = (props) => {
     return <PageNotFound />;
   }
   return (
-    <ELHOC loadingLabel="Loading component...">
+    <ELHOC loadingLabel="Finishing up things...">
       <Component />
     </ELHOC>
   );
 };
 
-export default PermsWrap;
+export default PermLayer;
