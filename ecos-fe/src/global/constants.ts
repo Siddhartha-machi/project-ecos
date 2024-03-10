@@ -14,17 +14,6 @@ export const APP_CONSTATNTS = {
   appName: "ECOS",
   appIcon: GiAtomicSlashes,
   sidebarWidth: 110,
-  animation: {
-    "@keyframes spin": {
-      from: {
-        transform: "rotate(0deg)",
-      },
-      to: {
-        transform: "rotate(360deg)",
-      },
-    },
-    animation: "infinite 1.2s linear spin",
-  },
 };
 
 export const MESSAGE = {

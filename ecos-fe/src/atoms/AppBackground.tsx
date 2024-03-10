@@ -1,9 +1,11 @@
-import { Box } from "@mui/material";
-
-import { layout } from "../styles/layout";
-
-const AppBackground = ({ children }: appBackgroundProps) => {
-  return <Box sx={layout.appBackground}>{children}</Box>;
+const AppBackground = () => {
+  return (
+    <div className="stars">
+      {[...Array(50)].map((_, index) => (
+        <div className="star" key={"star" + index} />
+      ))}
+    </div>
+  );
 };
 
 export default AppBackground;

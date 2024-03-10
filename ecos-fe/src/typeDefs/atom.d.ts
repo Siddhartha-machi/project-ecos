@@ -1,8 +1,9 @@
-import { TooltipProps } from "@mui/material";
 import { inputConfigType, selectConfigType } from "./formAtoms";
+import { extensionType } from "./extension";
 
 export type GLoaderProps = {
   loadLabel?: string;
+  size?: 'small' | 'medium' | 'large'
 };
 
 export type formReturnTypes = {
@@ -12,42 +13,43 @@ export type formReturnTypes = {
 export type genericFormProps = {
   formFields: Array<selectConfigType | inputConfigType>;
   formTitle: string;
-  submitHandler: (formData: formReturnTypes) => Promise;
+  submitHandler: (formData: formReturnTypes) => void;
 };
 
-export type listToolTipItemType = {
+export interface eActionType {
+  value: boolean;
+  Icon: React.ElementType;
+  handler: () => void;
+  color: string;
+  toolTip: string;
+}
+
+export interface eActionsType {
+  remove?: eActionType;
+  disable?: eActionType;
+  enable?: eActionType;
+  add?: eActionType;
+}
+
+export interface listToolTipItemType {
   title: string;
-  data: {
-    label: string;
-    path: string;
-    Icon: React.ElementType;
-  }[];
+  data: extensionType[] | Partial<extensionType>[];
   option?: {
     Icon?: React.ElementType;
     label: string;
     action: () => void;
   };
-  actions: {
-    Icon: React.ElementType;
-    handler: () => void;
-    toolTip: string;
-    color: string;
-  }[];
-};
+}
+
+export interface extensionActionProps {
+  data: extensionType;
+  privileged: boolean;
+  itemIndex: number;
+}
 
 export type messageToolTipProps = {
   Icon?: React.ElementType;
   data: string;
-};
-
-export interface appToolTipProps extends TooltipProps {
-  variant: "simple" | "message" | "list";
-  title: listToolTipItemType | string | messageToolTipProps;
-}
-
-export type dynamicTooltipBindType = {
-  Tcomponent: React.ElementType;
-  tProps: listToolTipItemType | { data: string } | messageToolTipProps;
 };
 
 export type sidebarItemType = {
@@ -55,4 +57,18 @@ export type sidebarItemType = {
   path: string;
   Icon: React.ElementType;
   children?: listToolTipItemType;
+};
+
+export type localHeaderProps = {
+  pageTitle: string;
+  pageCaption: string;
+  options?: {
+    label: string;
+    Icon: React.ElementType;
+  }[];
+};
+
+export type appChipProps = {
+  data: Array<string>;
+  maxChips?: number;
 };
