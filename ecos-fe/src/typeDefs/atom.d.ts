@@ -3,6 +3,7 @@ import { extensionType } from "./extension";
 
 export type GLoaderProps = {
   loadLabel?: string;
+  size?: 'small' | 'medium' | 'large'
 };
 
 export type formReturnTypes = {
@@ -32,7 +33,7 @@ export interface eActionsType {
 
 export interface listToolTipItemType {
   title: string;
-  data: extensionType[];
+  data: extensionType[] | Partial<extensionType>[];
   option?: {
     Icon?: React.ElementType;
     label: string;

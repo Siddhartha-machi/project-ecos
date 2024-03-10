@@ -2,20 +2,11 @@ import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
 
+
 const CONTAINER_MARGIN = 25;
 const CONTENT_WIDTH = 2 + APP_CONSTATNTS.sidebarWidth;
 
 export const layout = createStyles({
-  appBackground: {
-    display: "flex",
-    flex: 1,
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    background: "rgba(0, 0, 0, 0.05)",
-    boxShadow: "0 4px 30px rgba(255,255, 255, 0.1)",
-    backdropFilter: "blur(1.1px)",
-    " -webkit-backdrop-filter": "blur(1.1px)",
-    border: "1px solid rgba(0, 0, 0, 0.3)",
-  },
   container: {
     display: "flex",
     flex: 1,
@@ -26,27 +17,25 @@ export const layout = createStyles({
     left: CONTAINER_MARGIN,
     right: CONTAINER_MARGIN,
     width: `calc(100% - ${CONTAINER_MARGIN * 2}px)`,
-    backgroundColor: theme.black1,
-    boxShadow: `0px 0px 12px 0px ${theme.black10}`,
-    backdropFilter: "blur(1.1px)",
-    " -webkit-backdrop-filter": "blur(1.1px)",
-    border: `1px solid ${theme.black10}`,
+    boxShadow: "0 25px 23px rgba(0, 0, 0, 0.15)",
+    background: "rgba(16 18 27 / 40%)",
+    border: theme.border,
+    backdropFilter: "blur(3px)",
   },
+
   content: {
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    gap: 1,
     width: `calc(100% - ${CONTENT_WIDTH}px)`,
-    p: 1.5,
   },
   stickyHeader: {
     display: "flex",
     position: "sticky",
-    top: 10,
+    top: 0,
     gap: 1.2,
-    border: theme.border,
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderBottom: theme.border,
+    borderTopRightRadius: APP_CONSTATNTS.borderRadius,
     color: "#fff",
     justifyContent: "space-between",
     alignItems: "center",
@@ -54,10 +43,19 @@ export const layout = createStyles({
   },
   globalSearch: {
     flex: 1,
-    color: "#fff",
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    py: 1.3,
-    pl: 1,
+    color: theme.white6,
+    py: 0.8,
+    pl: 1.2,
+    m: "8px 0px 8px 8px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    borderRadius: "5px",
+    "&:hover": {
+      bgcolor: "rgb(146 151 179 / 13%)",
+    },
+    "&.Mui-focused": {
+      bgcolor: "rgb(146 151 179 / 13%)",
+    },
   },
   notifications: {
     color: "#fff",
@@ -99,6 +97,18 @@ export const layout = createStyles({
     fontSize: "10px",
     fontWeight: "bold",
   },
+  innerContent: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    width: "calc(100%)",
+    overflow: "scroll",
+  },
+
+  // backdrop styles
+  backdrop: {
+    borderRadius: APP_CONSTATNTS.borderRadius,
+  },
 });
 
 export const sidebar = createStyles({
@@ -108,7 +118,7 @@ export const sidebar = createStyles({
     width: APP_CONSTATNTS.sidebarWidth,
     pb: 1.3,
     gap: "12px",
-    bgcolor: theme.black2,
+    borderRight: theme.border,
     borderTopLeftRadius: APP_CONSTATNTS.borderRadius,
     borderBottomLeftRadius: APP_CONSTATNTS.borderRadius,
   },
@@ -124,7 +134,7 @@ export const sidebar = createStyles({
     borderRadius: APP_CONSTATNTS.borderRadius,
     alignItems: "center",
     justifyContent: "center",
-    color: theme.white8,
+    color: theme.white6,
     py: 1.2,
     px: 0.5,
     gap: 1,
@@ -132,14 +142,16 @@ export const sidebar = createStyles({
     transition: "all 0.2s ease-in-out",
     "&:Hover": {
       color: theme.white10,
-      bgcolor: "rgba(255,255,255,0.1)",
-      boxShadow: `0  0 15px 0px ${theme.black10}`,
+      boxShadow: "0 25px 23px rgba(0, 0, 0, 0.25)",
+      background: "rgba(16 18 27 / 80%)",
+      border: theme.border,
     },
   },
   selectedItem: {
     color: theme.white10,
-    bgcolor: "rgba(255,255,255,0.1)",
-    boxShadow: `0  0 15px 0px ${theme.black10}`,
+    boxShadow: "0 25px 23px rgba(0, 0, 0, 0.25)",
+    background: "rgba(16 18 27 / 80%)",
+    border: theme.border,
   },
   sidebarItemIcon: {
     fontSize: 25,
@@ -173,7 +185,7 @@ export const gLoader = createStyles({
     display: "flex",
     flexDirection: "column",
     flex: 1,
-    gap: 1,
+    gap: 3,
     height: "100vh",
     alignItems: "center",
     justifyContent: "center",
@@ -182,6 +194,7 @@ export const gLoader = createStyles({
   loadLabel: {
     fontSize: "14px",
     fontWeight: "bold",
+    mt: '12px'
   },
 });
 

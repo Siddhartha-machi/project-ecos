@@ -1,11 +1,12 @@
 import * as React from "react";
 
-import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import ExtensionOffRoundedIcon from "@mui/icons-material/ExtensionOffRounded";
 
 import {
   AppButton,
@@ -50,8 +51,8 @@ const Extensions = () => {
     dispatch(
       loadExtensionsData({
         userExtensions: [
-          { id: "1", title: "Todos - 1" },
-          { id: "5", title: "Todos - 5" },
+          { id: "1", title: "Todos - 1", meta: { added: true } },
+          { id: "5", title: "Todos - 5", meta: { added: true } },
         ],
         extensions: data,
       })
@@ -68,47 +69,66 @@ const Extensions = () => {
       <LocalHeader
         pageTitle={"Extensions"}
         pageCaption={
-          "Add or remove any extension that suits or not suits your requirements!"
+          "Add any extension that suits or remove that doesn't suits your requirements!"
         }
         options={options}
       />
       <Box sx={extensions.content}>
-        <Grid container sx={{ overflow: "scroll" }}>
-          {state.extensions.map((item, index) => (
-            <Grid item xs={12} sm={8} md={4} lg={3} key={`extension-${index}`}>
-              <Paper
-                elevation={6}
-                sx={extensions.item({ check: item.meta.disabled })}
+        <Grid
+          container
+          spacing={{ xs: 1, md: 1.5 }}
+          sx={{ overflow: "scroll" }}
+        >
+          {state.extensions.map((item, index) => {
+            const disabled = item.meta.disabled;
+            return (
+              <Grid
+                item
+                xs={12}
+                sm={8}
+                md={4}
+                lg={3}
+                key={`extension-${index}`}
               >
-                {item.image ? (
-                  <Box component={"img"} sx={extensions.img} src={item.image} />
-                ) : (
-                  <ExtensionRoundedIcon sx={extensions.fallBackIcon} />
-                )}
-                <Box sx={extensions.right}>
-                  <Box sx={extensions.rightTop}>
-                    <Typography sx={extensions.title}>{item.title}</Typography>
-                    <ExtensionActions
-                      data={item}
-                      privileged={admin}
-                      itemIndex={index}
+                <Box sx={extensions.item({ check: disabled })}>
+                  {item.image ? (
+                    <Box
+                      component={"img"}
+                      sx={extensions.img({ check: disabled })}
+                      src={item.image}
                     />
+                  ) : item.meta.disabled ? (
+                    <ExtensionOffRoundedIcon sx={extensions.fallBackIcon} />
+                  ) : (
+                    <ExtensionRoundedIcon sx={extensions.fallBackIcon} />
+                  )}
+                  <Box sx={extensions.right}>
+                    <Box sx={extensions.rightTop}>
+                      <Typography sx={extensions.title}>
+                        {item.title}
+                      </Typography>
+                      <ExtensionActions
+                        data={item}
+                        privileged={admin}
+                        itemIndex={index}
+                      />
+                    </Box>
+                    <Typography sx={extensions.description}>
+                      {item.description}
+                    </Typography>
+                    <AppChips data={item.tags} maxChips={2} />
+                    <AppButton
+                      disableRipple
+                      sx={extensions.seeMore}
+                      endIcon={<ArrowForwardRoundedIcon />}
+                    >
+                      See more
+                    </AppButton>
                   </Box>
-                  <Typography sx={extensions.description}>
-                    {item.description}
-                  </Typography>
-                  <AppChips data={item.tags} maxChips={2} />
-                  <AppButton
-                    disableRipple
-                    sx={extensions.seeMore}
-                    endIcon={<ArrowForwardRoundedIcon />}
-                  >
-                    See more
-                  </AppButton>
                 </Box>
-              </Paper>
-            </Grid>
-          ))}
+              </Grid>
+            );
+          })}
         </Grid>
       </Box>
     </Stack>

@@ -1,14 +1,12 @@
 import * as React from "react";
 
-import WorkspacesIcon from "@mui/icons-material/Workspaces";
 import { Box, Typography } from "@mui/material";
 
 import { gLoader } from "../styles/layout";
-import { APP_CONSTATNTS } from "../global/constants";
 import { GLoaderProps } from "../typeDefs/atom";
 
 const GlobalLoader = (props: GLoaderProps) => {
-  const { loadLabel } = props;
+  const { loadLabel, size } = props;
 
   const message = React.useMemo(
     () => (loadLabel ? loadLabel : "Loading, please wait..."),
@@ -16,9 +14,7 @@ const GlobalLoader = (props: GLoaderProps) => {
   );
   return (
     <Box sx={gLoader.container}>
-      <Box sx={APP_CONSTATNTS.animation}>
-        <WorkspacesIcon sx={{ fontSize: "60px" }} />
-      </Box>
+      <div className={`spinner-${size || "medium"}`}></div>
       <Typography sx={gLoader.loadLabel}>{message}</Typography>
     </Box>
   );

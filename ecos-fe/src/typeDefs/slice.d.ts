@@ -2,10 +2,7 @@ import { extensionType } from "./extension";
 
 export type extensionState = {
   extensions: Array<extensionType>;
-  userExtensions: {
-    id: string;
-    title: string;
-  }[];
+  userExtensions: Array<Partial<extensionType>>;
 };
 
 export type appState = {

@@ -5,40 +5,40 @@ import { stylesFuncProps } from "../typeDefs/helpers";
 
 export const extensions = createStyles({
   container: {
-    gap: 1,
     overflow: "scroll",
+    height: "100%",
   },
   content: {
     display: "flex",
-    flexGrow: 1,
     overflow: "scroll",
+    p: 1,
   },
   item: ({ check }: stylesFuncProps) => ({
     display: "flex",
-    bgcolor: check ? theme.white1 : theme.black1,
-    border: `1px solid ${theme.black3}`,
+    bgcolor: check ? theme.white1 : "transparent", //"rgb(146 151 179 / 13%)",
     borderRadius: APP_CONSTATNTS.borderRadius,
     gap: 1,
-    color: theme.white10,
+    color: check ? theme.white5 : theme.white10,
     p: 1.5,
-    m: 0.8,
     zIndex: 2000,
+    transition: "0.3s ease",
+    border: theme.border,
     "&:Hover": {
-      boxShadow: check ? 0 : `0 0 12px 0 ${theme.black10}`,
+      bgcolor: check ? theme.white1 : "rgb(146 151 179 / 13%)",
     },
   }),
-  img: {
+  img: ({ check }: stylesFuncProps) => ({
     borderRadius: APP_CONSTATNTS.borderRadius,
     width: "50px",
     height: "50px",
-  },
+    opacity: check ? 0.3 : 1,
+  }),
   fallBackIcon: {
     fontSize: "30px",
     p: "9px",
     borderRadius: APP_CONSTATNTS.borderRadius,
-    boxShadow: `0 0 6px 0 ${theme.black5}`,
-    border: `1px solid ${theme.black10}`,
-    color: theme.white3,
+    border: "1px solid",
+    borderColor: "inherit",
   },
   rightTop: {
     display: "flex",
@@ -56,7 +56,7 @@ export const extensions = createStyles({
   },
   description: {
     fontSize: "12px",
-    color: theme.white8,
+    color: "inherit",
   },
   actionsContainer: {
     display: "flex",
@@ -75,5 +75,6 @@ export const extensions = createStyles({
     p: 0,
     pt: 0.3,
     fontSize: "10px",
+    color: "inherit",
   },
 });

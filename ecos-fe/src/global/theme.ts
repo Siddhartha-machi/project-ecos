@@ -1,5 +1,5 @@
 const theme = {
-  border: "1px solid rgba(255,255,255,0.5)",
+  border: "1px solid rgba(113 119 144 / 25%)", //"1.5px solid rgba(255, 255, 255, 0.06)",
   borderLight: "1px solid rgba(255,255,255,0.4)",
   blue: "#23a2f6",
   mainBackground: "#0d1117",

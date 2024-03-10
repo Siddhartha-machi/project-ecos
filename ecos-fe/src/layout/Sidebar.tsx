@@ -20,7 +20,8 @@ export const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { role } = useAppSelector((store) => store.user.currentUser);
-  const { extensions } = useAppSelector((store) => store.extension);
+  const state = useAppSelector((store) => store.extension);
+  const { extensions, userExtensions } = state;
 
   const links = React.useMemo(() => {
     const actions: sidebarItemType[] = [
@@ -34,7 +35,7 @@ export const Sidebar = () => {
         path: "/your-space",
         Icon: WorkspacesRoundedIcon,
         children: {
-          data: [],
+          data: userExtensions,
           title: "Your apps",
           option: {
             label: "Add app",
@@ -73,7 +74,7 @@ export const Sidebar = () => {
       });
     }
     return actions.concat(account);
-  }, [extensions, role, navigate]);
+  }, [extensions, role, navigate, userExtensions]);
 
   return (
     <Box sx={sidebar.sideBar}>
@@ -102,7 +103,6 @@ export const Sidebar = () => {
                 )
               }
               key={`action-${index}`}
-              disableInteractive={false}
             >
               <IconButton
                 disableRipple

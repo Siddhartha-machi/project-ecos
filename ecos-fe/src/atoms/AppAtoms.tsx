@@ -54,7 +54,7 @@ export const MenuListToolTip = (props: listToolTipItemType) => {
           <Typography sx={toolTip.fallbackMessage}>Nothing here!</Typography>
           {option && (
             <Button
-              startIcon={option.Icon && <option.Icon />}
+              endIcon={option.Icon && <option.Icon />}
               onClick={option.action}
               sx={toolTip.addButton}
             >
@@ -115,19 +115,29 @@ export const ExtensionActions = (props: extensionActionProps) => {
 
   return (
     <Box sx={listToolTip.actionsContainer}>
-      {!data.meta.added ? (
-        <AppToolTip title={"Add extension to my space"} placement="bottom">
-          <IconButton onClick={addRemoveHandler} sx={listToolTip.actionButton}>
-            <AddRoundedIcon sx={{ color: "primary.dark" }} />
-          </IconButton>
-        </AppToolTip>
-      ) : (
-        <AppToolTip title={"Remove extension from my space"} placement="bottom">
-          <IconButton onClick={addRemoveHandler} sx={listToolTip.actionButton}>
-            <RemoveRoundedIcon sx={{ color: "error.dark" }} />
-          </IconButton>
-        </AppToolTip>
-      )}
+      {!data.meta.disabled &&
+        (!data.meta.added ? (
+          <AppToolTip title={"Add extension to my space"} placement="bottom">
+            <IconButton
+              onClick={addRemoveHandler}
+              sx={listToolTip.actionButton}
+            >
+              <AddRoundedIcon sx={{ color: "primary.dark" }} />
+            </IconButton>
+          </AppToolTip>
+        ) : (
+          <AppToolTip
+            title={"Remove extension from my space"}
+            placement="bottom"
+          >
+            <IconButton
+              onClick={addRemoveHandler}
+              sx={listToolTip.actionButton}
+            >
+              <RemoveRoundedIcon sx={{ color: "error.dark" }} />
+            </IconButton>
+          </AppToolTip>
+        ))}
       {privileged &&
         (data.meta.disabled ? (
           <AppToolTip title={`Enable extension in ECOS`} placement="bottom">
@@ -191,8 +201,8 @@ export const AppToolTip = (props: TooltipProps) => {
         }}
         placement={placement || "right"}
         arrow
-        disableInteractive={basic ? true : false}
         {...rest}
+        disableInteractive={basic ? true : false}
         title={
           <ErrorContainer overrideErrorMessage="Can't load tooltip">
             {basic ? <SimpleToolTip data={title as string} /> : title}
@@ -210,7 +220,9 @@ export const LocalHeader = (props: localHeaderProps) => {
   return (
     <Box sx={localHeader.container}>
       <Box sx={localHeader.titleWrapper}>
-        <Typography sx={localHeader.pageTitle}>{pageTitle}</Typography>
+        <AppToolTip title={pageCaption} placement={"bottom"}>
+          <Typography sx={localHeader.pageTitle}>{pageTitle}</Typography>
+        </AppToolTip>
         <Typography sx={localHeader.pageCaption}>{pageCaption}</Typography>
       </Box>
       <Box sx={localHeader.actionsWrapper}>
