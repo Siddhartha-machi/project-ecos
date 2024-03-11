@@ -12,7 +12,7 @@ import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
 import { APP_CONSTATNTS, ROLES } from "../global/constants";
-import { sidebar } from "../styles/layout";
+import { sidebar } from "../styles/layout.s";
 import { AppToolTip, MenuListToolTip } from "../atoms/AppAtoms";
 import { sidebarItemType } from "../typeDefs/atom";
 

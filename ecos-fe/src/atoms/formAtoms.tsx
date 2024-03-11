@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Box, InputBase, MenuItem, Select, Typography } from "@mui/material";
 
-import { formAtom } from "../styles/formAtom";
+import { formAtom } from "../styles/formAtom.s";
 
 export const InputBox = (props: inputBoxProps) => {
   const { label, type, error, placeHolder, value, changeHandler } = props;

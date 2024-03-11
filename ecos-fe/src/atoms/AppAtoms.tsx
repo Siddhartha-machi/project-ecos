@@ -7,6 +7,7 @@ import {
   IconButton,
   styled,
   TooltipProps,
+  InputBase,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -17,11 +18,20 @@ import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 
 import {
   appChipProps,
+  editableTypoProps,
   extensionActionProps,
   listToolTipItemType,
   localHeaderProps,
+  responsiveBox,
+  truncateTypoTypes,
 } from "../typeDefs/atom";
-import { chip, listToolTip, localHeader, toolTip } from "../styles/atom";
+import {
+  chip,
+  editableTypo,
+  listToolTip,
+  localHeader,
+  toolTip,
+} from "../styles/atom.s";
 import ErrorContainer from "../layout/ErrorContainer";
 import theme from "../global/theme";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -246,6 +256,65 @@ export const AppChips = (props: appChipProps) => {
   );
 };
 
+export const TruncateTypography = (props: truncateTypoTypes) => {
+  const { content, styles, noOfLines } = props;
+  return (
+    <Box
+      sx={{
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        display: "-webkit-box",
+        WebkitLineClamp: noOfLines || "2",
+        WebkitBoxOrient: "vertical",
+      }}
+    >
+      <Typography noWrap={noOfLines ? false : true} sx={styles}>
+        {content}
+      </Typography>
+    </Box>
+  );
+};
+
+export const EditableTypography = (props: editableTypoProps) => {
+  const { value, valueType, label, enableEditing, action } = props;
+  const { Icon } = props;
+  return (
+    <Box sx={editableTypo.container}>
+      <Typography sx={editableTypo.label}>
+        {Icon && <Icon sx={{ fontSize: "15px" }} />}
+        {label}
+      </Typography>
+      <Box sx={editableTypo.fieldContainer}>
+        {enableEditing ? (
+          <InputBase
+            fullWidth
+            value={value}
+            type={valueType}
+            sx={editableTypo.textField}
+            onChange={(e) => action(e.target.value)}
+          />
+        ) : (
+          <TruncateTypography content={value} styles={editableTypo.value} />
+        )}
+      </Box>
+    </Box>
+  );
+};
+
+export const RBox = (props: responsiveBox) => {
+  const { sx, children, part, breakPoint } = props;
+  return (
+    <Box
+      sx={{
+        ...sx,
+        display: { xs: "none", [breakPoint]: "flex" },
+        width: { [breakPoint]: `calc(${100 / (part || 1)}%)` },
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
 // styled components
 export const AppButton = styled(Button)({
   textTransform: "none",

@@ -14,7 +14,7 @@ import {
   ExtensionActions,
   LocalHeader,
 } from "../../atoms/AppAtoms";
-import { extensions } from "../../styles/extensions";
+import { extensions } from "../../styles/extensions.s";
 import data from "../../../public/mocks/extensions.json";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ROLES } from "../../global/constants";

@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Box, Typography } from "@mui/material";
 
-import { gLoader } from "../styles/layout";
+import { gLoader } from "../styles/layout.s";
 import { GLoaderProps } from "../typeDefs/atom";
 
 const GlobalLoader = (props: GLoaderProps) => {
