@@ -51,7 +51,7 @@ const Extensions = () => {
     dispatch(
       loadExtensionsData({
         userExtensions: [
-          { id: "1", title: "Todos - 1", meta: { added: true } },
+          { id: "2", title: "Todos - 2", meta: { added: true } },
           { id: "5", title: "Todos - 5", meta: { added: true } },
         ],
         extensions: data,
@@ -76,7 +76,7 @@ const Extensions = () => {
       <Box sx={extensions.content}>
         <Grid
           container
-          spacing={{ xs: 1, md: 1.5 }}
+          spacing={{ xs: 1, md: 1 }}
           sx={{ overflow: "scroll" }}
         >
           {state.extensions.map((item, index) => {
@@ -110,7 +110,6 @@ const Extensions = () => {
                       <ExtensionActions
                         data={item}
                         privileged={admin}
-                        itemIndex={index}
                       />
                     </Box>
                     <Typography sx={extensions.description}>
@@ -119,6 +118,7 @@ const Extensions = () => {
                     <AppChips data={item.tags} maxChips={2} />
                     <AppButton
                       disableRipple
+                      disabled={disabled}
                       sx={extensions.seeMore}
                       endIcon={<ArrowForwardRoundedIcon />}
                     >

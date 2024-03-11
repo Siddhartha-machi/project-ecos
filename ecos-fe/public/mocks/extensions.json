@@ -8,8 +8,8 @@
             "Time Management"
         ],
         "meta": {
-            "added": true,
-            "disabled": true
+            "disabled": true,
+            "added": false
         }
     },
     {
@@ -24,7 +24,7 @@
             "Office"
         ],
         "meta": {
-            "added": false
+            "added": true
         }
     },
     {
