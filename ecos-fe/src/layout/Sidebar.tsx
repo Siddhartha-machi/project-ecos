@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Divider, IconButton, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
 import { IoSettings } from "@react-icons/all-files/io5/IoSettings";
 import { MdAccountCircle } from "@react-icons/all-files/md/MdAccountCircle";
@@ -120,7 +120,6 @@ export const Sidebar = () => {
             </AppToolTip>
           );
         })}
-        <Divider sx={{ backgroundColor: "rgba(255,255,255,0.5)" }} />
       </Stack>
     </Box>
   );

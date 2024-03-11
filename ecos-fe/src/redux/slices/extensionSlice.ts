@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { extensionState } from "../../typeDefs/slice";
-import { extensionType } from "../../typeDefs/extension";
 
 const initialState: extensionState = {
   extensions: [],
@@ -16,25 +15,43 @@ const extensionSlice = createSlice({
       return state;
     },
     toggleFromCollection: (state, action) => {
-      const index = action.payload;
-      let newUserEState: Array<Partial<extensionType>> = [];
+      const id = action.payload;
 
-      const add = !state.extensions[index].meta.added;
-      if (add) {
-        newUserEState.push({ ...state.extensions[index] });
-      } else {
-        const removeId = state.extensions[index].id;
-        newUserEState = state.userExtensions.filter(
-          (item) => item.id === removeId
-        );
+      let index = 0;
+      const item = state.extensions.find((item, itemIndex) => {
+        const found = item.id === id;
+        if (found) {
+          index = itemIndex;
+        }
+        return found;
+      });
+
+      if (item) {
+        if (!item.meta.added) {
+          state.userExtensions.push({ ...item });
+        } else {
+          state.userExtensions = state.userExtensions.filter(
+            (item) => item.id !== id
+          );
+        }
+        state.extensions[index].meta.added = !item.meta.added;
       }
-      state.userExtensions = newUserEState;
-      state.extensions[index].meta.added = add;
+
       return state;
     },
     toggleExtension: (state, action) => {
-      state.extensions[action.payload].meta.disabled =
-        !state.extensions[action.payload].meta.disabled;
+      const id = action.payload;
+
+      const item = state.extensions.find((item) => item.id === id);
+      if (item) {
+        if (!item.meta.disabled) {
+          state.userExtensions = state.userExtensions.filter(
+            (item) => item.id !== id
+          );
+        }
+        item.meta.disabled = !item.meta.disabled;
+      }
+
       return state;
     },
   },

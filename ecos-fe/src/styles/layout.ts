@@ -51,10 +51,10 @@ export const layout = createStyles({
     fontWeight: "bold",
     borderRadius: "5px",
     "&:hover": {
-      bgcolor: "rgb(146 151 179 / 13%)",
+      bgcolor: theme.mainBackground,
     },
     "&.Mui-focused": {
-      bgcolor: "rgb(146 151 179 / 13%)",
+      bgcolor: theme.mainBackground,
     },
   },
   notifications: {

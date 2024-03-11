@@ -44,13 +44,7 @@ export interface listToolTipItemType {
 export interface extensionActionProps {
   data: extensionType;
   privileged: boolean;
-  itemIndex: number;
 }
-
-export type messageToolTipProps = {
-  Icon?: React.ElementType;
-  data: string;
-};
 
 export type sidebarItemType = {
   label: string;

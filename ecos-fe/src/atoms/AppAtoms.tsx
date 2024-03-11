@@ -20,7 +20,6 @@ import {
   extensionActionProps,
   listToolTipItemType,
   localHeaderProps,
-  messageToolTipProps,
 } from "../typeDefs/atom";
 import { chip, listToolTip, localHeader, toolTip } from "../styles/atom";
 import ErrorContainer from "../layout/ErrorContainer";
@@ -34,7 +33,7 @@ import {
 
 // Custom components
 const SimpleToolTip = ({ data }: { data: string }) => {
-  return <Typography sx={toolTip.text}>{data}</Typography>;
+  return <Typography sx={listToolTip.text}>{data}</Typography>;
 };
 
 export const MenuListToolTip = (props: listToolTipItemType) => {
@@ -46,17 +45,19 @@ export const MenuListToolTip = (props: listToolTipItemType) => {
 
   if (data.length < 1) {
     return (
-      <Box sx={toolTip.listContainer}>
-        <Box sx={toolTip.titleContainer}>
+      <Box sx={listToolTip.listContainer}>
+        <Box sx={listToolTip.titleContainer}>
           <Typography sx={toolTip.title}>{title}</Typography>
         </Box>
-        <Box sx={toolTip.emptyContent}>
-          <Typography sx={toolTip.fallbackMessage}>Nothing here!</Typography>
+        <Box sx={listToolTip.emptyContent}>
+          <Typography sx={listToolTip.fallbackMessage}>
+            Nothing here!
+          </Typography>
           {option && (
             <Button
               endIcon={option.Icon && <option.Icon />}
               onClick={option.action}
-              sx={toolTip.addButton}
+              sx={listToolTip.addButton}
             >
               {option.label}
             </Button>
@@ -66,31 +67,27 @@ export const MenuListToolTip = (props: listToolTipItemType) => {
     );
   }
   return (
-    <Box sx={toolTip.listContainer}>
-      <Box sx={toolTip.titleContainer}>
+    <Box sx={listToolTip.listContainer}>
+      <Box sx={listToolTip.titleContainer}>
         <Typography sx={toolTip.title}>{title}</Typography>
       </Box>
-      <Box sx={toolTip.content}>
+      <Box sx={listToolTip.content}>
         {data.map((item, index: number) => (
-          <Box key={`list-tip-${index}`} sx={toolTip.listItemContainer}>
+          <Box key={`list-tip-${index}`} sx={listToolTip.listItemContainer}>
             {item.image ? (
               <Box component={"img"} sx={listToolTip.img} src={item.image} />
             ) : (
               <ExtensionRoundedIcon sx={listToolTip.fallBackIcon} />
             )}
             <Typography sx={listToolTip.title}>{item.title}</Typography>
-            <ExtensionActions
-              privileged={admin}
-              data={item}
-              itemIndex={index}
-            />
+            <ExtensionActions privileged={admin} data={item} />
           </Box>
         ))}
         {option && (
           <Button
             startIcon={option.Icon && <option.Icon />}
             onClick={option.action}
-            sx={toolTip.addButton}
+            sx={listToolTip.addButton}
           >
             {option.label}
           </Button>
@@ -101,17 +98,17 @@ export const MenuListToolTip = (props: listToolTipItemType) => {
 };
 
 export const ExtensionActions = (props: extensionActionProps) => {
-  const { privileged, data, itemIndex } = props;
+  const { privileged, data } = props;
 
   const dispatch = useAppDispatch();
 
   const enableDisableHandler = React.useCallback(() => {
-    dispatch(toggleExtension(itemIndex));
-  }, [dispatch, itemIndex]);
+    dispatch(toggleExtension(data.id));
+  }, [dispatch, data.id]);
 
   const addRemoveHandler = React.useCallback(() => {
-    dispatch(toggleFromCollection(itemIndex));
-  }, [dispatch, itemIndex]);
+    dispatch(toggleFromCollection(data.id));
+  }, [dispatch, data.id]);
 
   return (
     <Box sx={listToolTip.actionsContainer}>
@@ -161,16 +158,6 @@ export const ExtensionActions = (props: extensionActionProps) => {
           </AppToolTip>
         ))}
     </Box>
-  );
-};
-
-export const MessageToolTip = (props: messageToolTipProps) => {
-  const { Icon, data } = props;
-
-  return (
-    <Typography>
-      {Icon && <Icon />} {data}
-    </Typography>
   );
 };
 
@@ -267,5 +254,8 @@ export const AppButton = styled(Button)({
   "&:Hover": {
     backgroundColor: "transparent",
     color: theme.white10,
+  },
+  "&:disabled": {
+    color: theme.inactive,
   },
 });
