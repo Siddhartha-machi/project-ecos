@@ -10,11 +10,14 @@ import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneR
 
 import blankProfile from "../../Assets/img5.jpeg";
 import { ROLES } from "../../global/constants";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { EditableTypography, LocalHeader, RBox } from "../../atoms/AppAtoms";
 import { account, notifs, profile } from "../../styles/account.s";
+import { setLocalLoading } from "../../redux/slices/appSlice";
+import { APIMock } from "../../global/helpers";
 
 const Account = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector((store) => store.user.currentUser);
   const [enableEditing, setenableEditing] = React.useState<boolean>(false);
 
@@ -23,6 +26,15 @@ const Account = () => {
   const toggleEditing = () => {
     setenableEditing((prev) => !prev);
   };
+
+  React.useEffect(() => {
+    (async function () {
+      dispatch(setLocalLoading({ loadVal: true, label: "accounts" }));
+      await APIMock();
+      setNotifications([]);
+      dispatch(setLocalLoading({ loadVal: false, label: "accounts" }));
+    })();
+  }, [dispatch]);
 
   return (
     <Box sx={account.container}>
@@ -165,11 +177,11 @@ const Account = () => {
           )}
         </RBox>
         <RBox breakPoint="md" sx={account.inContainer}>
-          <Typography sx={account.inHeader}>Notifications</Typography>
+          <Typography sx={account.inHeader}>Account actions</Typography>
           <Box sx={notifs.emptyNotifs}>
             <NotificationsNoneRoundedIcon />
             <Typography sx={notifs.messageText}>
-              You're all caught up! you've no unread notifications
+              No actions are available at the moment, please try again later.
             </Typography>
           </Box>
         </RBox>
