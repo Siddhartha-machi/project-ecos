@@ -5,7 +5,7 @@ import { Outlet, useLocation, useNavigate } from "react-router";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
 import { APP_CONSTATNTS } from "../../global/constants";
-import { auth } from "../../styles/auth";
+import { auth } from "../../styles/auth.s";
 
 const AuthLayout = () => {
   const location = useLocation().pathname;

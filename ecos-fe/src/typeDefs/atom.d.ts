@@ -1,9 +1,10 @@
 import { inputConfigType, selectConfigType } from "./formAtoms";
 import { extensionType } from "./extension";
+import { SxProps } from "@mui/material";
 
 export type GLoaderProps = {
   loadLabel?: string;
-  size?: 'small' | 'medium' | 'large'
+  size?: "small" | "medium" | "large";
 };
 
 export type formReturnTypes = {
@@ -66,3 +67,25 @@ export type appChipProps = {
   data: Array<string>;
   maxChips?: number;
 };
+
+export type truncateTypoTypes = {
+  content: string;
+  styles?: SxProps;
+  noOfLines?: number;
+};
+
+export type editableTypoProps = {
+  label: string;
+  value: string;
+  valueType: "text" | "number" | "email";
+  enableEditing: boolean;
+  action: (newValue: string) => void;
+  Icon?: React.ElementType;
+};
+
+export interface responsiveBox {
+  breakPoint: "sm" | "md" | "lg" | "xl" | "xs";
+  children: React.ReactNode;
+  sx?: SxProps;
+  part?: number;
+}

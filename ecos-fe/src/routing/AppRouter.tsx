@@ -8,6 +8,7 @@ const Overview = React.lazy(() => import("../pages/Overview/Overview"));
 const UnderProgress = React.lazy(() => import("../layout/UnderProgress"));
 const AppLayout = React.lazy(() => import("../layout/AppLayout"));
 const Extensions = React.lazy(() => import("../pages/Extensions/Extensions"));
+const Account = React.lazy(() => import("../pages/Accounts/Account"));
 
 const AppRouter = () => {
   return (
@@ -27,10 +28,7 @@ const AppRouter = () => {
             path="users"
             element={<PermLayer Component={UnderProgress} />}
           />
-          <Route
-            path="account"
-            element={<PermLayer Component={UnderProgress} />}
-          />
+          <Route path="account" element={<PermLayer Component={Account} />} />
           <Route
             path="logout"
             element={<PermLayer Component={UnderProgress} />}

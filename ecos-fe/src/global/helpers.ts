@@ -3,7 +3,7 @@ import { SxProps } from "@mui/material";
 import { strFormatArgsType, stylesFuncProps } from "../typeDefs/helpers";
 
 export function createStyles<
-  T extends Record<string, SxProps | ((params: stylesFuncProps) => SxProps)>
+  T extends Record<string, SxProps> | ((params: stylesFuncProps) => SxProps)
 >(styles: T) {
   return styles;
 }
@@ -89,4 +89,8 @@ export const checkPassEquality = (val: string, compare?: string) => {
   }
 
   return result;
+};
+
+export const APIMock = () => {
+  return new Promise((resolve) => setTimeout(resolve, 2000));
 };

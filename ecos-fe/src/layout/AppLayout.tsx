@@ -18,7 +18,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import avatar from "../assets/img5.jpeg";
 import { Sidebar } from "./Sidebar";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { layout } from "../styles/layout";
+import { layout } from "../styles/layout.s";
 import { strFormat } from "../global/helpers";
 import GlobalLoader from "../atoms/GlobalLoader";
 import { setSearchDisable } from "../redux/slices/appSlice";

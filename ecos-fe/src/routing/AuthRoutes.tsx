@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-const PageNotFound = React.lazy(() => import("../layout/PageNotFound"));
 const AuthLayout = React.lazy(() => import("../pages/Auth/AuthLayout"));
 const Register = React.lazy(() => import("../pages/Auth/Register"));
 const Login = React.lazy(() => import("../pages/Auth/Login"));
@@ -59,7 +58,7 @@ const AuthRouter = () => {
           path="*"
           element={
             <ErrorContainer>
-              <PageNotFound auth />
+              <Navigate to="signin" />
             </ErrorContainer>
           }
         />

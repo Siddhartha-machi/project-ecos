@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { pageNotFound } from "../styles/layout";
+import { pageNotFound } from "../styles/layout.s";
 import { useLocation } from "react-router";
 
 const UnderProgress = (props: { auth?: boolean }) => {

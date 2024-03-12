@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import ErrorRoundedIcon from "@mui/icons-material/ErrorRounded";
 
-import { formAtom } from "../styles/formAtom";
+import { formAtom } from "../styles/formAtom.s";
 import { singleNestedCopy } from "../global/helpers";
 import { InputBox, SelectField } from "./formAtoms";
 

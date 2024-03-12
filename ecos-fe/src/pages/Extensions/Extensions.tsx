@@ -14,12 +14,13 @@ import {
   ExtensionActions,
   LocalHeader,
 } from "../../atoms/AppAtoms";
-import { extensions } from "../../styles/extensions";
+import { extensions } from "../../styles/extensions.s";
 import data from "../../../public/mocks/extensions.json";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ROLES } from "../../global/constants";
 import { setLocalLoading } from "../../redux/slices/appSlice";
 import { loadExtensionsData } from "../../redux/slices/extensionSlice";
+import { APIMock } from "../../global/helpers";
 
 const Extensions = () => {
   const dispatch = useAppDispatch();
@@ -47,7 +48,7 @@ const Extensions = () => {
 
   const apiSimulator = React.useCallback(async () => {
     dispatch(setLocalLoading({ loadVal: true, label: "extensions" }));
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await APIMock();
     dispatch(
       loadExtensionsData({
         userExtensions: [
@@ -74,11 +75,7 @@ const Extensions = () => {
         options={options}
       />
       <Box sx={extensions.content}>
-        <Grid
-          container
-          spacing={{ xs: 1, md: 1 }}
-          sx={{ overflow: "scroll" }}
-        >
+        <Grid container spacing={{ xs: 1, md: 1 }} sx={{ overflow: "scroll" }}>
           {state.extensions.map((item, index) => {
             const disabled = item.meta.disabled;
             return (
@@ -107,10 +104,7 @@ const Extensions = () => {
                       <Typography sx={extensions.title}>
                         {item.title}
                       </Typography>
-                      <ExtensionActions
-                        data={item}
-                        privileged={admin}
-                      />
+                      <ExtensionActions data={item} privileged={admin} />
                     </Box>
                     <Typography sx={extensions.description}>
                       {item.description}
