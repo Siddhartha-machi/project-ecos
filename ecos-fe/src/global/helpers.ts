@@ -94,3 +94,16 @@ export const checkPassEquality = (val: string, compare?: string) => {
 export const APIMock = () => {
   return new Promise((resolve) => setTimeout(resolve, 2000));
 };
+
+export const NullOrUndefined = (value: unknown) => {
+  return value === undefined || value === null;
+};
+
+export const isObject = (value: unknown) =>
+  typeof value === "object" &&
+  Object.prototype.isPrototypeOf.call(Object.getPrototypeOf(value), Object);
+
+export const isArray = (obj: unknown) => {
+  return typeof obj === "object" && obj?.constructor === Array;
+};
+

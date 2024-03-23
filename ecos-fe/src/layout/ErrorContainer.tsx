@@ -18,7 +18,7 @@ class ErrorContainer extends React.Component<
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Log the error to an error reporting service
-    console.log("ErrorBoundary caught an error: ", error, errorInfo);
+    console.error("ErrorBoundary caught an error: ", error, errorInfo);
     this.setState({ error, errorInfo });
   }
 

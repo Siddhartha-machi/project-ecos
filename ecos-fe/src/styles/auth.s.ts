@@ -1,5 +1,6 @@
 import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
+import theme from "../global/theme";
 
 export const auth = createStyles({
   container: {
@@ -105,20 +106,19 @@ export const auth = createStyles({
     mt: 1,
   },
   inlineButton: {
-    fontSize: "inherit",
-    textTransform: "none",
+    display: "inline-flex",
+    fontSize: "12px",
     fontWeight: "bold",
-    p: 0,
-    m: 0,
+    px: 0.6,
+    color: theme.blue,
     "&:Hover": {
+      cursor: "pointer",
       textDecoration: "underline",
       bgcolor: "transparent",
     },
   },
 });
 
-export const login = createStyles({
-  
-});
+export const login = createStyles({});
 
 export const register = createStyles({});

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { appState } from "../../typeDefs/slice";
 
 const initialState: appState = {
+  mock: false,
   loading: false,
   localLoading: false,
   disableSearch: true,
@@ -11,6 +12,9 @@ const appSlice = createSlice({
   name: "app-slice",
   initialState,
   reducers: {
+    toggleMock: (state) => {
+      state.mock = !state.mock;
+    },
     appLoading: (state, action) => {
       state.loading = action.payload.loadVal;
       state.loadingLabel = action.payload.label || "";
@@ -27,5 +31,5 @@ const appSlice = createSlice({
 
 export default appSlice.reducer;
 
-export const { appLoading, setSearchDisable, setLocalLoading } =
+export const { appLoading, setSearchDisable, setLocalLoading, toggleMock } =
   appSlice.actions;

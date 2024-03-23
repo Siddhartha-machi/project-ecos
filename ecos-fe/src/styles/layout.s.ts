@@ -2,7 +2,6 @@ import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
 
-
 const CONTAINER_MARGIN = 25;
 const CONTENT_WIDTH = 2 + APP_CONSTATNTS.sidebarWidth;
 
@@ -194,7 +193,7 @@ export const gLoader = createStyles({
   loadLabel: {
     fontSize: "14px",
     fontWeight: "bold",
-    mt: '12px'
+    mt: "12px",
   },
 });
 

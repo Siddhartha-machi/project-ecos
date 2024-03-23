@@ -15,18 +15,22 @@ import {
   LocalHeader,
 } from "../../atoms/AppAtoms";
 import { extensions } from "../../styles/extensions.s";
-import data from "../../../public/mocks/extensions.json";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ROLES } from "../../global/constants";
 import { setLocalLoading } from "../../redux/slices/appSlice";
-import { loadExtensionsData } from "../../redux/slices/extensionSlice";
-import { APIMock } from "../../global/helpers";
+import { loadFunArgs } from "../../typeDefs/helpers";
+import { loadMockExtensions } from "../../api/mockHandles";
+import {
+  setExtensions,
+  setUserExtensions,
+} from "../../redux/slices/extensionSlice";
 
 const Extensions = () => {
   const dispatch = useAppDispatch();
   const admin = useAppSelector(
     (store) => store.user.currentUser.role === ROLES.admin
   );
+  const { mock } = useAppSelector((store) => store.app);
   const state = useAppSelector((store) => store.extension);
   const options = React.useMemo(
     () => [
@@ -46,24 +50,45 @@ const Extensions = () => {
     []
   );
 
-  const apiSimulator = React.useCallback(async () => {
-    dispatch(setLocalLoading({ loadVal: true, label: "extensions" }));
-    await APIMock();
-    dispatch(
-      loadExtensionsData({
-        userExtensions: [
-          { id: "2", title: "Todos - 2", meta: { added: true } },
-          { id: "5", title: "Todos - 5", meta: { added: true } },
-        ],
-        extensions: data,
-      })
-    );
-    dispatch(setLocalLoading({ loadVal: false, label: null }));
-  }, [dispatch]);
+  const loading = React.useCallback(
+    (args: loadFunArgs) => {
+      dispatch(setLocalLoading(args));
+    },
+    [dispatch]
+  );
+
+  const loadExtensions = React.useCallback(
+    (data: unknown) => {
+      dispatch(setExtensions(data));
+    },
+    [dispatch]
+  );
+
+  const loadUserExtensions = React.useCallback(
+    (data: unknown) => {
+      dispatch(setUserExtensions(data));
+    },
+    [dispatch]
+  );
 
   React.useEffect(() => {
-    apiSimulator();
-  }, [apiSimulator]);
+    if (mock) {
+      loadMockExtensions([
+        {
+          path: "extensions",
+          loading,
+          onSuccess: loadExtensions,
+        },
+        {
+          path: "userExtensions",
+          loading,
+          onSuccess: loadUserExtensions,
+        },
+      ]);
+    } else {
+      // --api conversion
+    }
+  }, [mock, loading, loadExtensions, loadUserExtensions]);
 
   return (
     <Stack sx={extensions.container}>

@@ -4,56 +4,59 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
 
 import { checkPasswordStrength, validateEmail } from "../../global/helpers";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { selectConfigType, inputConfigType } from "../../typeDefs/formAtoms";
+import APIClient from "../../api/APIClient";
+import { mockUser } from "../../global/constants";
 
 const Login = () => {
   const dispatch = useAppDispatch();
+  const { mock } = useAppSelector((store) => store.app);
 
-  // --api conversion
   const submitHandler = async (formData: formReturnTypes) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const client = new APIClient(mock);
 
-    const invalid = formData.Email !== "admin@ecos.com";
+    const response = await client.request({
+      requestType: "get",
+      path: "user",
+      payload: formData,
+    });
 
-    if (invalid) {
-      return "Can't login with provided credentials";
+    if (response.success) {
+      dispatch(setCurrentUser(response.data));
     }
-    dispatch(setCurrentUser({ role: "admin", active: true }));
-    return null;
+    return response.message;
   };
 
-  const loginFormConfig: Array<selectConfigType | inputConfigType> =
-    React.useMemo(
-      () => [
-        {
-          label: "Email",
-          value: "",
-          placeHolder: "mirana@ecos.com",
-          type: "email",
-          focus: true,
-          StartIcon: EmailRoundedIcon,
-          validator: validateEmail,
-        },
-        {
-          label: "Password",
-          value: "",
-          placeHolder: "mirana#2847",
-          type: "password",
-          StartIcon: KeyRoundedIcon,
-          validator: checkPasswordStrength,
-        },
-      ],
-      []
-    );
+  const loginFormConfig = React.useMemo<(selectConfigType | inputConfigType)[]>(
+    () => [
+      {
+        label: "Email",
+        value: mock ? mockUser.email : "",
+        placeHolder: "mirana@ecos.com",
+        type: "email",
+        StartIcon: EmailRoundedIcon,
+        validator: validateEmail,
+      },
+      {
+        label: "Password",
+        value: mock ? mockUser.password : "",
+        placeHolder: "Mirana#2847",
+        type: "password",
+        StartIcon: KeyRoundedIcon,
+        validator: checkPasswordStrength,
+      },
+    ],
+    [mock]
+  );
 
   return (
     <GenericForm
       formFields={loginFormConfig}
-      formTitle={"Sign In"}
+      formTitle={mock ? "Mock Sign In" : "Sign In"}
       submitHandler={submitHandler}
     />
   );
