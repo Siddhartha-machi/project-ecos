@@ -14,7 +14,7 @@ export type formReturnTypes = {
 export type genericFormProps = {
   formFields: Array<selectConfigType | inputConfigType>;
   formTitle: string;
-  submitHandler: (formData: formReturnTypes) => void;
+  submitHandler: (formData: formReturnTypes) => Promise<string>;
 };
 
 export interface eActionType {

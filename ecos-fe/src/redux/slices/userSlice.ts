@@ -1,16 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ROLES } from "../../global/constants";
-// import { userState } from "../../Types/reduxTypes"; --fix
+import { userState } from "../../typeDefs/slice";
 
-const initialState = {
+const initialState: userState = {
   currentUser: {
     first_name: "Siddhartha Reddy",
     last_name: "Machi",
     role: ROLES.admin,
-    username: null,
+    username: "",
     joined_date: "12th July 2012",
     active: true,
+    email: "",
   },
   usersList: [],
 };

@@ -15,6 +15,13 @@ import { InputBox, SelectField } from "./formAtoms";
 
 import ErrorContainer from "../layout/ErrorContainer";
 import { formReturnTypes, genericFormProps } from "../typeDefs/atom";
+import {
+  selectDataType,
+  selectConfigType,
+  selectFieldProps,
+  inputBoxProps,
+  inputConfigType,
+} from "../typeDefs/formAtoms";
 
 const GenericForm = (props: genericFormProps) => {
   const { formFields, submitHandler, formTitle } = props;
@@ -127,12 +134,14 @@ const GenericForm = (props: genericFormProps) => {
     if (!valid) {
       setformState(newState);
     } else {
-      // --api conversion
-      console.log({ formData });
       response = await submitHandler(formData);
     }
     setAPIState({ error: response, loading: false });
   };
+
+  React.useEffect(() => {
+    setformState(formFields);
+  }, [formFields]);
 
   return (
     <ErrorContainer>

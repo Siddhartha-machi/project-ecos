@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "title": "Todos - 1",
+        "description": "Add a very simple todo to very complex plan from this extension.",
+        "tags": [
+            "Productive",
+            "Time Management"
+        ],
+        "meta": {
+            "disabled": true,
+            "added": false
+        }
+    },
+    {
+        "id": "2",
+        "title": "Todos - 2",
+        "image": "../src/assets/c12.jpg",
+        "description": "Add a very simple todo to very complex plan from this extension.",
+        "tags": [
+            "Productive",
+            "Time Management",
+            "Tasks",
+            "Office"
+        ],
+        "meta": {
+            "added": true
+        }
+    }
+]

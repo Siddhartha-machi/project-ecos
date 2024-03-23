@@ -37,6 +37,7 @@ const AuthRouter = () => {
               </ErrorContainer>
             }
           />
+
           <Route
             path="/signup"
             element={
@@ -45,6 +46,7 @@ const AuthRouter = () => {
               </ErrorContainer>
             }
           />
+
           <Route
             path="/personal-details"
             element={

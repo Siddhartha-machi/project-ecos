@@ -5,6 +5,9 @@ import { appLoading } from "../redux/slices/appSlice";
 import GlobalLoader from "../atoms/GlobalLoader";
 import { MESSAGE } from "../global/constants";
 import { ELHOC } from "./HOCS";
+import { loadMockData } from "../api/mockHandles";
+import { loadFunArgs } from "../typeDefs/helpers";
+import { setCurrentUser } from "../redux/slices/userSlice";
 
 const AppRouter = React.lazy(() => import("../routing/AppRouter"));
 const AuthRouter = React.lazy(() => import("../routing/AuthRoutes"));
@@ -12,22 +15,27 @@ const AuthRouter = React.lazy(() => import("../routing/AuthRoutes"));
 const AuthLayer = () => {
   const dispatch = useAppDispatch();
   const { role, active } = useAppSelector((store) => store.user.currentUser);
-  const { loading } = useAppSelector((store) => store.app);
+  const { mock, loading } = useAppSelector((store) => store.app);
 
-  const timedCall = React.useCallback(async () => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    dispatch(
-      appLoading({
-        loadVal: false,
-      })
-    );
-  }, [dispatch]);
+  const setAppLoading = React.useCallback(
+    (args: loadFunArgs) => dispatch(appLoading(args)),
+    [dispatch]
+  );
+  const setUser = React.useCallback(
+    (args: unknown) => dispatch(setCurrentUser(args)),
+    [dispatch]
+  );
 
   React.useEffect(() => {
-    if (role) {
-      timedCall(); // --api conversion
+    if (role && active) {
+      if (mock) {
+        loadMockData({ loading: setAppLoading, onSuccess: setUser });
+      } else {
+        // --api conversion
+        setAppLoading({ loadVal: false, label: "" });
+      }
     }
-  }, [role, timedCall]);
+  }, [role, active, setAppLoading, mock, dispatch, setUser]);
 
   // Load auth router if the no role found or user is not active
   if (!role || !active) {

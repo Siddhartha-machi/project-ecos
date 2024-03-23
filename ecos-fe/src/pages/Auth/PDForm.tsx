@@ -12,20 +12,24 @@ import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { inputConfigType, selectConfigType } from "../../typeDefs/formAtoms";
+import APIClient from "../../api/APIClient";
 
 const PDForm = () => {
   const dispatch = useAppDispatch();
 
-  // --api conversion
   const submitHandler = async (formData: formReturnTypes) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const client = new APIClient();
 
-    const invalid = formData["Date of birth"] === "01-01-0001";
-    if (invalid) {
-      return "Something went wrong, please try again.";
+    const response = await client.request({
+      requestType: "get",
+      path: "user",
+      payload: formData,
+    });
+
+    if (response.success) {
+      dispatch(setCurrentUser(response.data));
     }
-    dispatch(setCurrentUser({ role: "admin", active: true }));
-    return null;
+    return response.message;
   };
 
   const PDFormConfig: Array<selectConfigType | inputConfigType> = React.useMemo(

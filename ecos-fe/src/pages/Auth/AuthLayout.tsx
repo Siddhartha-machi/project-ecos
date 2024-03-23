@@ -1,15 +1,20 @@
 import * as React from "react";
 
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import CopyrightIcon from "@mui/icons-material/Copyright";
 
 import { APP_CONSTATNTS } from "../../global/constants";
 import { auth } from "../../styles/auth.s";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { toggleMock } from "../../redux/slices/appSlice";
 
 const AuthLayout = () => {
   const location = useLocation().pathname;
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const { mock } = useAppSelector((store) => store.app);
 
   const signinPath = React.useMemo(() => location === "/signin", [location]);
   const toggleFormMode = () => {
@@ -17,6 +22,10 @@ const AuthLayout = () => {
   };
 
   const currentYear = new Date().getFullYear();
+
+  const enableMock = () => {
+    dispatch(toggleMock());
+  };
 
   return (
     <Box sx={auth.container}>
@@ -68,22 +77,32 @@ const AuthLayout = () => {
       </Box>
       <Box sx={auth.content}>
         <Outlet />
-        <Typography sx={auth.formToggleText}>
-          {signinPath ? "Don't have an account ?" : "Already have an account ?"}
-          <Button sx={auth.inlineButton} disableRipple onClick={toggleFormMode}>
-            {signinPath ? "SignUp" : "SignIn"}
-          </Button>
-          here!
-        </Typography>
-        <Typography sx={auth.formToggleText}>
-          Want to know the more? Try our trial application
-          <Button
-            sx={{ ...auth.inlineButton, ml: -1.2 }}
-            disableRipple
-            onClick={() => console.log("Trial is disabled")}
-          >
+        {!mock && (
+          <Typography sx={auth.formToggleText}>
+            {signinPath
+              ? "Don't have an account ?"
+              : "Already have an account ?"}
+            <Typography
+              variant="caption"
+              sx={auth.inlineButton}
+              onClick={toggleFormMode}
+            >
+              {signinPath ? "SignUp" : "SignIn"}
+            </Typography>
             here!
-          </Button>
+          </Typography>
+        )}
+        <Typography sx={auth.formToggleText}>
+          {mock
+            ? "Switch back to "
+            : "Want to know the more? Try our trial application"}
+          <Typography
+            variant="caption"
+            sx={auth.inlineButton}
+            onClick={enableMock}
+          >
+            {mock ? "user login" : "here!"}
+          </Typography>
         </Typography>
       </Box>
     </Box>

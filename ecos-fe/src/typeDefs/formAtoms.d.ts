@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from "@mui/material";
 
-type selectDataType = {
+export type selectDataType = {
   val: string;
   Icon?: React.ElementType;
 };

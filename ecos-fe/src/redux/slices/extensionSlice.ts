@@ -9,9 +9,12 @@ const extensionSlice = createSlice({
   name: "extension-slice",
   initialState,
   reducers: {
-    loadExtensionsData: (state, action) => {
-      state.extensions = action.payload.extensions;
-      state.userExtensions = action.payload.userExtensions;
+    setExtensions: (state, action) => {
+      state.extensions = action.payload || [];
+      return state;
+    },
+    setUserExtensions: (state, action) => {
+      state.userExtensions = action.payload;
       return state;
     },
     toggleFromCollection: (state, action) => {
@@ -59,5 +62,9 @@ const extensionSlice = createSlice({
 
 export default extensionSlice.reducer;
 
-export const { loadExtensionsData, toggleFromCollection, toggleExtension } =
-  extensionSlice.actions;
+export const {
+  setExtensions,
+  setUserExtensions,
+  toggleFromCollection,
+  toggleExtension,
+} = extensionSlice.actions;

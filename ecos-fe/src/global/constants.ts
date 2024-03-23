@@ -19,3 +19,12 @@ export const APP_CONSTATNTS = {
 export const MESSAGE = {
   auth: "Taking you to authentication page...",
 };
+
+export const mockUser = {
+  username: "Mirana Love",
+  email: "mirana@ecos.com",
+  role: "user",
+  password: "Mirana#2847",
+};
+
+export const MOCK_TOKEN = "<mock_token#465382>";
