@@ -7,7 +7,7 @@ const initialState: userState = {
   currentUser: {
     first_name: "Siddhartha Reddy",
     last_name: "Machi",
-    role: ROLES.unauthenticated,
+    role: ROLES.admin,
     username: "",
     joined_date: "12th July 2012",
     active: true,

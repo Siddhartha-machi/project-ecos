@@ -194,20 +194,4 @@ export const editableTypo = createStyles({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  textField: {
-    color: "#fff",
-    borderRadius: theme.borderRadius,
-    border: theme.border,
-    px: 1.5,
-    py: 0.5,
-    fontSize: "14px",
-    "&.Mui-focused": {
-      boxShadow: `0 0 5px ${theme.blue}`,
-    },
-    "&.Mui-error": {
-      border: "1px solid transparent",
-      borderColor: "error.light",
-      boxShadow: "0 0 10px 0 red",
-    },
-  },
 });

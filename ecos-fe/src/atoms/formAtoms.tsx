@@ -10,7 +10,7 @@ export const InputBox = (props: inputBoxProps) => {
   const { StartIcon, EndIcon, onKeyDown, initialFocused } = props;
 
   const isError = React.useMemo(() => Boolean(error), [error]);
-
+  
   return (
     <Box sx={formAtom.inputContainer}>
       <Typography sx={formAtom.formLabel({ check: isError })}>
@@ -44,22 +44,12 @@ export const SelectField = (props: selectFieldProps) => {
         required
         value={value.val}
         onChange={changeHandler}
-        sx={formAtom.selectBox}
-        MenuProps={{
-          sx: formAtom.selectOpWrap,
-          slotProps: {
-            paper: {
-              sx: formAtom.selectPaperWrap,
-            },
-          },
-        }}
         startAdornment={value.Icon && <value.Icon />}
         renderValue={() => value.val}
       >
         <MenuItem
           disabled
           value={placeHolder.val}
-          sx={formAtom.selectItemDisabled}
         >
           {placeHolder.val}
           {placeHolder.Icon && <placeHolder.Icon />}
@@ -67,7 +57,6 @@ export const SelectField = (props: selectFieldProps) => {
         {options.map((item, index) => (
           <MenuItem
             key={`select-${index}`}
-            sx={formAtom.selectItem}
             value={item.val}
           >
             {item.Icon && <item.Icon />}

@@ -83,33 +83,35 @@ const AuthLayout = () => {
         </Box>
         <Box sx={auth.content}>
           <Outlet />
-          {!mock && (
+          <Box sx={auth.formFooter}>
+            {!mock && (
+              <Typography sx={auth.formToggleText}>
+                {signinPath
+                  ? "Don't have an account ?"
+                  : "Already have an account ?"}
+                <Typography
+                  variant="caption"
+                  sx={auth.inlineButton}
+                  onClick={toggleFormMode}
+                >
+                  {signinPath ? "SignUp" : "SignIn"}
+                </Typography>
+                here!
+              </Typography>
+            )}
             <Typography sx={auth.formToggleText}>
-              {signinPath
-                ? "Don't have an account ?"
-                : "Already have an account ?"}
+              {mock
+                ? "Switch back to "
+                : "Want to know the more? Try our trial application"}
               <Typography
                 variant="caption"
                 sx={auth.inlineButton}
-                onClick={toggleFormMode}
+                onClick={enableMock}
               >
-                {signinPath ? "SignUp" : "SignIn"}
+                {mock ? "user login" : "here!"}
               </Typography>
-              here!
             </Typography>
-          )}
-          <Typography sx={auth.formToggleText}>
-            {mock
-              ? "Switch back to "
-              : "Want to know the more? Try our trial application"}
-            <Typography
-              variant="caption"
-              sx={auth.inlineButton}
-              onClick={enableMock}
-            >
-              {mock ? "user login" : "here!"}
-            </Typography>
-          </Typography>
+          </Box>
         </Box>
       </Box>
     </ThemeProvider>

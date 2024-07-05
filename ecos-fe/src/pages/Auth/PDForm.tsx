@@ -39,7 +39,7 @@ const PDForm = () => {
         value: "",
         placeHolder: "Mirana Blake",
         type: "text",
-        focus: true,
+        initialFocused: true,
         StartIcon: EmailRoundedIcon,
       },
       {

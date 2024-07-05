@@ -286,9 +286,10 @@ export const EditableTypography = (props: editableTypoProps) => {
         {enableEditing ? (
           <InputBase
             fullWidth
+            size="small"
             value={value}
             type={valueType}
-            sx={editableTypo.textField}
+            // sx={editableTypo.textField}
             onChange={(e) => action(e.target.value)}
           />
         ) : (

@@ -36,17 +36,16 @@ export const layout = createStyles({
   },
   globalSearch: {
     flex: 1,
-    color: theme.white6,
     py: 0.8,
     pl: 1.2,
     m: "8px 0px 8px 8px",
     fontSize: "16px",
     fontWeight: "bold",
+    bgcolor: "transparent",
     borderRadius: theme.borderRadius,
-    "&:hover": {
-      bgcolor: theme.mainBackground,
-    },
-    "&.Mui-focused": {
+    borderColor: theme.white2,
+    "&.Mui-focused, &:hover": {
+      boxShadow: 0,
       bgcolor: theme.mainBackground,
     },
   },

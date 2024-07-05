@@ -45,7 +45,7 @@ const Register = () => {
           value: "",
           placeHolder: "mirana@ecos.com",
           type: "email",
-          focus: true,
+          initialFocused: true,
           StartIcon: EmailRoundedIcon,
           validator: validateEmail,
         },

@@ -196,7 +196,7 @@ const GenericForm = (props: genericFormProps) => {
           disabled={disableSubmit || APIState.loading}
           variant="contained"
           onClick={formSubmitHandler}
-          sx={{ py: 1.2 }}
+          sx={{ py: "10px" }}
         >
           {APIState.loading ? (
             <CircularProgress size="1.4rem" sx={{ color: "#fff", py: 0.1 }} />

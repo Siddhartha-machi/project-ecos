@@ -95,7 +95,7 @@ const Extensions = () => {
         options={options}
       />
       <Box sx={extensions.content}>
-        <Grid container spacing={{ xs: 1, md: 1.5 }} sx={{ overflow: "scroll" }}>
+        <Grid container spacing={{ xs: 1, md: '12px' }} sx={{ overflow: "scroll" }}>
           {state.extensions.map((item, index) => {
             const disabled = item.meta.disabled;
             return (

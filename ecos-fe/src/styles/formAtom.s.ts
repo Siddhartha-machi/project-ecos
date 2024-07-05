@@ -59,78 +59,11 @@ export const formAtom = createStyles({
       boxShadow: "0 0 10px 0 red",
     },
   },
-  selectBox: {
-    color: "#fff",
-    borderRadius: theme.borderRadius,
-    border: "1px solid #fff",
-    "&.Mui-focused": {
-      boxShadow: "0 0 10px 0 #fff",
-    },
-    "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
-      border: 0,
-    },
-    "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      border: 0,
-    },
-    "&.Mui-error": {
-      border: "1px solid transparent",
-      borderColor: "error.light",
-      boxShadow: "0 0 10px 0 red",
-    },
-    "& .MuiSelect-select": {
-      padding: "12px 0px 12px 16px",
-      fontWeight: "bold",
-    },
-    ".MuiSvgIcon-root ": {
-      fill: "white !important",
-    },
-  },
-  selectOpWrap: {
-    mt: 0.8,
-    "&& .Mui-selected": {
-      bgcolor: "#fff",
-      color: "#000",
-    },
-    "&& .Mui-disabled": {
-      bgcolor: "#000",
-      color: "rgba(255,255,255,0.5)",
-      opacity: 1,
-    },
-  },
-  selectPaperWrap: {
-    borderRadius: theme.borderRadius,
-    bgcolor: "#000",
-    border: "1px solid rgba(255,255,255,0.3)",
-    color: "#fff",
-    boxShadow: "0 0 12px 0 #000",
-  },
-  selectItem: {
-    display: "flex",
-    alignItems: "center",
-    gap: 2,
-    mx: 1.6,
-    my: 0.6,
-    fontWeight: "bold",
-    borderRadius: theme.borderRadius,
-    "&:Hover": {
-      bgcolor: "#fff",
-      color: "#000",
-    },
-  },
-  selectItemDisabled: {
-    mx: 1.6,
-    my: 0.6,
-    fontWeight: "bold",
-  },
   startIcon: {
-    ml: 1.5,
-  },
-  formInputProps: {
-    padding: "12px 0px 12px 3px",
-    marginLeft: "12px",
-    fontWeight: "bold",
-    borderTopRightRadius: theme.borderRadius,
-    borderBottomRightRadius: theme.borderRadius,
+    p: "12px",
+    bgcolor: theme.black2,
+    borderRight: `1px solid transparent`,
+    borderColor: "inherit",
   },
   fieldsWrap: {
     display: "flex",

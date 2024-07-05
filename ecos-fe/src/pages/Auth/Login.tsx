@@ -45,6 +45,7 @@ const Login = () => {
         placeHolder: "mirana@ecos.com",
         type: "email",
         StartIcon: EmailRoundedIcon,
+        initialFocused: true,
         validator: validateEmail,
       },
       {
