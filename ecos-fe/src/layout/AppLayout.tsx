@@ -5,8 +5,10 @@ import {
   Backdrop,
   Badge,
   Box,
+  Card,
   IconButton,
   InputBase,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -22,7 +24,7 @@ import { layout } from "../styles/layout.s";
 import { strFormat } from "../global/helpers";
 import GlobalLoader from "../atoms/GlobalLoader";
 import { setSearchDisable } from "../redux/slices/appSlice";
-import AppBackground from "../atoms/AppBackground";
+import { customTheme } from "../global/theme";
 
 const AppLayout = () => {
   const { localLoading, loadingLabel, disableSearch } = useAppSelector(
@@ -43,8 +45,7 @@ const AppLayout = () => {
   }, [dispatch, location]);
 
   return (
-    <>
-      <AppBackground />
+    <ThemeProvider theme={customTheme}>
       <Box sx={layout.container}>
         <Sidebar />
         <Backdrop sx={layout.backdrop} open={localLoading}>
@@ -53,7 +54,7 @@ const AppLayout = () => {
             size="large"
           />
         </Backdrop>
-        <Box sx={layout.content}>
+        <Card sx={layout.content} itemType="animation">
           {!disableSearch && (
             <Box sx={layout.stickyHeader}>
               <InputBase
@@ -100,9 +101,9 @@ const AppLayout = () => {
           <Box sx={layout.innerContent}>
             <Outlet />
           </Box>
-        </Box>
+        </Card>
       </Box>
-    </>
+    </ThemeProvider>
   );
 };
 

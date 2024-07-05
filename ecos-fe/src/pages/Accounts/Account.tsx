@@ -78,7 +78,7 @@ const Account = () => {
                   Account Details
                 </Typography>
 
-                <IconButton onClick={toggleEditing} sx={profile.editIconButton}>
+                <IconButton onClick={toggleEditing} itemType="icon">
                   {enableEditing ? (
                     <SaveRoundedIcon color="inherit" />
                   ) : (
@@ -127,7 +127,7 @@ const Account = () => {
                   Change Password
                 </Typography>
 
-                <IconButton onClick={toggleEditing} sx={profile.editIconButton}>
+                <IconButton onClick={toggleEditing} itemType="icon">
                   {enableEditing ? (
                     <SaveRoundedIcon color="inherit" />
                   ) : (

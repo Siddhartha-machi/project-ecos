@@ -9,26 +9,32 @@ import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { selectConfigType, inputConfigType } from "../../typeDefs/formAtoms";
-import APIClient from "../../api/APIClient";
 import { mockUser } from "../../global/constants";
+import Transaction from "../../api/TransactionClass";
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const { mock } = useAppSelector((store) => store.app);
 
   const submitHandler = async (formData: formReturnTypes) => {
-    const client = new APIClient(mock);
+    const request = new Transaction();
+    let errorMessage = "";
+    request.mock = true;
+    request.transactionType = "get&save";
+    request.path = "user";
+    request.addParameter("payload", formData);
+    request.onSuccess = (data: unknown) => dispatch(setCurrentUser(data));
+    request.onError = (message: string) => (errorMessage = message);
+    await request.execute();
 
-    const response = await client.request({
-      requestType: "get",
-      path: "user",
-      payload: formData,
-    });
-
-    if (response.success) {
-      dispatch(setCurrentUser(response.data));
+    if (mock) {
+      request.transactionType = "modify";
+      request.path = "config.mock";
+      request.addParameter("data", true);
+      await request.execute();
     }
-    return response.message;
+
+    return errorMessage;
   };
 
   const loginFormConfig = React.useMemo<(selectConfigType | inputConfigType)[]>(

@@ -3,6 +3,7 @@ import * as React from "react";
 import { Box, InputBase, MenuItem, Select, Typography } from "@mui/material";
 
 import { formAtom } from "../styles/formAtom.s";
+import { inputBoxProps, selectFieldProps } from "../typeDefs/formAtoms";
 
 export const InputBox = (props: inputBoxProps) => {
   const { label, type, error, placeHolder, value, changeHandler } = props;
@@ -19,18 +20,13 @@ export const InputBox = (props: inputBoxProps) => {
         id={label}
         type={type}
         error={isError}
-        sx={formAtom.inputBox}
         value={value}
         autoFocus={initialFocused}
         onChange={changeHandler}
         onKeyDown={onKeyDown}
         placeholder={placeHolder}
-        fullWidth
         startAdornment={StartIcon && <StartIcon sx={formAtom.startIcon} />}
         endAdornment={EndIcon && <EndIcon />} // --fix
-        inputProps={{
-          style: formAtom.formInputProps,
-        }}
       />
       {isError && <Typography sx={formAtom.errorText}>{error}</Typography>}
     </Box>

@@ -88,9 +88,6 @@ export const profile = createStyles({
     alignItems: "center",
     borderBottom: `1px solid ${theme.white4}`,
   },
-  editIconButton: {
-    color: "#fff",
-  },
   detailsFields: {
     display: "flex",
     flexDirection: "column",

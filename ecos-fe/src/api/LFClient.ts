@@ -1,100 +1,108 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import localforage from "localforage";
-import { isArray } from "../global/helpers";
-import APIClient from "./APIClient";
-import { APPResponse } from "../typeDefs/api";
+import { NullOrUndefined, isArray } from "../global/helpers";
+import { APPResponse, LFCBuildConfig, LFCState } from "../typeDefs/api";
 
 export class LFClient {
-  static #config = {
+  private static config = {
     name: "ecos",
     version: 1.0,
     storeName: "ecos-db",
     description: "Storage for Ecos application",
   };
-  static #storagePaths = ["extensions", "user", "userExtensions"];
 
-  static async #initialLoad() {
-    const mockAPIClient = new APIClient(true);
-    const stored: Array<string> = [];
-
-    for (const path of this.#storagePaths) {
-      const response = await mockAPIClient.request({
-        requestType: "get",
-        path,
-      });
-
-      await LFClient.setAsync(path, response?.data);
-      stored.push(path);
-    }
-
-    await LFClient.setAsync("tables", stored);
-  }
+  private state: LFCState;
+  private active = true;
 
   // Methods
 
-  constructor() {
-    throw new Error("Static class cannot be instantiated");
-  }
-
-  static async buildAsync() {
-    let success = true;
-    try {
-      localforage.config(this.#config); // docs suggest to set config first before doing any kind of ops
-      await this.#deepClean();
-      await this.clean();
-      await this.#initialLoad();
-    } catch {
-      success = false;
+  constructor(config: LFCState) {
+    if (!config) {
+      throw new Error(
+        "Constructor can't be called directly, call build static method"
+      );
     }
-    return success;
+    this.active = true;
+    this.state = config;
   }
 
-  static async #deepClean() {
-    const garbage = [
-      "ecos",
-      "mock-extensions",
-      "ecos-db",
-      "test",
-      "mock-user",
-      "localforage",
-    ];
-    let success = true;
-    try {
-      for (const name of garbage) {
-        await localforage.dropInstance({
-          name,
-        });
-      }
-    } catch {
-      success = false;
+  private async destructor() {
+    await this.clean();
+    this.active = false;
+  }
+
+  static async build(config: LFCBuildConfig) {
+    localforage.config(LFClient.config); // docs suggest to set config first before doing any kind of ops
+    const state: LFCState = {
+      mock: false,
+      currentPaths: ["user", "token"],
+      ...config,
+    };
+    if (state.mock) {
+      state.currentPaths.concat(["extensions", "user", "userExtensions"]);
     }
-    return success;
-  }
-
-  static async isActiveAsync() {
-    let isActive = true;
-    try {
-      const res = await localforage.getItem("tables");
-      if (!res) isActive = false;
-    } catch {
-      isActive = false;
+    const instance = new LFClient(state);
+    const initial = await instance.#isInitial();
+    if (initial) {
+      await instance.clean();
+      await localforage.setItem("config", { initial: true, mock: state.mock });
+      await instance.#updateIndex("config");
     }
-    return isActive;
+    return instance;
   }
 
-  static async clean() {
-    let success = true;
+  private async clean() {
     try {
       await localforage.clear();
-      await localforage.dropInstance({ name: this.#config.name });
+      await localforage.dropInstance({ name: LFClient.config.name });
+      await localforage.dropInstance({ name: "localforage" });
     } catch {
-      success = false;
+      /* empty */
     }
-    return success;
   }
 
-  static async setAsync(path: string, value: unknown): Promise<APPResponse> {
+  async #isInitial() {
+    return NullOrUndefined(await localforage.getItem("config"));
+  }
+
+  private isInstanceActive() {
+    if (!this.active) {
+      throw new Error(
+        "Object is destroyed, recreate a new object with build method"
+      );
+    }
+  }
+
+  async #updateIndex(index: string) {
+    let res = await localforage.getItem("tables");
+    let exists: string | undefined;
+    if (res) {
+      exists = (res as Array<string>).find((item) => item === index);
+      if (exists) {
+        return;
+      }
+    } else {
+      res = [];
+    }
+
+    (res as Array<string>).push(index);
+    await localforage.setItem("tables", res);
+  }
+
+  async findResource(rName: string) {
+    const rList = await localforage.getItem("tables");
+    let result = false;
+    if (rList) {
+      result = !NullOrUndefined(
+        (rList as Array<string>).find((item) => item === rName)
+      );
+    }
+    return result;
+  }
+
+  async setAsync(path: string, value: unknown): Promise<APPResponse> {
+    this.isInstanceActive();
     const paths = path.split(".");
     const end = paths[paths.length - 1];
     const response: APPResponse = {
@@ -134,9 +142,10 @@ export class LFClient {
     }
 
     try {
-      response.success = (await localforage.setItem(paths[0], data))
-        ? true
-        : false;
+      response.success = !NullOrUndefined(
+        await localforage.setItem(paths[0], data)
+      );
+      await this.#updateIndex(paths[0]);
     } catch {
       response.message = "Server couldn't complete update request";
     }
@@ -144,7 +153,8 @@ export class LFClient {
     return response;
   }
 
-  static async getAsync(path: string): Promise<APPResponse> {
+  async getAsync(path: string): Promise<APPResponse> {
+    this.isInstanceActive();
     const paths = path.split(".");
     const response: APPResponse = {
       success: false,

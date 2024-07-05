@@ -1,4 +1,3 @@
-import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
 
@@ -6,7 +5,7 @@ export const toolTip = createStyles({
   container: {
     bgcolor: theme.main0,
     border: theme.borderDark,
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     p: 0,
     backdropFilter: "blur(5px)",
     textAlign: "center",
@@ -23,9 +22,9 @@ export const localHeader = createStyles({
     alignItems: "center",
     justifyContent: "space-between",
     py: "8px",
-    px: 1,
+    px: 1.5,
     gap: 1,
-    borderBottom: theme.border,
+    borderBottom: theme.borderDark,
   },
   titleWrapper: {
     display: "flex",
@@ -47,20 +46,11 @@ export const localHeader = createStyles({
     display: "flex",
     gap: "12px",
   },
-  button: {
-    textTransform: "none",
-    border: theme.borderLight,
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    px: 2,
-    fontWeight: 600,
-    color: theme.white8,
-    fontSize: "13px",
-  },
 });
 
 export const chip = createStyles({
   item: {
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     boxShadow: `0 0 6px 0 ${theme.white1}`,
     border: `1px solid ${theme.white3}`,
     color: theme.white8,
@@ -97,14 +87,14 @@ export const listToolTip = createStyles({
     },
   },
   img: {
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     width: "30px",
     height: "30px",
   },
   fallBackIcon: {
     fontSize: "20px",
     p: "6px",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     border: theme.border,
     color: theme.white3,
   },
@@ -119,7 +109,7 @@ export const listToolTip = createStyles({
     width: "100%",
     py: 1,
     bgcolor: theme.main2,
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     position: "sticky",
@@ -145,7 +135,7 @@ export const listToolTip = createStyles({
     p: "6px 10px",
     mx: 1.5,
     border: "1px solid transparent",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     "&:Hover": {
       bgcolor: theme.mainBackground,
       border: theme.borderDark,
@@ -206,7 +196,7 @@ export const editableTypo = createStyles({
   },
   textField: {
     color: "#fff",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     border: theme.border,
     px: 1.5,
     py: 0.5,

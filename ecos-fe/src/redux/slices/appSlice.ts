@@ -3,7 +3,7 @@ import { appState } from "../../typeDefs/slice";
 
 const initialState: appState = {
   mock: false,
-  loading: false,
+  loading: true,
   localLoading: false,
   disableSearch: true,
   loadingLabel: "",
@@ -12,8 +12,8 @@ const appSlice = createSlice({
   name: "app-slice",
   initialState,
   reducers: {
-    toggleMock: (state) => {
-      state.mock = !state.mock;
+    toggleMock: (state, action) => {
+      state.mock = action.payload || !state.mock;
     },
     appLoading: (state, action) => {
       state.loading = action.payload.loadVal;

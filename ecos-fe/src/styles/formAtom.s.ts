@@ -1,5 +1,5 @@
-import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
+import theme from "../global/theme";
 import { stylesFuncProps } from "../typeDefs/helpers";
 
 export const formAtom = createStyles({
@@ -8,8 +8,7 @@ export const formAtom = createStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    my: 1.2,
-    gap: 2.5,
+    gap: 4,
   },
   loginError: {
     display: "flex",
@@ -20,7 +19,7 @@ export const formAtom = createStyles({
     justifyContent: "center",
     py: 1,
     gap: 1,
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
   },
   formTitle: {
     fontSize: "20px",
@@ -35,7 +34,7 @@ export const formAtom = createStyles({
     textTransform: "none",
     fontWeight: "bold",
     my: 1,
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     "&:disabled": {
       backgroundColor: "rgba(255,255,255,0.3)",
       color: "rgba(255,255,255,0.4)",
@@ -45,11 +44,11 @@ export const formAtom = createStyles({
   inputContainer: {
     display: "flex",
     flexDirection: "column",
-    gap: 1.2,
+    gap: 1,
   },
   inputBox: {
     color: "#fff",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     border: "1px solid #fff",
     "&.Mui-focused": {
       boxShadow: "0 0 10px 0 #fff",
@@ -62,7 +61,7 @@ export const formAtom = createStyles({
   },
   selectBox: {
     color: "#fff",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     border: "1px solid #fff",
     "&.Mui-focused": {
       boxShadow: "0 0 10px 0 #fff",
@@ -99,7 +98,7 @@ export const formAtom = createStyles({
     },
   },
   selectPaperWrap: {
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     bgcolor: "#000",
     border: "1px solid rgba(255,255,255,0.3)",
     color: "#fff",
@@ -112,7 +111,7 @@ export const formAtom = createStyles({
     mx: 1.6,
     my: 0.6,
     fontWeight: "bold",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     "&:Hover": {
       bgcolor: "#fff",
       color: "#000",
@@ -130,10 +129,14 @@ export const formAtom = createStyles({
     padding: "12px 0px 12px 3px",
     marginLeft: "12px",
     fontWeight: "bold",
-    borderTopRightRadius: APP_CONSTATNTS.borderRadius,
-    borderBottomRightRadius: APP_CONSTATNTS.borderRadius,
+    borderTopRightRadius: theme.borderRadius,
+    borderBottomRightRadius: theme.borderRadius,
   },
-
+  fieldsWrap: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 2.5,
+  },
   formLabel: ({ check }: stylesFuncProps) => ({
     fontSize: "14px",
     fontWeight: "bold",

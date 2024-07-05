@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
@@ -8,12 +8,7 @@ import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import ExtensionOffRoundedIcon from "@mui/icons-material/ExtensionOffRounded";
 
-import {
-  AppButton,
-  AppChips,
-  ExtensionActions,
-  LocalHeader,
-} from "../../atoms/AppAtoms";
+import { AppChips, ExtensionActions, LocalHeader } from "../../atoms/AppAtoms";
 import { extensions } from "../../styles/extensions.s";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ROLES } from "../../global/constants";
@@ -75,14 +70,14 @@ const Extensions = () => {
     if (mock) {
       loadMockExtensions([
         {
-          path: "extensions",
-          loading,
-          onSuccess: loadExtensions,
-        },
-        {
           path: "userExtensions",
           loading,
           onSuccess: loadUserExtensions,
+        },
+        {
+          path: "extensions",
+          loading,
+          onSuccess: loadExtensions,
         },
       ]);
     } else {
@@ -100,7 +95,7 @@ const Extensions = () => {
         options={options}
       />
       <Box sx={extensions.content}>
-        <Grid container spacing={{ xs: 1, md: 1 }} sx={{ overflow: "scroll" }}>
+        <Grid container spacing={{ xs: 1, md: 1.5 }} sx={{ overflow: "scroll" }}>
           {state.extensions.map((item, index) => {
             const disabled = item.meta.disabled;
             return (
@@ -112,7 +107,7 @@ const Extensions = () => {
                 lg={3}
                 key={`extension-${index}`}
               >
-                <Box sx={extensions.item({ check: disabled })}>
+                <Card sx={extensions.item({ check: disabled })}>
                   {item.image ? (
                     <Box
                       component={"img"}
@@ -135,16 +130,16 @@ const Extensions = () => {
                       {item.description}
                     </Typography>
                     <AppChips data={item.tags} maxChips={2} />
-                    <AppButton
-                      disableRipple
+                    <Button
+                      variant="text"
                       disabled={disabled}
                       sx={extensions.seeMore}
                       endIcon={<ArrowForwardRoundedIcon />}
                     >
                       See more
-                    </AppButton>
+                    </Button>
                   </Box>
-                </Box>
+                </Card>
               </Grid>
             );
           })}

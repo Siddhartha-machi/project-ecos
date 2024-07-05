@@ -3,11 +3,10 @@ import * as React from "react";
 import {
   Typography,
   Tooltip,
-  Button,
   IconButton,
-  styled,
   TooltipProps,
   InputBase,
+  Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -33,7 +32,6 @@ import {
   toolTip,
 } from "../styles/atom.s";
 import ErrorContainer from "../layout/ErrorContainer";
-import theme from "../global/theme";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { ROLES } from "../global/constants";
 import {
@@ -225,7 +223,7 @@ export const LocalHeader = (props: localHeaderProps) => {
       <Box sx={localHeader.actionsWrapper}>
         {options?.map((action, index) => (
           <Button
-            sx={{ ...localHeader.button }}
+            variant="outlined"
             startIcon={<action.Icon />}
             key={`local-action-${index}`}
           >
@@ -315,16 +313,3 @@ export const RBox = (props: responsiveBox) => {
     </Box>
   );
 };
-// styled components
-export const AppButton = styled(Button)({
-  textTransform: "none",
-  fontWeight: "bold",
-  color: theme.white8,
-  "&:Hover": {
-    backgroundColor: "transparent",
-    color: theme.white10,
-  },
-  "&:disabled": {
-    color: theme.inactive,
-  },
-});

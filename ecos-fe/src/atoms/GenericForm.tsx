@@ -152,38 +152,42 @@ const GenericForm = (props: genericFormProps) => {
             {APIState.error}
           </Typography>
         )}
+
         <Typography sx={formAtom.formTitle}>{formTitle}</Typography>
-        {formState.map((field, index) => {
-          const options = (field as selectConfigType).options;
-          if (options) {
-            const value = (field as selectFieldProps).value;
-            const placeHolder = (field as selectFieldProps).placeHolder;
+
+        <Box sx={formAtom.fieldsWrap}>
+          {formState.map((field, index) => {
+            const options = (field as selectConfigType).options;
+            if (options) {
+              const value = (field as selectFieldProps).value;
+              const placeHolder = (field as selectFieldProps).placeHolder;
+              return (
+                <SelectField
+                  key={`field-${field.label}`}
+                  label={field.label}
+                  value={value}
+                  placeHolder={placeHolder}
+                  options={options}
+                  changeHandler={(e, c) => selectHandler(e, c, index)}
+                />
+              );
+            }
             return (
-              <SelectField
+              <InputBox
                 key={`field-${field.label}`}
                 label={field.label}
-                value={value}
-                placeHolder={placeHolder}
-                options={options}
-                changeHandler={(e, c) => selectHandler(e, c, index)}
+                value={field.value as string}
+                type={(field as inputBoxProps).type}
+                initialFocused={field.initialFocused}
+                changeHandler={(e) => changeHandler(e, index)}
+                onKeyDown={(e) => switchFocus(e, index)}
+                error={field.error}
+                placeHolder={field.placeHolder as string}
+                StartIcon={(field as inputConfigType).StartIcon}
               />
             );
-          }
-          return (
-            <InputBox
-              key={`field-${field.label}`}
-              label={field.label}
-              value={field.value as string}
-              type={(field as inputBoxProps).type}
-              initialFocused={field.initialFocused}
-              changeHandler={(e) => changeHandler(e, index)}
-              onKeyDown={(e) => switchFocus(e, index)}
-              error={field.error}
-              placeHolder={field.placeHolder as string}
-              StartIcon={(field as inputConfigType).StartIcon}
-            />
-          );
-        })}
+          })}
+        </Box>
 
         <Button
           id="signinSubmit"
@@ -192,7 +196,7 @@ const GenericForm = (props: genericFormProps) => {
           disabled={disableSubmit || APIState.loading}
           variant="contained"
           onClick={formSubmitHandler}
-          sx={formAtom.submitButton}
+          sx={{ py: 1.2 }}
         >
           {APIState.loading ? (
             <CircularProgress size="1.4rem" sx={{ color: "#fff", py: 0.1 }} />

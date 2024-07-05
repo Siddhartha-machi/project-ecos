@@ -106,4 +106,3 @@ export const isObject = (value: unknown) =>
 export const isArray = (obj: unknown) => {
   return typeof obj === "object" && obj?.constructor === Array;
 };
-
