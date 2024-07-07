@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { ROLES } from "../../global/constants";
 import { setLocalLoading } from "../../redux/slices/appSlice";
 import { loadFunArgs } from "../../typeDefs/helpers";
-import { loadMockExtensions } from "../../api/mockHandles";
+import { loadMockExtensions } from "../../apiService/mockHandles";
 import {
   setExtensions,
   setUserExtensions,
@@ -94,8 +94,12 @@ const Extensions = () => {
         }
         options={options}
       />
-      <Box sx={extensions.content}>
-        <Grid container spacing={{ xs: 1, md: '12px' }} sx={{ overflow: "scroll" }}>
+      <Paper sx={extensions.content}>
+        <Grid
+          container
+          spacing={{ xs: 1, md: "12px" }}
+          sx={{ overflow: "scroll" }}
+        >
           {state.extensions.map((item, index) => {
             const disabled = item.meta.disabled;
             return (
@@ -107,7 +111,7 @@ const Extensions = () => {
                 lg={3}
                 key={`extension-${index}`}
               >
-                <Card sx={extensions.item({ check: disabled })}>
+                <Paper sx={extensions.item({ check: disabled })}>
                   {item.image ? (
                     <Box
                       component={"img"}
@@ -139,12 +143,12 @@ const Extensions = () => {
                       See more
                     </Button>
                   </Box>
-                </Card>
+                </Paper>
               </Grid>
             );
           })}
         </Grid>
-      </Box>
+      </Paper>
     </Stack>
   );
 };

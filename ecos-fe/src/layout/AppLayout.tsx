@@ -5,9 +5,9 @@ import {
   Backdrop,
   Badge,
   Box,
-  Card,
   IconButton,
   InputBase,
+  Paper,
   ThemeProvider,
   Typography,
 } from "@mui/material";
@@ -46,23 +46,25 @@ const AppLayout = () => {
 
   return (
     <ThemeProvider theme={customTheme}>
+      <Backdrop sx={layout.backdrop} open={localLoading}>
+        <GlobalLoader
+          loadLabel={`Loading ${loadingLabel || ""} please wait...`}
+          size="large"
+        />
+      </Backdrop>
       <Box sx={layout.container}>
         <Sidebar />
-        <Backdrop sx={layout.backdrop} open={localLoading}>
-          <GlobalLoader
-            loadLabel={`Loading ${loadingLabel || ""} please wait...`}
-            size="large"
-          />
-        </Backdrop>
-        <Card sx={layout.content} itemType="animation">
-          {!disableSearch && (
-            <Box sx={layout.stickyHeader}>
-              <InputBase
-                sx={layout.globalSearch}
-                placeholder="Search"
-                startAdornment={<SearchRoundedIcon sx={{ pr: 1 }} />}
-                inputProps={{ "aria-label": "search" }}
-              />
+        <Box sx={layout.content}>
+          <Box sx={layout.stickyHeader}>
+            <InputBase
+              disabled={disableSearch}
+              sx={layout.globalSearch}
+              placeholder="Search"
+              itemType="simple"
+              startAdornment={<SearchRoundedIcon sx={{ pr: 1 }} />}
+              inputProps={{ "aria-label": "search" }}
+            />
+            <Paper sx={layout.userDetailContainer}>
               <IconButton sx={layout.notifications}>
                 <Badge
                   badgeContent={234}
@@ -94,14 +96,17 @@ const AppLayout = () => {
                   </Box>
                 )}
               </Box>
-
-              <Avatar alt="user avatar" src={avatar} sx={layout.avatar} />
-            </Box>
-          )}
+            </Paper>
+            <Avatar
+              alt="user avatar"
+              src={avatar}
+              sx={{ width: "48px", height: "48px" }}
+            />
+          </Box>
           <Box sx={layout.innerContent}>
             <Outlet />
           </Box>
-        </Card>
+        </Box>
       </Box>
     </ThemeProvider>
   );

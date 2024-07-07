@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Card, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import WorkspacesRoundedIcon from "@mui/icons-material/WorkspacesRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -8,6 +8,7 @@ import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../redux/hooks";
@@ -56,11 +57,6 @@ export const Sidebar = () => {
     ];
     const account: sidebarItemType[] = [
       {
-        label: "Settings",
-        path: "/settings",
-        Icon: SettingsRoundedIcon,
-      },
-      {
         label: "Account",
         path: "/account",
         Icon: ManageAccountsRoundedIcon,
@@ -76,8 +72,23 @@ export const Sidebar = () => {
     return actions.concat(account);
   }, [extensions, role, navigate, userExtensions]);
 
+  const userActions = React.useMemo(() => {
+    return [
+      {
+        label: "Settings",
+        path: "/settings",
+        Icon: SettingsRoundedIcon,
+      },
+      {
+        label: "Sign out",
+        path: "/logout",
+        Icon: LogoutRoundedIcon,
+      },
+    ];
+  }, []);
+
   return (
-    <Box sx={sidebar.sideBar}>
+    <Paper sx={sidebar.sideBar}>
       <IconButton
         itemType="icon"
         key={"logo-link"}
@@ -90,7 +101,7 @@ export const Sidebar = () => {
         </Typography>
       </IconButton>
 
-      <Card sx={sidebar.iconsContainer}>
+      <Box sx={sidebar.iconsContainer}>
         {links.map((link, index) => {
           const selected = link.path === location.pathname;
           return (
@@ -109,11 +120,30 @@ export const Sidebar = () => {
                 onClick={() => navigate(link.path)}
               >
                 <link.Icon />
+                {/* <Typography sx={sidebar.sidbarItemText}>
+                  {link.label}
+                </Typography> */}
               </IconButton>
             </AppToolTip>
           );
         })}
-      </Card>
-    </Box>
+      </Box>
+
+      <Box sx={sidebar.userActionsContainer}>
+        {userActions.map((uAction, index) => {
+          const selected = uAction.path === location.pathname;
+          return (
+            <AppToolTip title={uAction.label} key={`user-action-${index}`}>
+              <IconButton
+                itemType={selected ? "active" : "inactive"}
+                onClick={() => navigate(uAction.path)}
+              >
+                <uAction.Icon />
+              </IconButton>
+            </AppToolTip>
+          );
+        })}
+      </Box>
+    </Paper>
   );
 };

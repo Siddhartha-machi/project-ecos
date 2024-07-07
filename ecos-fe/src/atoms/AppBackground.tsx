@@ -36,22 +36,8 @@ const AppBackground = () => {
     //   ))}
     // </div>
     <>
-      {positions.map((position) => (
-        <Box
-          sx={{
-            position: "absolute",
-            width: "100%",
-            height: "50px",
-            // borderRadius: "50%",
-            bgcolor: "green",
-            ...position,
-            "background-image":
-              "radial-gradient(circle at center center, #ffffff, #1868a0), repeating-radial-gradient(circle at center center, #ffffff, #ca4675, 38px, transparent 76px, transparent 38px)",
-
-            "background-blend-mode": "multiply",
-            "background-color": "#1868a0",
-          }}
-        />
+      {positions.map((_, index) => (
+        <Box key={`shape-${index}`} className={`shape${index + 1}`} />
       ))}
     </>
   );

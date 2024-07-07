@@ -2,11 +2,19 @@ import { Fun, errFun, loadFun } from "./helpers";
 
 export type requestType = "get" | "post" | "update" | "delete";
 
-export type storageType = "load" | "save" | "remove" | "modify";
+export type storageType = "load" | "save" | "modify" | "remove";
 
 export type compoundRequestType<R extends requestType, S extends storageType> =
   | `${R}&${S}`
   | `${S}|${R}`;
+
+export type r =
+  | "get&save"
+  | "post&save"
+  | "update&modify"
+  | "delete&remove"
+  | "load|get"
+  | "remove|delete";
 
 export type transactionType =
   | requestType

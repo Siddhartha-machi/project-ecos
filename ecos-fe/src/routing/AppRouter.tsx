@@ -57,9 +57,12 @@ const AppRouter = () => {
           <Route path="*" element={<PageNotFound />} />
         </Route>
         {/* Redirect from auth routes to app routes */}
-        <Route path="/signin" element={<Navigate to={"/"} />} />
-        <Route path="/personal-details" element={<Navigate to={"/"} />} />
-        <Route path="/signup" element={<Navigate to={"/"} />} />
+        <Route path="/signin" element={<Navigate to={"/overview"} />} />
+        <Route
+          path="/personal-details"
+          element={<Navigate to={"/overview"} />}
+        />
+        <Route path="/signup" element={<Navigate to={"/overview"} />} />
       </Routes>
     </BrowserRouter>
   );

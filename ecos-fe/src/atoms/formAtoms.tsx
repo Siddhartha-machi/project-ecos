@@ -7,27 +7,28 @@ import { inputBoxProps, selectFieldProps } from "../typeDefs/formAtoms";
 
 export const InputBox = (props: inputBoxProps) => {
   const { label, type, error, placeHolder, value, changeHandler } = props;
-  const { StartIcon, EndIcon, onKeyDown, initialFocused } = props;
+  const { StartIcon, onKeyDown, initialFocused } = props;
 
   const isError = React.useMemo(() => Boolean(error), [error]);
-  
+
   return (
     <Box sx={formAtom.inputContainer}>
       <Typography sx={formAtom.formLabel({ check: isError })}>
         {label}
       </Typography>
-      <InputBase
-        id={label}
-        type={type}
-        error={isError}
-        value={value}
-        autoFocus={initialFocused}
-        onChange={changeHandler}
-        onKeyDown={onKeyDown}
-        placeholder={placeHolder}
-        startAdornment={StartIcon && <StartIcon sx={formAtom.startIcon} />}
-        endAdornment={EndIcon && <EndIcon />} // --fix
-      />
+      <Box sx={formAtom.fieldContainer}>
+        {StartIcon && <StartIcon sx={formAtom.startIcon} />}
+        <InputBase
+          id={label}
+          type={type}
+          error={isError}
+          value={value}
+          autoFocus={initialFocused}
+          onChange={changeHandler}
+          onKeyDown={onKeyDown}
+          placeholder={placeHolder}
+        />
+      </Box>
       {isError && <Typography sx={formAtom.errorText}>{error}</Typography>}
     </Box>
   );
@@ -47,18 +48,12 @@ export const SelectField = (props: selectFieldProps) => {
         startAdornment={value.Icon && <value.Icon />}
         renderValue={() => value.val}
       >
-        <MenuItem
-          disabled
-          value={placeHolder.val}
-        >
+        <MenuItem disabled value={placeHolder.val}>
           {placeHolder.val}
           {placeHolder.Icon && <placeHolder.Icon />}
         </MenuItem>
         {options.map((item, index) => (
-          <MenuItem
-            key={`select-${index}`}
-            value={item.val}
-          >
+          <MenuItem key={`select-${index}`} value={item.val}>
             {item.Icon && <item.Icon />}
             {item.val}
           </MenuItem>

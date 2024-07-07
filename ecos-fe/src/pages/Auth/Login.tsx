@@ -10,7 +10,7 @@ import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { selectConfigType, inputConfigType } from "../../typeDefs/formAtoms";
 import { mockUser } from "../../global/constants";
-import Transaction from "../../api/TransactionClass";
+import Transaction from "../../apiService/TransactionClass";
 
 const Login = () => {
   const dispatch = useAppDispatch();

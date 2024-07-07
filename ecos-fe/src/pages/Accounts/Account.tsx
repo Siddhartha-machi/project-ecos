@@ -1,6 +1,13 @@
 import React from "react";
 
-import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Box,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
@@ -8,10 +15,14 @@ import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import MaleRoundedIcon from "@mui/icons-material/MaleRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
 
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
+import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
+
 import blankProfile from "../../Assets/img5.jpeg";
 import { ROLES } from "../../global/constants";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { EditableTypography, LocalHeader, RBox } from "../../atoms/AppAtoms";
+import { EditableTypography, LocalHeader } from "../../atoms/AppAtoms";
 import { account, notifs, profile } from "../../styles/account.s";
 import { setLocalLoading } from "../../redux/slices/appSlice";
 import { APIMock } from "../../global/helpers";
@@ -27,6 +38,23 @@ const Account = () => {
     setenableEditing((prev) => !prev);
   };
 
+  const options = React.useMemo(
+    () => [
+      {
+        label: "Filter",
+        Icon: FilterAltRoundedIcon,
+      },
+      {
+        label: "Your extensions",
+        Icon: ReorderRoundedIcon,
+      },
+      {
+        label: "Add new extension",
+        Icon: AddRoundedIcon,
+      },
+    ],
+    []
+  );
   React.useEffect(() => {
     (async function () {
       dispatch(setLocalLoading({ loadVal: true, label: "accounts" }));
@@ -41,9 +69,10 @@ const Account = () => {
       <LocalHeader
         pageTitle={"Account"}
         pageCaption={"View and modify your personal info and more"}
+        options={options}
       />
       <Box sx={account.content}>
-        <RBox breakPoint="xs" sx={profile.container}>
+        <Paper sx={profile.container}>
           <Box sx={profile.header}>
             <Badge
               overlap="circular"
@@ -162,8 +191,8 @@ const Account = () => {
               )}
             </Box>
           </Box>
-        </RBox>
-        <RBox breakPoint="sm" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Notifications</Typography>
           {notifications.length > 0 ? (
             <Box></Box>
@@ -175,8 +204,8 @@ const Account = () => {
               </Typography>
             </Box>
           )}
-        </RBox>
-        <RBox breakPoint="md" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Account actions</Typography>
           <Box sx={notifs.emptyNotifs}>
             <NotificationsNoneRoundedIcon />
@@ -184,8 +213,8 @@ const Account = () => {
               No actions are available at the moment, please try again later.
             </Typography>
           </Box>
-        </RBox>
-        <RBox breakPoint="lg" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Notifications</Typography>
           <Box sx={notifs.emptyNotifs}>
             <NotificationsNoneRoundedIcon />
@@ -193,8 +222,8 @@ const Account = () => {
               You're all caught up! you've no unread notifications
             </Typography>
           </Box>
-        </RBox>
-        <RBox breakPoint="lg" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Notifications</Typography>
           <Box sx={notifs.emptyNotifs}>
             <NotificationsNoneRoundedIcon />
@@ -202,7 +231,7 @@ const Account = () => {
               You're all caught up! you've no unread notifications
             </Typography>
           </Box>
-        </RBox>
+        </Paper>
       </Box>
     </Box>
   );

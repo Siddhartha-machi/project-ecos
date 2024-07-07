@@ -7,6 +7,7 @@ import {
   TooltipProps,
   InputBase,
   Button,
+  Paper,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -213,7 +214,7 @@ export const AppToolTip = (props: TooltipProps) => {
 export const LocalHeader = (props: localHeaderProps) => {
   const { pageTitle, pageCaption, options } = props;
   return (
-    <Box sx={localHeader.container}>
+    <Paper sx={localHeader.container}>
       <Box sx={localHeader.titleWrapper}>
         <AppToolTip title={pageCaption} placement={"bottom"}>
           <Typography sx={localHeader.pageTitle}>{pageTitle}</Typography>
@@ -231,7 +232,7 @@ export const LocalHeader = (props: localHeaderProps) => {
           </Button>
         ))}
       </Box>
-    </Box>
+    </Paper>
   );
 };
 
@@ -289,7 +290,6 @@ export const EditableTypography = (props: editableTypoProps) => {
             size="small"
             value={value}
             type={valueType}
-            // sx={editableTypo.textField}
             onChange={(e) => action(e.target.value)}
           />
         ) : (

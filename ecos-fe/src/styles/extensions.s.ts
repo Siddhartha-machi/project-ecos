@@ -9,20 +9,18 @@ export const extensions = createStyles({
   },
   content: {
     display: "flex",
+    flex: 1,
     overflow: "scroll",
-    m: 1.8,
   },
   item: ({ check }: stylesFuncProps) => ({
     display: "flex",
-    bgcolor: check ? theme.white2 : theme.mainBackground,
     gap: 1,
     color: check ? theme.inactive : theme.white10,
     p: 1.5,
     zIndex: 2000,
     transition: "0.3s ease",
-    border: theme.border,
     "&:Hover": {
-      bgcolor: check ? theme.white2 : theme.main0,
+      bgcolor: check ? "none" : theme.main0,
     },
   }),
   img: ({ check }: stylesFuncProps) => ({
@@ -69,7 +67,6 @@ export const extensions = createStyles({
     },
   },
   seeMore: {
-    mr: "auto",
     fontSize: "10px",
   },
 });

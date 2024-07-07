@@ -22,9 +22,9 @@ export const localHeader = createStyles({
     alignItems: "center",
     justifyContent: "space-between",
     py: "8px",
-    px: 1.5,
+    px: "8px",
     gap: 1,
-    borderBottom: theme.borderDark,
+    my: theme.spacing,
   },
   titleWrapper: {
     display: "flex",

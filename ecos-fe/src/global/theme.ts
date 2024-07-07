@@ -1,18 +1,29 @@
 import { createTheme } from "@mui/material";
+import { APP_CONSTATNTS } from "./constants";
 
 const theme = {
   primary: "#4A90E2",
   primaryBlue: "#23a2f6",
   primaryDark: "#111927",
-  secondary: "#2EA44f",
-  card: "rgba(17, 25, 40, 0.75)",
-  border: "1px solid rgba(255,255,255, 0.5)",
+  secondary: "#2ea44f",
+  inactive: "#4b5663",
+
+  // input field colors
+  iborderClr: "#4b5663",
+  iborder: "1px solid #4b5663",
+  iBgc: "#1f2a37",
+
+  // Error colors
+  redMain: "#ef5350",
+  redLight: "#e57373",
+  redDark: "#b71c1c",
+
+  border: "1px solid rgba(255, 255, 255, 0.125)",
   borderDark: "1px solid rgba(255,255,255, 0.2)",
   borderLight: "1px solid rgba(255,255,255,0.6)",
   blue: "#23a2f6",
   mainBackground: "rgb(146 151 179 / 13%)",
   containerBackground: "#161b22",
-  inactive: "rgba(255, 255, 255, 0.4)",
   shadow: "rgb(146 151 279 / 13%)",
   main0: "rgb(126 131 159 / 8%)",
   main1: "rgb(106 111 139 / 13%)",
@@ -38,7 +49,8 @@ const theme = {
   black9: "rgba(0,0,0,0.9)",
   black10: "rgba(0,0,0,1)",
 
-  borderRadius: "0px",
+  spacing: `${APP_CONSTATNTS.gap}px`,
+  borderRadius: `${APP_CONSTATNTS.radius}px`,
 };
 
 export default theme;
@@ -50,41 +62,19 @@ export const customTheme = createTheme({
         {
           props: { variant: "text" },
           style: {
+            display: "inline-flex",
+            width: "fit-content",
+            padding: 0,
+            color: theme.primaryBlue,
+            backgroundImage: "none",
             backgroundColor: "transparent",
             "&:Hover": {
               backgroundColor: "transparent",
+              transform: "scale(1.02)",
             },
             "&:disabled": {
               color: theme.inactive,
-            },
-          },
-        },
-        {
-          props: { variant: "contained" },
-          style: {
-            color: theme.white9,
-            "&:Hover": {
-              backgroundColor: theme.secondary,
-              color: theme.white10,
-            },
-            "&:disabled": {
-              color: theme.inactive,
-              backgroundColor: theme.white2,
-            },
-          },
-        },
-        {
-          props: { variant: "outlined" },
-          style: {
-            backgroundColor: "transparent",
-            border: `1px solid ${theme.white8}`,
-            "&:Hover": {
-              backgroundColor: theme.secondary,
-              borderColor: "transparent",
-            },
-            "&:disabled": {
-              color: theme.inactive,
-              border: theme.borderDark,
+              backgroundColor: "transparent",
             },
           },
         },
@@ -95,10 +85,20 @@ export const customTheme = createTheme({
           textTransform: "none",
           letterSpacing: "-0.025em",
           fontWeight: "bold",
-          color: theme.white7,
-          borderRadius: "0px",
+          color: theme.white10,
+          backgroundColor: theme.secondary,
+          border: 0,
+          borderRadius: `${APP_CONSTATNTS.radius / 2}px`,
+          backgroundImage:
+            "linear-gradient(180deg,hsla(0,0%,100%,.15),hsla(0,0%,100%,0))",
           "&:Hover": {
+            backgroundColor: theme.secondary,
+            backgroundImage: "none",
+            border: 0,
+          },
+          "&:disabled": {
             color: theme.white10,
+            backgroundColor: theme.inactive,
           },
         },
       },
@@ -162,10 +162,10 @@ export const customTheme = createTheme({
         disableRipple: true,
       },
     },
-    MuiCard: {
+    MuiPaper: {
       variants: [
         {
-          props: { itemType: "animation" },
+          props: { itemType: "animationa" },
           style: {
             border: "1.2px solid",
             borderImage: `conic-gradient(
@@ -188,32 +188,32 @@ export const customTheme = createTheme({
       styleOverrides: {
         root: {
           color: theme.white10,
-          backdropFilter: "blur(16px) saturate(180%)",
-          WebkitBackdropFilter: "blur(16px) saturate(180%)",
-          backgroundColor: theme.card,
+          backdropFilter: "blur(10px) saturate(102%)",
+          WebkitBackdropFilter: "blur(10px) saturate(102%)",
+          backgroundColor: "rgba(29, 78, 129, 0.3)",
           borderRadius: theme.borderRadius,
-          border: "1px solid rgba(255, 255, 255, 0.125)",
+          border: "1px solid rgba(255, 255, 255, 0.125)"
         },
-      },
-      defaultProps: {
-        elevation: 24,
       },
     },
     MuiInputBase: {
       variants: [
         {
           props: {
-            size: "small",
+            itemType: "simple",
           },
           style: {
             padding: "0px 12px",
+            "&.Mui-focused, &:hover": {
+              boxShadow: "none",
+            },
           },
         },
       ],
       styleOverrides: {
         input: {
           "&:-webkit-autofill": {
-            WebkitBoxShadow: "0 0 0 100px #101a2b inset",
+            WebkitBoxShadow: "0 0 0 100px #1f2a37 inset",
             WebkitTextFillColor: theme.white10,
           },
           "::-webkit-calendar-picker-indicator": {
@@ -224,26 +224,27 @@ export const customTheme = createTheme({
           },
         },
         root: {
-          color: "#fff",
+          color: theme.white10,
           borderRadius: theme.borderRadius,
-          backdropFilter: "blur(16px) saturate(180%)",
-          WebkitBackdropFilter: "blur(16px) saturate(180%)",
-          backgroundColor: theme.card,
-          border: `1px solid ${theme.white6}`,
+          backgroundColor: theme.iBgc,
+          border: theme.iborder,
           "&.Mui-focused, &:hover": {
-            border: `1px solid ${theme.white10}`,
-            boxShadow: "0 0 8px 0 #fff",
+            boxShadow: `0 0 4px 0 ${theme.secondary}`,
+            border: `1px solid ${theme.secondary}`,
+            backgroundColor: theme.iborderClr,
           },
           "&.Mui-error": {
             border: "1px solid transparent",
-            borderColor: "error.light",
-            boxShadow: "0 0 10px 0 red",
+            borderColor: theme.redMain,
+            boxShadow: "none", //`0 0 4px 0 ${theme.redMain}`,
           },
         },
       },
       defaultProps: {
+        fullWidth: true,
         inputProps: {
           sx: {
+            display: "flex",
             p: "12px",
             fontWeight: "bold",
             borderRadius: theme.borderRadius,
@@ -323,6 +324,36 @@ export const customTheme = createTheme({
           "&:Hover": {
             backgroundColor: theme.white10,
             color: theme.black10,
+          },
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          borderRadius: theme.borderRadius,
+          padding: 0,
+          border: `1px solid ${theme.white3}`,
+          "&:Hover": {
+            cursor: "pointer",
+          },
+        },
+      },
+    },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          fontSize: "20px",
+          backgroundColor: theme.white3,
+        },
+      },
+    },
+    MuiIcon: {
+      styleOverrides: {
+        root: {
+          ".MuiIcon-root": {
+            fontSize: "105px",
+            backgroundColor: theme.iBgc,
           },
         },
       },

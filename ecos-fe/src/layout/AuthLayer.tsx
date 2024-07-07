@@ -7,7 +7,7 @@ import { MESSAGE } from "../global/constants";
 import { ELHOC } from "./HOCS";
 import { loadFunArgs } from "../typeDefs/helpers";
 import { setCurrentUser } from "../redux/slices/userSlice";
-import { loadUser } from "../api/mockHandles";
+import { loadUser } from "../apiService/mockHandles";
 import { oType } from "../typeDefs/api";
 
 const AppRouter = React.lazy(() => import("../routing/AppRouter"));

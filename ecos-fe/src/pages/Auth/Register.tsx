@@ -15,7 +15,7 @@ import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { selectConfigType, inputConfigType } from "../../typeDefs/formAtoms";
-import APIClient from "../../api/APIClient";
+import APIClient from "../../apiService/APIClient";
 
 const Register = () => {
   const dispatch = useAppDispatch();
