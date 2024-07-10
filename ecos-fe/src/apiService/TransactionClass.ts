@@ -15,9 +15,9 @@ export default class Transaction {
   private config: transactionConfig = { path: "", type: "get" };
   private actions: Array<string> = [];
   private response: APPResponse = { data: null, success: false, message: "" };
-  private LFReponse: APPResponse;
+  private LFReponse: APPResponse = { data: null, success: false, message: "" };
   private ORTransaction = false;
-  private tLock = false;
+  // private tLock = false;
 
   // post execute action handlers
   private errorHandler: errFun | null = null;
@@ -25,7 +25,7 @@ export default class Transaction {
   private setLoading: loadFun = () => {};
 
   private async makeTransaction(type: requestType | storageType) {
-    console.log("Found request :", type);
+    console.log(`Found request ${type} for resource ${this.config.path}`);
 
     switch (type) {
       case "load":
@@ -57,18 +57,16 @@ export default class Transaction {
   }
 
   private geneateActionTypes() {
-    const actionType = this.config.type;
+    const actionType: string = this.config.type;
     this.actions = [actionType];
     if (actionType.length > 6) {
-      let i: number;
-      for (i = 0; i < actionType.length; i++) {
-        if (actionType[i] === "|" || actionType[i] === "&") {
-          this.ORTransaction = actionType[i] === "|";
-          break;
-        }
+      if (actionType.includes("|")) {
+        this.ORTransaction = true;
+        this.actions = actionType.split("|");
+        this.actions.push(this.actions[0]);
+      } else {
+        this.actions = actionType.split("&");
       }
-      this.actions[0] = actionType.substring(0, i);
-      this.actions[1] = actionType.substring(i + 1);
     }
   }
 
@@ -94,21 +92,18 @@ export default class Transaction {
 
     this.geneateActionTypes();
 
-    for (const action of this.actions) {
-      //   if (!this.tLock) {
-      // this.tLock = true;
+    for (let i = 0; i < this.actions.length; i++) {
+      const action = this.actions[i];
       await this.makeTransaction(action as requestType | storageType);
       this.resolveTransaction(action as requestType | storageType);
       if (this.ORTransaction) {
         if (this.response.success) {
-          break;
-        } else {
-          this.actions.push(this.actions[0]);
+          if (i !== 1) {
+            break;
+          }
         }
         this.ORTransaction = false;
       }
-      // this.tLock = false;
-      //   }
     }
 
     if (!multiple) {

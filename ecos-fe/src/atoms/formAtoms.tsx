@@ -23,6 +23,7 @@ export const InputBox = (props: inputBoxProps) => {
           type={type}
           error={isError}
           value={value}
+          itemType={StartIcon ? "withIcon" : undefined}
           autoFocus={initialFocused}
           onChange={changeHandler}
           onKeyDown={onKeyDown}

@@ -8,13 +8,12 @@ export const account = createStyles({
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    overflow: "visible",
   },
   content: {
-    overflow: "visible",
     display: "flex",
     height: "100%",
     gap: theme.spacing,
+    overflow: "scroll",
   },
   accountContainer: {
     display: "flex",

@@ -14,7 +14,6 @@ export const layout = createStyles({
     width: `calc(100% - ${SPACING}px)`,
     gap: theme.spacing,
     m: theme.spacing,
-    overflow: "visible",
   },
 
   content: {
@@ -24,7 +23,6 @@ export const layout = createStyles({
     flex: 1,
     width: `calc(100% - ${CONTENT_RESIDUE}px)`,
     alignItems: "stretch",
-    overflow: "visible",
   },
   stickyHeader: {
     display: "flex",
@@ -83,7 +81,7 @@ export const layout = createStyles({
     flexDirection: "column",
     height: "100%",
     width: "calc(100% - 0px)",
-    overflow: "visible",
+    overflow: "scroll",
   },
 
   // backdrop styles

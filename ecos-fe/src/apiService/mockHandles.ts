@@ -2,7 +2,7 @@ import { multipleTransactionsType } from "../typeDefs/api";
 import { Fun } from "../typeDefs/helpers";
 import Transaction from "./TransactionClass";
 
-export const loadUser = async (args: multipleTransactionsType[]) => {
+export const initialLoad = async (args: multipleTransactionsType[]) => {
   const request = new Transaction();
   request.transactionType = "load";
   for (let index = 0; index < args.length; index++) {

@@ -11,15 +11,18 @@ import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { APP_CONSTATNTS, ROLES } from "../global/constants";
 import { sidebar } from "../styles/layout.s";
 import { AppToolTip, MenuListToolTip } from "../atoms/AppAtoms";
 import { sidebarItemType } from "../typeDefs/atom";
+import { resetUser } from "../redux/slices/userSlice";
 
 export const Sidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const location = useLocation();
+
   const { role } = useAppSelector((store) => store.user.currentUser);
   const state = useAppSelector((store) => store.extension);
   const { extensions, userExtensions } = state;
@@ -83,9 +86,10 @@ export const Sidebar = () => {
         label: "Sign out",
         path: "/logout",
         Icon: LogoutRoundedIcon,
+        handler: () => dispatch(resetUser()),
       },
     ];
-  }, []);
+  }, [dispatch]);
 
   return (
     <Paper sx={sidebar.sideBar}>
@@ -136,7 +140,11 @@ export const Sidebar = () => {
             <AppToolTip title={uAction.label} key={`user-action-${index}`}>
               <IconButton
                 itemType={selected ? "active" : "inactive"}
-                onClick={() => navigate(uAction.path)}
+                onClick={
+                  uAction.handler
+                    ? uAction.handler
+                    : () => navigate(uAction.path)
+                }
               >
                 <uAction.Icon />
               </IconButton>

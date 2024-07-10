@@ -7,7 +7,7 @@ import { MESSAGE } from "../global/constants";
 import { ELHOC } from "./HOCS";
 import { loadFunArgs } from "../typeDefs/helpers";
 import { setCurrentUser } from "../redux/slices/userSlice";
-import { loadUser } from "../apiService/mockHandles";
+import { initialLoad } from "../apiService/mockHandles";
 import { oType } from "../typeDefs/api";
 
 const AppRouter = React.lazy(() => import("../routing/AppRouter"));
@@ -34,10 +34,18 @@ const AuthLayer = () => {
   );
 
   React.useEffect(() => {
-    loadUser([
-      { path: "user", loading: setAppLoading, onSuccess: setUser },
-      { path: "config", loading: setAppLoading, onSuccess: setMock },
-    ]);
+    let cancel = false;
+    if (!cancel) {
+      initialLoad([
+        { path: "user", loading: setAppLoading, onSuccess: setUser },
+        { path: "config", loading: setAppLoading, onSuccess: setMock },
+      ]);
+    }
+    return () => {
+      console.log("cancelled call");
+
+      cancel = true;
+    };
   }, [setAppLoading, dispatch, setUser, setMock]);
 
   // Show a loader while fetching user data in local forage if exists

@@ -8,8 +8,9 @@ const theme = {
   secondary: "#2ea44f",
   inactive: "#4b5663",
 
+  borderColor: "rgba(255, 255, 255, 0.125)",
   // input field colors
-  iborderClr: "#4b5663",
+  iborderClr: "#232b36",
   iborder: "1px solid #4b5663",
   iBgc: "#1f2a37",
 
@@ -192,7 +193,8 @@ export const customTheme = createTheme({
           WebkitBackdropFilter: "blur(10px) saturate(102%)",
           backgroundColor: "rgba(29, 78, 129, 0.3)",
           borderRadius: theme.borderRadius,
-          border: "1px solid rgba(255, 255, 255, 0.125)"
+          border: "1px solid transparent",
+          borderColor: theme.borderColor,
         },
       },
     },
@@ -204,8 +206,18 @@ export const customTheme = createTheme({
           },
           style: {
             padding: "0px 12px",
+          },
+        },
+        {
+          props: {
+            itemType: "withIcon",
+          },
+          style: {
+            borderBottomLeftRadius: 0,
+            borderTopLeftRadius: 0,
             "&.Mui-focused, &:hover": {
-              boxShadow: "none",
+              boxShadow: `0 0 4px 0 ${theme.secondary}`,
+              border: `1px solid ${theme.secondary}`,
             },
           },
         },
@@ -229,14 +241,21 @@ export const customTheme = createTheme({
           backgroundColor: theme.iBgc,
           border: theme.iborder,
           "&.Mui-focused, &:hover": {
-            boxShadow: `0 0 4px 0 ${theme.secondary}`,
             border: `1px solid ${theme.secondary}`,
             backgroundColor: theme.iborderClr,
           },
           "&.Mui-error": {
             border: "1px solid transparent",
             borderColor: theme.redMain,
-            boxShadow: "none", //`0 0 4px 0 ${theme.redMain}`,
+            boxShadow: `0 0 4px 0 ${theme.redMain}`,
+          },
+          "&.Mui-disabled": {
+            borderColor: theme.borderColor,
+            backgroundColor: theme.iborderClr,
+            color: theme.white1,
+          },
+          "&.Mui-disabled input::placeholder": {
+            WebkitTextFillColor: theme.white3,
           },
         },
       },
@@ -345,16 +364,6 @@ export const customTheme = createTheme({
         root: {
           fontSize: "20px",
           backgroundColor: theme.white3,
-        },
-      },
-    },
-    MuiIcon: {
-      styleOverrides: {
-        root: {
-          ".MuiIcon-root": {
-            fontSize: "105px",
-            backgroundColor: theme.iBgc,
-          },
         },
       },
     },

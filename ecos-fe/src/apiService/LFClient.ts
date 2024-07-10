@@ -159,7 +159,7 @@ export class LFClient {
     const response: APPResponse = {
       success: false,
       data: null,
-      message: "Resource not found",
+      message: `Resource ${path} not found`,
     };
     try {
       let data = await localforage.getItem(paths[0]);

@@ -24,7 +24,10 @@ const userSlice = createSlice({
       return state;
     },
     resetUser: (state) => {
-      state.currentUser = { ...initialState.currentUser };
+      state.currentUser = {
+        ...initialState.currentUser,
+        role: ROLES.unauthenticated,
+      };
       return state;
     },
     setUsersList: (state, action) => {

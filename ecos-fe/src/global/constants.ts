@@ -10,7 +10,7 @@ export enum ROLES {
 export const APP_CONSTATNTS = {
   backGround: "linear-gradient(to right,#243b55,#141e30)",
   gap: 16,
-  radius: 12,
+  radius: 10,
   appName: "ECOS",
   appIcon: GiAtomicSlashes,
   sidebarWidth: 75,

@@ -4,17 +4,12 @@ export type requestType = "get" | "post" | "update" | "delete";
 
 export type storageType = "load" | "save" | "modify" | "remove";
 
-export type compoundRequestType<R extends requestType, S extends storageType> =
-  | `${R}&${S}`
-  | `${S}|${R}`;
-
-export type r =
+export type compoundRequestType =
   | "get&save"
   | "post&save"
   | "update&modify"
   | "delete&remove"
-  | "load|get"
-  | "remove|delete";
+  | "load|get";
 
 export type transactionType =
   | requestType

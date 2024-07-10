@@ -55,6 +55,7 @@ const Account = () => {
     ],
     []
   );
+
   React.useEffect(() => {
     (async function () {
       dispatch(setLocalLoading({ loadVal: true, label: "accounts" }));
