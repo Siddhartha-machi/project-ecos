@@ -14,10 +14,18 @@ export const APP_CONSTATNTS = {
   appName: "ECOS",
   appIcon: GiAtomicSlashes,
   sidebarWidth: 75,
+  cellWidth: 130,
 };
 
 export const MESSAGE = {
   auth: "Taking you to authentication page...",
+};
+
+export const request = {
+  NOT_FOUND: "Requested resource not found.",
+  REQUEST_FAILED: "Unable to complete request.",
+  INVALID_DATA: "Request made with Iinvalid or incomplete data.",
+  SUCCESS: "",
 };
 
 export const mockUser = {
@@ -28,3 +36,9 @@ export const mockUser = {
 };
 
 export const MOCK_TOKEN = "<mock_token#465382>";
+
+export enum transactionMode {
+  EXTERNAL_RESOURCE_REQ = 1,
+  STORAGE_REQ = 2,
+  RESOURCE_UPDATE_REQ = 3,
+}

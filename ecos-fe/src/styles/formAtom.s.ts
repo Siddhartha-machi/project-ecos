@@ -1,4 +1,3 @@
-import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
 import { stylesFuncProps } from "../typeDefs/helpers";
@@ -55,7 +54,7 @@ export const formAtom = createStyles({
     py: "11.5px",
     px: "15px",
     border: theme.iborder,
-    borderRadius: `${APP_CONSTATNTS.radius / 2}px`,
+    borderRadius: theme.borderRadius,
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
     borderRight: 0,

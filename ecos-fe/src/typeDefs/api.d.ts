@@ -1,20 +1,10 @@
 import { Fun, errFun, loadFun } from "./helpers";
 
-export type requestType = "get" | "post" | "update" | "delete";
+export type HTTPMethod = "get" | "post" | "update" | "delete";
 
-export type storageType = "load" | "save" | "modify" | "remove";
+export type storageMethod = "load" | "save" | "modify" | "remove";
 
-export type compoundRequestType =
-  | "get&save"
-  | "post&save"
-  | "update&modify"
-  | "delete&remove"
-  | "load|get";
-
-export type transactionType =
-  | requestType
-  | storageType
-  | compoundRequestType<requestType, storageType>;
+export type transactionType = HTTPMethod | storageMethod;
 
 export interface requestArgs {
   path: string;
@@ -40,6 +30,20 @@ export interface oType {
     | oType;
 }
 
+// Transaction class type definitions
+
+export type transactionType = HTTPMethod | storageMethod;
+export interface requestParametersType {
+  type: transactionType;
+  url: string;
+  payload?: oType;
+  queryParams?: oType;
+  noCacheUpdate?: boolean;
+}
+
+export interface transactionState {
+  mode: transactionMode;
+}
 export interface transactionActions {
   onSuccess?: Fun;
   onError?: errFun;
@@ -54,12 +58,25 @@ export interface multipleTransactionsType extends transactionActions {
 export interface transactionConfig {
   path: string;
   type: transactionType;
-  memoPath?: string;
+  isCacheRequest: boolean;
+  isCacheFail: boolean;
+  actions: Array<string>;
+  payload: unknown;
+  loadLabel: string;
   mock?: boolean;
-  memorize?: boolean;
 }
 
-export interface LFCState extends transactionConfig {
-  currentPaths: Array<string>;
+// Local forage client type definitions
+export interface DBState {
+  storeName: string;
+  tables: Array<string>;
+  wasInactive: boolean;
+  resource: unknown;
 }
-export interface LFCBuildConfig extends transactionConfig {}
+
+export interface storageParams {
+  bypass: boolean;
+  method: storageMethod;
+  paths: Array<string>;
+  payload: unknown;
+}

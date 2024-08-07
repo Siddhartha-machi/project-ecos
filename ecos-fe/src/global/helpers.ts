@@ -106,3 +106,15 @@ export const isObject = (value: unknown) =>
 export const isArray = (obj: unknown) => {
   return typeof obj === "object" && obj?.constructor === Array;
 };
+
+export const isEmpty = (value: unknown) => {
+  const _isArray = isArray(value) && (value as Array<unknown>).length > 0;
+  const _isObj = isObject(value) && Object.keys(value as object).length > 0;
+  return NullOrUndefined(value) || !_isArray || !_isObj;
+};
+
+export const isAlpha = (str: string) => {
+  return str.match(/[a-z][A-Z]/) !== null;
+};
+
+

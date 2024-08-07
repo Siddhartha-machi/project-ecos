@@ -9,6 +9,7 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import SupportRoundedIcon from "@mui/icons-material/SupportRounded";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -17,6 +18,7 @@ import { sidebar } from "../styles/layout.s";
 import { AppToolTip, MenuListToolTip } from "../atoms/AppAtoms";
 import { sidebarItemType } from "../typeDefs/atom";
 import { resetUser } from "../redux/slices/userSlice";
+import { togglePortal } from "../redux/slices/saveProtalSlice";
 
 export const Sidebar = () => {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ export const Sidebar = () => {
 
   const { role } = useAppSelector((store) => store.user.currentUser);
   const state = useAppSelector((store) => store.extension);
+  const { enable } = useAppSelector((store) => store.savePortal);
+
   const { extensions, userExtensions } = state;
 
   const links = React.useMemo(() => {
@@ -78,18 +82,23 @@ export const Sidebar = () => {
   const userActions = React.useMemo(() => {
     return [
       {
+        label: "Save portal",
+        Icon: SupportRoundedIcon,
+        active: enable,
+        handler: () => dispatch(togglePortal()),
+      },
+      {
         label: "Settings",
         path: "/settings",
         Icon: SettingsRoundedIcon,
       },
       {
         label: "Sign out",
-        path: "/logout",
         Icon: LogoutRoundedIcon,
         handler: () => dispatch(resetUser()),
       },
     ];
-  }, [dispatch]);
+  }, [dispatch, enable]);
 
   return (
     <Paper sx={sidebar.sideBar}>
@@ -135,7 +144,7 @@ export const Sidebar = () => {
 
       <Box sx={sidebar.userActionsContainer}>
         {userActions.map((uAction, index) => {
-          const selected = uAction.path === location.pathname;
+          const selected = uAction.active || uAction.path === location.pathname;
           return (
             <AppToolTip title={uAction.label} key={`user-action-${index}`}>
               <IconButton

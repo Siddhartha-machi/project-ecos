@@ -1,8 +1,9 @@
 import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
+import { stylesFuncProps } from "../typeDefs/helpers";
 
-const CONTENT_RESIDUE = APP_CONSTATNTS.sidebarWidth;
+const CONTENT_RESIDUE = APP_CONSTATNTS.sidebarWidth + APP_CONSTATNTS.gap;
 const SPACING = APP_CONSTATNTS.gap * 2;
 
 export const layout = createStyles({
@@ -12,6 +13,7 @@ export const layout = createStyles({
     position: "absolute",
     inset: 0,
     width: `calc(100% - ${SPACING}px)`,
+    height: `calc(100vh - ${SPACING}px)`,
     gap: theme.spacing,
     m: theme.spacing,
   },
@@ -24,6 +26,17 @@ export const layout = createStyles({
     width: `calc(100% - ${CONTENT_RESIDUE}px)`,
     alignItems: "stretch",
   },
+
+  savePortalContainer: ({ check }: stylesFuncProps) => ({
+    display: check ? "flex" : "none",
+    position: "relative",
+    flexDirection: "column",
+    flex: 1,
+    width: `calc(100% - ${CONTENT_RESIDUE / 2.5}px)`,
+    alignItems: "stretch",
+    backgroundColor: "transparent",
+    transition: "0.3s ease",
+  }),
   stickyHeader: {
     display: "flex",
     position: "sticky",
@@ -96,7 +109,8 @@ export const sidebar = createStyles({
   sideBar: {
     display: "flex",
     flexDirection: "column",
-    width: APP_CONSTATNTS.sidebarWidth,
+    maxWidth: `${APP_CONSTATNTS.sidebarWidth}px`,
+    minWidth: `${APP_CONSTATNTS.sidebarWidth}px`,
     gap: 1,
     borderRadius: theme.borderRadius,
     py: 1,

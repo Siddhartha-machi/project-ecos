@@ -1,10 +1,12 @@
 import * as React from "react";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { UsersList } from "../pages/Users/Index";
+import Overview from "../pages/Overview/Overview";
 
 const PageNotFound = React.lazy(() => import("../layout/PageNotFound"));
 const PermLayer = React.lazy(() => import("../layout/PermLayer"));
-const Overview = React.lazy(() => import("../pages/Overview/Overview"));
+// const Overview = React.lazy(() => import("../pages/Overview/Overview"));
 const UnderProgress = React.lazy(() => import("../layout/UnderProgress"));
 const AppLayout = React.lazy(() => import("../layout/AppLayout"));
 const Extensions = React.lazy(() => import("../pages/Extensions/Extensions"));
@@ -24,10 +26,7 @@ const AppRouter = () => {
             path="settings"
             element={<PermLayer Component={UnderProgress} />}
           />
-          <Route
-            path="users"
-            element={<PermLayer Component={UnderProgress} />}
-          />
+          <Route path="users" element={<PermLayer Component={UsersList} />} />
           <Route path="account" element={<PermLayer Component={Account} />} />
           <Route
             path="logout"

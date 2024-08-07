@@ -1,15 +1,8 @@
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
+import { stylesFuncProps } from "../typeDefs/helpers";
 
 export const toolTip = createStyles({
-  container: {
-    bgcolor: theme.main0,
-    border: theme.borderDark,
-    borderRadius: theme.borderRadius,
-    p: 0,
-    backdropFilter: "blur(5px)",
-    textAlign: "center",
-  },
   title: {
     fontSize: "14px",
     fontWeight: "bold",
@@ -49,19 +42,12 @@ export const localHeader = createStyles({
 });
 
 export const chip = createStyles({
-  item: {
-    borderRadius: theme.borderRadius,
-    boxShadow: `0 0 6px 0 ${theme.white1}`,
-    border: `1px solid ${theme.white3}`,
-    color: theme.white8,
-    bgcolor: theme.white1,
-    p: "3px 8px",
-    fontSize: "9px",
-  },
   container: {
     display: "flex",
-    flexWrap: "wrap",
+    flexWrap: "nowrap",
+    overflow: "hidden",
     gap: 0.8,
+    maxWidth: "100%",
   },
 });
 
@@ -193,5 +179,45 @@ export const editableTypo = createStyles({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+});
+
+export const dialog = createStyles({
+  actionContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    position: "absolute",
+    left: 0,
+    top: 0,
+    gap: 1,
+    p: "8px 12px",
+  },
+  title: {
+    py: 0.3,
+    m: 0,
+    textAlign: "center",
+    bgcolor: theme.primaryBgc,
+    fontSize: "15px",
+    borderBottom: theme.border,
+  },
+  footer: {
+    pr: 2,
+    py: 1,
+  },
+  actionButton: ({ value }: stylesFuncProps) => ({
+    color: theme.white3,
+    bgcolor: value || "transparent",
+    p: 0,
+    borderRadius: theme.borderRadius,
+    border: "1px solid",
+    "&:Hover": {
+      color: theme.white10,
+      bgcolor: value || "transparent",
+    },
+  }),
+  icon: {
+    color: "inherit",
+    fontSize: "12px",
   },
 });

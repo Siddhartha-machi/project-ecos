@@ -10,23 +10,15 @@ import ExtensionOffRoundedIcon from "@mui/icons-material/ExtensionOffRounded";
 
 import { AppChips, ExtensionActions, LocalHeader } from "../../atoms/AppAtoms";
 import { extensions } from "../../styles/extensions.s";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 import { ROLES } from "../../global/constants";
-import { setLocalLoading } from "../../redux/slices/appSlice";
-import { loadFunArgs } from "../../typeDefs/helpers";
-import { loadMockExtensions } from "../../apiService/mockHandles";
-import {
-  setExtensions,
-  setUserExtensions,
-} from "../../redux/slices/extensionSlice";
+import { extensionType } from "../../typeDefs/extension";
 
 const Extensions = () => {
-  const dispatch = useAppDispatch();
   const admin = useAppSelector(
     (store) => store.user.currentUser.role === ROLES.admin
   );
-  const { mock } = useAppSelector((store) => store.app);
-  const state = useAppSelector((store) => store.extension);
+
   const options = React.useMemo(
     () => [
       {
@@ -44,47 +36,7 @@ const Extensions = () => {
     ],
     []
   );
-
-  const loading = React.useCallback(
-    (args: loadFunArgs) => {
-      dispatch(setLocalLoading(args));
-    },
-    [dispatch]
-  );
-
-  const loadExtensions = React.useCallback(
-    (data: unknown) => {
-      dispatch(setExtensions(data));
-    },
-    [dispatch]
-  );
-
-  const loadUserExtensions = React.useCallback(
-    (data: unknown) => {
-      dispatch(setUserExtensions(data));
-    },
-    [dispatch]
-  );
-
-  React.useEffect(() => {
-    if (mock) {
-      loadMockExtensions([
-        {
-          path: "userExtensions",
-          loading,
-          onSuccess: loadUserExtensions,
-        },
-        {
-          path: "extensions",
-          loading,
-          onSuccess: loadExtensions,
-        },
-      ]);
-    } else {
-      // --api conversion
-    }
-  }, [mock, loading, loadExtensions, loadUserExtensions]);
-
+  const data: extensionType[] = [];
   return (
     <Stack sx={extensions.container}>
       <LocalHeader
@@ -94,13 +46,13 @@ const Extensions = () => {
         }
         options={options}
       />
-      <Paper sx={extensions.content}>
+      <Box sx={extensions.content}>
         <Grid
           container
           spacing={{ xs: 1, md: "12px" }}
           sx={{ overflow: "scroll" }}
         >
-          {state.extensions.map((item, index) => {
+          {data.map((item, index) => {
             const disabled = item.meta.disabled;
             return (
               <Grid
@@ -111,7 +63,10 @@ const Extensions = () => {
                 lg={3}
                 key={`extension-${index}`}
               >
-                <Paper sx={extensions.item({ check: disabled })}>
+                <Paper
+                  key={`extension-${index}`}
+                  sx={extensions.item({ check: disabled })}
+                >
                   {item.image ? (
                     <Box
                       component={"img"}
@@ -148,7 +103,7 @@ const Extensions = () => {
             );
           })}
         </Grid>
-      </Paper>
+      </Box>
     </Stack>
   );
 };

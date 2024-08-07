@@ -2,12 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { appState } from "../../typeDefs/slice";
 
 const initialState: appState = {
-  mock: false,
-  loading: true,
+  mock: true, // --fix
+  loading: false,
   localLoading: false,
   disableSearch: true,
   loadingLabel: "",
 };
+
 const appSlice = createSlice({
   name: "app-slice",
   initialState,

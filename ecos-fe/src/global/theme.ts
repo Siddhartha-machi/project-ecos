@@ -7,6 +7,8 @@ const theme = {
   primaryDark: "#111927",
   secondary: "#2ea44f",
   inactive: "#4b5663",
+  primaryBgc: "rgba(29, 78, 129, 0.3)",
+  bgDark: "#111927",
 
   borderColor: "rgba(255, 255, 255, 0.125)",
   // input field colors
@@ -14,6 +16,10 @@ const theme = {
   iborder: "1px solid #4b5663",
   iBgc: "#1f2a37",
 
+  // Colors
+  green: "#13a987",
+  yellow: "#f59e0b",
+  red: "#d81e5b",
   // Error colors
   redMain: "#ef5350",
   redLight: "#e57373",
@@ -57,6 +63,15 @@ const theme = {
 export default theme;
 
 export const customTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: theme.white1,
+    },
+    secondary: {
+      main: "rgba(0,255,0,1)",
+    },
+  },
   components: {
     MuiButton: {
       variants: [
@@ -89,7 +104,7 @@ export const customTheme = createTheme({
           color: theme.white10,
           backgroundColor: theme.secondary,
           border: 0,
-          borderRadius: `${APP_CONSTATNTS.radius / 2}px`,
+          borderRadius: theme.borderRadius,
           backgroundImage:
             "linear-gradient(180deg,hsla(0,0%,100%,.15),hsla(0,0%,100%,0))",
           "&:Hover": {
@@ -155,7 +170,7 @@ export const customTheme = createTheme({
             backgroundColor: theme.secondary,
           },
           "&:disabled": {
-            color: theme.inactive,
+            color: theme.white5,
           },
         },
       },
@@ -191,7 +206,7 @@ export const customTheme = createTheme({
           color: theme.white10,
           backdropFilter: "blur(10px) saturate(102%)",
           WebkitBackdropFilter: "blur(10px) saturate(102%)",
-          backgroundColor: "rgba(29, 78, 129, 0.3)",
+          backgroundColor: theme.primaryBgc,
           borderRadius: theme.borderRadius,
           border: "1px solid transparent",
           borderColor: theme.borderColor,
@@ -365,6 +380,34 @@ export const customTheme = createTheme({
           fontSize: "20px",
           backgroundColor: theme.white3,
         },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: theme.main0,
+          border: theme.borderDark,
+          borderRadius: theme.borderRadius,
+          padding: 0,
+          backdropFilter: "blur(5px)",
+          textAlign: "center",
+        },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: theme.borderRadius,
+          boxShadow: `0 0 6px 0 ${theme.white1}`,
+          border: `1px solid ${theme.white3}`,
+          color: theme.white8,
+          bgcolor: theme.white1,
+          p: "3px 8px",
+          fontSize: "9px",
+        },
+      },
+      defaultProps: {
+        size: "small",
       },
     },
   },

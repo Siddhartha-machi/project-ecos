@@ -14,10 +14,7 @@ import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import MaleRoundedIcon from "@mui/icons-material/MaleRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
-
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
-import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
 
 import blankProfile from "../../Assets/img5.jpeg";
 import { ROLES } from "../../global/constants";
@@ -44,14 +41,14 @@ const Account = () => {
         label: "Filter",
         Icon: FilterAltRoundedIcon,
       },
-      {
-        label: "Your extensions",
-        Icon: ReorderRoundedIcon,
-      },
-      {
-        label: "Add new extension",
-        Icon: AddRoundedIcon,
-      },
+      // {
+      //   label: "Your extensions",
+      //   Icon: ReorderRoundedIcon,
+      // },
+      // {
+      //   label: "Add new extension",
+      //   Icon: AddRoundedIcon,
+      // },
     ],
     []
   );

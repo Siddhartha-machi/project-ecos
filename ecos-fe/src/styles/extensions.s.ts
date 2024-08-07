@@ -9,18 +9,21 @@ export const extensions = createStyles({
   },
   content: {
     display: "flex",
-    flex: 1,
-    overflow: "scroll",
+    flexWrap: "wrap",
+    overflowY: "scroll",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   item: ({ check }: stylesFuncProps) => ({
     display: "flex",
+    justifyContent: "stretch",
     gap: 1,
     color: check ? theme.inactive : theme.white10,
     p: 1.5,
-    zIndex: 2000,
+    zIndex: 0,
     transition: "0.3s ease",
     "&:Hover": {
-      bgcolor: check ? "none" : theme.main0,
+      bgcolor: check ? "none" : theme.primaryDark,
     },
   }),
   img: ({ check }: stylesFuncProps) => ({

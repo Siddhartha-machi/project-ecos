@@ -12,7 +12,7 @@ import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { inputConfigType, selectConfigType } from "../../typeDefs/formAtoms";
-import APIClient from "../../apiService/APIClient";
+import APIClient from "../../services/APIClient";
 
 const PDForm = () => {
   const dispatch = useAppDispatch();
