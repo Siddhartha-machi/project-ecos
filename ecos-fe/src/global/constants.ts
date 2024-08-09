@@ -1,12 +1,5 @@
 import { GiAtomicSlashes } from "@react-icons/all-files/gi/GiAtomicSlashes";
 
-export enum ROLES {
-  unauthenticated = "",
-  admin = "admin",
-  club_admin = "club_admin",
-  user = "user",
-}
-
 export const APP_CONSTATNTS = {
   backGround: "linear-gradient(to right,#243b55,#141e30)",
   gap: 16,
@@ -36,6 +29,14 @@ export const mockUser = {
 };
 
 export const MOCK_TOKEN = "<mock_token#465382>";
+
+// Enums
+export enum ROLES {
+  unauthenticated = "",
+  admin = "admin",
+  club_admin = "club_admin",
+  user = "user",
+}
 
 export enum transactionMode {
   EXTERNAL_RESOURCE_REQ = 1,

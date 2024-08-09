@@ -10,8 +10,8 @@ const PageNotFound = React.lazy(() => import("./PageNotFound"));
 
 const PermLayer = (props) => {
   const { adminView, Component } = props;
-  const { role } = useAppSelector((store) => store.user.currentUser);
-
+  const role = ROLES.admin;
+// 
   if (adminView && role !== ROLES.admin) {
     return <PageNotFound />;
   }

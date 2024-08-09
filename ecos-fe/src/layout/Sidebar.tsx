@@ -25,11 +25,12 @@ export const Sidebar = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const { role } = useAppSelector((store) => store.user.currentUser);
-  const state = useAppSelector((store) => store.extension);
+  const { role } = { role: "" }; // useAppSelector((store) => store.user.currentUser);
+  const state = useAppSelector((store) => store.extensions);
   const { enable } = useAppSelector((store) => store.savePortal);
 
-  const { extensions, userExtensions } = state;
+  const extensions = [],
+    userExtensions = [];
 
   const links = React.useMemo(() => {
     const actions: sidebarItemType[] = [

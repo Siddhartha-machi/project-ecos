@@ -9,7 +9,7 @@ const AppRouter = React.lazy(() => import("../routing/AppRouter"));
 const AuthRouter = React.lazy(() => import("../routing/AuthRoutes"));
 
 const AuthLayer = () => {
-  const { role, active } = useAppSelector((store) => store.user.currentUser);
+  // const state = useAppSelector((store) => store.user); 
   const { loading } = useAppSelector((store) => store.app);
 
   // Show a loader while fetching user data in local forage if exists
@@ -20,7 +20,7 @@ const AuthLayer = () => {
   }
 
   // Load auth router if the no role found or user is not active
-  if (!role || !active) {
+  if (false) {
     return (
       <ELHOC loadingLabel={MESSAGE.auth}>
         <AuthRouter />

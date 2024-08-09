@@ -153,11 +153,15 @@ export default class Storage {
 
   private _setVal() {
     try {
-      this._store.resource = _.set(
-        this._store.resource as object,
-        _.slice(this.state.paths, 1),
-        this.state.payload
-      );
+      if (this.state.paths[1]) {
+        this._store.resource = _.set(
+          this._store.resource as object,
+          _.slice(this.state.paths, 1),
+          this.state.payload
+        );
+      } else {
+        this._store.resource = this.state.payload;
+      }
     } catch {
       this.throwError(request.REQUEST_FAILED);
     }

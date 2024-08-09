@@ -40,3 +40,5 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const { setCurrentUser, resetUser, setUsersList } = userSlice.actions;
+
+/// ---depricated

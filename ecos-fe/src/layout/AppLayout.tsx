@@ -32,7 +32,7 @@ const AppLayout = () => {
   );
   const location = useLocation().pathname;
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((store) => store.user.currentUser);
+  const currentUser = { first_name: "", last_name: "", role: "" };
   const { enable } = useAppSelector((store) => store.savePortal);
 
   const { first_name, last_name, role } = currentUser;
