@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseQueryFn } from "../../typeDefs/api";
 
 const BASE_URL = "http://localhost:3000";
 
@@ -9,9 +10,21 @@ export enum HTTP {
   DELETE = "DELETE",
 }
 
+const baseQueryWithAuth =
+  (path: string): baseQueryFn =>
+  async (args, api, extraOptions = {}) => {
+    const result = await fetchBaseQuery({ baseUrl: BASE_URL + path })(
+      args,
+      api,
+      extraOptions
+    );
+
+    return { ...result, res: "my response message" };
+  };
+
 const ExtensionAPI = createApi({
   reducerPath: "extensions",
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL + "/extensions" }),
+  baseQuery: baseQueryWithAuth("/extensions"),
   tagTypes: ["extensions", "extensionDetail"],
   endpoints: (builder) => ({
     getExtensions: builder.query({

@@ -72,6 +72,15 @@ export const customTheme = createTheme({
       main: "rgba(0,255,0,1)",
     },
   },
+  breakpoints: {
+    values: {
+      xs: 300, // phone
+      sm: 600, // tablets
+      md: 900, // small laptop
+      lg: 1200, // desktop
+      xl: 1536, // large screens
+    },
+  },
   components: {
     MuiButton: {
       variants: [
@@ -181,7 +190,7 @@ export const customTheme = createTheme({
     MuiPaper: {
       variants: [
         {
-          props: { itemType: "animationa" },
+          props: { itemType: "animation" },
           style: {
             border: "1.2px solid",
             borderImage: `conic-gradient(
@@ -408,6 +417,11 @@ export const customTheme = createTheme({
       },
       defaultProps: {
         size: "small",
+      },
+    },
+    MuiSkeleton: {
+      defaultProps: {
+        animation: "wave",
       },
     },
   },

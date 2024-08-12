@@ -80,3 +80,9 @@ export interface storageParams {
   paths: Array<string>;
   payload: unknown;
 }
+
+export type baseQueryFn = BaseQueryFn<
+  string | FetchArgs,
+  unknown,
+  FetchBaseQueryError
+>;

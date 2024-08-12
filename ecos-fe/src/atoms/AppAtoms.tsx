@@ -16,6 +16,8 @@ import {
   DialogActions,
   SxProps,
   IconButtonProps,
+  Skeleton,
+  useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -44,18 +46,18 @@ import {
   editableTypo,
   listToolTip,
   localHeader,
+  skeleton,
   toolTip,
 } from "../styles/atom.s";
 import ErrorContainer from "../layout/ErrorContainer";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { ROLES } from "../global/constants";
+import { useAppDispatch } from "../redux/hooks";
 import {
   toggleExtension,
   toggleFromCollection,
 } from "../redux/slices/extensionSlice";
 import Draggable from "react-draggable";
 import { voidFun } from "../typeDefs/helpers";
-import theme from "../global/theme";
+import theme, { customTheme } from "../global/theme";
 
 // Custom components
 const SimpleToolTip = ({ data }: { data: string }) => {
@@ -65,9 +67,7 @@ const SimpleToolTip = ({ data }: { data: string }) => {
 export const MenuListToolTip = (props: listToolTipItemType) => {
   const { title, option, data } = props;
 
-  const admin = useAppSelector(
-    (store) => store.user.currentUser.role === ROLES.admin
-  );
+  const admin = false;
 
   if (data.length < 1) {
     return (
@@ -225,24 +225,37 @@ export const AppToolTip = (props: TooltipProps) => {
 
 export const LocalHeader = (props: localHeaderProps) => {
   const { pageTitle, pageCaption, options } = props;
+  const aboveXS = useMediaQuery(customTheme.breakpoints.up("sm"));
+
   return (
     <Paper sx={localHeader.container}>
       <Box sx={localHeader.titleWrapper}>
         <AppToolTip title={pageCaption} placement={"bottom"}>
           <Typography sx={localHeader.pageTitle}>{pageTitle}</Typography>
         </AppToolTip>
-        <Typography sx={localHeader.pageCaption}>{pageCaption}</Typography>
+        {aboveXS && (
+          <Typography sx={localHeader.pageCaption}>{pageCaption}</Typography>
+        )}
       </Box>
       <Box sx={localHeader.actionsWrapper}>
-        {options?.map((action, index) => (
-          <Button
-            variant="outlined"
-            startIcon={<action.Icon />}
-            key={`local-action-${index}`}
-          >
-            {action.label}
-          </Button>
-        ))}
+        {options?.map((action, index) => {
+          if (aboveXS) {
+            return (
+              <Button
+                variant="outlined"
+                startIcon={<action.Icon />}
+                key={`local-action-${index}`}
+              >
+                {action.label}
+              </Button>
+            );
+          }
+          return (
+            <IconButton key={`local-action-${index}`}>
+              <action.Icon />
+            </IconButton>
+          );
+        })}
       </Box>
     </Paper>
   );
@@ -449,6 +462,10 @@ const _DraggableBox = (props: PaperProps) => {
       <Paper {...props} />
     </Draggable>
   );
+};
+
+export const AppSkeletons = ({ type }) => {
+  return <Skeleton sx={skeleton[type]} />;
 };
 
 // work in progress components

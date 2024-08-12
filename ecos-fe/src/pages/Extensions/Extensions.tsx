@@ -8,14 +8,19 @@ import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import ExtensionOffRoundedIcon from "@mui/icons-material/ExtensionOffRounded";
 
-import { AppChips, ExtensionActions, LocalHeader } from "../../atoms/AppAtoms";
+import {
+  AppChips,
+  AppSkeletons,
+  ExtensionActions,
+  LocalHeader,
+} from "../../atoms/AppAtoms";
 import { extensions } from "../../styles/extensions.s";
+import { extensionType } from "../../typeDefs/extension";
 import { ExtensionAPI } from "../../redux/services/APIService";
 
-const Extensions = () => {
-  const admin = true;
-  const { isLoading, isSuccess, data } = ExtensionAPI.useGetExtensionsQuery({});
+const dataFetcher = ExtensionAPI.useGetExtensionsQuery;
 
+const Extensions = () => {
   const options = React.useMemo(
     () => [
       {
@@ -33,40 +38,79 @@ const Extensions = () => {
     ],
     []
   );
-  if (isLoading) {
-    return <Box>Loading... please wait</Box>;
-  }
-  if (isSuccess)
-    return (
-      <Stack sx={extensions.container}>
-        <LocalHeader
-          pageTitle={"Extensions"}
-          pageCaption={
-            "Add any extension that suits or remove that doesn't suits your requirements!"
-          }
-          options={options}
-        />
-        <Box sx={extensions.content}>
+  const admin = true;
+  const { isLoading, isError, data } = dataFetcher({});
+
+  // private components
+  const _Skeleton = React.useMemo(() => {
+    return Array.from(Array(5)).map((_, i) => (
+      <Grid item xs={12} sm={6} md={4} lg={3} key={`data-skel-${i}`}>
+        <Box sx={extensions.skGridItem}>
+          <AppSkeletons type={"avatar"} />
+          <Box sx={extensions.skGridItemRight}>
+            <AppSkeletons type={"title"} />
+            <AppSkeletons type={"text"} />
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <AppSkeletons type={"chip"} />
+              <AppSkeletons type={"chip"} />
+              <AppSkeletons type={"chip"} />
+            </Box>
+            <AppSkeletons type={"textButton"} />
+          </Box>
+        </Box>
+      </Grid>
+    ));
+  }, []);
+
+  // --- fix
+  // const status = React.useMemo(() => {
+  //   let _status;
+  //   if (error && 'data' in error) {
+  //     _status = statusCodeToMessage(error.status, "extension");
+  //   }
+  //   return _status;
+  // }, [error]);
+
+  return (
+    <Stack sx={extensions.container}>
+      <LocalHeader
+        pageTitle={"Extensions"}
+        pageCaption={
+          "Add any extension that suits or remove that doesn't suits your requirements!"
+        }
+        options={options}
+      />
+      <Box sx={extensions.content}>
+        {isLoading ? (
           <Grid
             container
             spacing={{ xs: 1, md: "12px" }}
-            sx={{ overflow: "scroll" }}
+            sx={extensions.gridContainer}
           >
-            {data.map((item, index) => {
+            {_Skeleton}
+          </Grid>
+        ) : isError ? (
+          <Box sx={{}}>
+            <Typography>Something went wrong...</Typography>
+          </Box>
+        ) : (
+          <Grid
+            container
+            spacing={{ xs: 1, md: "12px" }}
+            sx={extensions.gridContainer}
+          >
+            {(data as extensionType[]).map((item, index) => {
               const disabled = item.meta.disabled;
               return (
                 <Grid
                   item
                   xs={12}
-                  sm={8}
+                  sm={6}
                   md={4}
                   lg={3}
                   key={`extension-${index}`}
                 >
-                  <Paper
-                    key={`extension-${index}`}
-                    sx={extensions.item({ check: disabled })}
-                  >
+                  <Paper sx={extensions.item({ check: disabled })}>
                     {item.image ? (
                       <Box
                         component={"img"}
@@ -103,9 +147,10 @@ const Extensions = () => {
               );
             })}
           </Grid>
-        </Box>
-      </Stack>
-    );
+        )}
+      </Box>
+    </Stack>
+  );
 };
 
 export default Extensions;

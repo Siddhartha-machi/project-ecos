@@ -107,7 +107,7 @@ export const layout = createStyles({
 
 export const sidebar = createStyles({
   sideBar: {
-    display: "flex",
+    display: { xs: "none", sm: "flex" },
     flexDirection: "column",
     maxWidth: `${APP_CONSTATNTS.sidebarWidth}px`,
     minWidth: `${APP_CONSTATNTS.sidebarWidth}px`,

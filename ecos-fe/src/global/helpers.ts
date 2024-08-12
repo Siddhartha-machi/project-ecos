@@ -1,5 +1,8 @@
 import { SxProps } from "@mui/material";
-
+import ReportIcon from "@mui/icons-material/Report";
+import AirIcon from "@mui/icons-material/Air";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AddTaskIcon from "@mui/icons-material/AddTask";
 import { strFormatArgsType, stylesFuncProps } from "../typeDefs/helpers";
 
 export function createStyles<
@@ -117,4 +120,40 @@ export const isAlpha = (str: string) => {
   return str.match(/[a-z][A-Z]/) !== null;
 };
 
+export const statusCodeToMessage = (
+  code: number = 500,
+  label: string = "Resource"
+) => {
+  const _config = {
+    msg: "Request completed successfully",
+    result: "success",
+    Icon: CheckCircleIcon,
+  };
+  switch (code) {
+    case 200:
+      break;
+    case 201:
+      _config.msg = `${label} created successfully.`;
+      _config.Icon = AddTaskIcon;
+      break;
+    case 204:
+      _config.msg = `${label} deleted successfully.`;
+      break;
+    case 400:
+      _config.msg = "Invalid or bad data";
+      _config.result = "fail";
+      break;
+    case 404:
+      _config.msg = `No ${label}s data found with current filters. Try changing or resetting them.`;
+      _config.result = "fail";
+      _config.Icon = AirIcon;
+      break;
+    default:
+      _config.msg =
+        "Uh oh! something went seriously wrong on our end. We'll fix this issue ASAP.";
+      _config.result = "error";
+      _config.Icon = ReportIcon;
+  }
 
+  return _config;
+};

@@ -221,3 +221,45 @@ export const dialog = createStyles({
     fontSize: "12px",
   },
 });
+
+export const dataBox = createStyles({
+  icon: { fontSize: "100px" },
+  title: { fontSize: "25px", fontWeight: "bold" },
+  msg: { fontSize: "16px", fontWeight: "bold", textAlign: "center" },
+});
+
+export const skeleton = createStyles({
+  avatar: {
+    width: "50px",
+    height: "50px",
+    transform: "unset",
+    borderRadius: theme.borderRadius,
+  },
+  text: {
+    display: "flex",
+    height: "50px",
+    transform: "unset",
+  },
+  title: {
+    display: "flex",
+    flex: 1,
+    transform: "unset",
+  },
+  button: {
+    display: "flex",
+    flex: 1,
+    height: "30px",
+  },
+  chip: {
+    display: "flex",
+    height: "35px",
+    flex: 1,
+    borderRadius: "15px",
+  },
+  textButton: {
+    display: "flex",
+    width: "80px",
+    height: "20px",
+    transform: "unset",
+  },
+});

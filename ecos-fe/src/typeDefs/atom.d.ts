@@ -102,3 +102,10 @@ export type AppDialogProps = {
 export interface anyObject {
   [k: string]: unknown;
 }
+
+type dataQueryReturnType = {
+  isError: boolean;
+  isLoading: boolean;
+  error: unknown;
+  data: unknown;
+};

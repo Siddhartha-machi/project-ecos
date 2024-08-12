@@ -18,15 +18,23 @@ import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 
 import blankProfile from "../../Assets/img5.jpeg";
 import { ROLES } from "../../global/constants";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { EditableTypography, LocalHeader } from "../../atoms/AppAtoms";
 import { account, notifs, profile } from "../../styles/account.s";
-import { setLocalLoading } from "../../redux/slices/appSlice";
-import { APIMock } from "../../global/helpers";
 
 const Account = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((store) => store.user.currentUser);
+  // const user = useAppSelector((store) => store.user.currentUser); -- hardcode user until API is ready
+  const user = {
+    first_name: "Mirana",
+    last_name: "Love",
+    joined_date: "12th July 2012",
+    active: true,
+    username: "mirana@love",
+    email: "mirana@ecos.com",
+    role: "user",
+    password: "Mirana#2847",
+  };
   const [enableEditing, setenableEditing] = React.useState<boolean>(false);
 
   const [notifications, setNotifications] = React.useState([]);
@@ -55,10 +63,7 @@ const Account = () => {
 
   React.useEffect(() => {
     (async function () {
-      dispatch(setLocalLoading({ loadVal: true, label: "accounts" }));
-      await APIMock();
       setNotifications([]);
-      dispatch(setLocalLoading({ loadVal: false, label: "accounts" }));
     })();
   }, [dispatch]);
 
