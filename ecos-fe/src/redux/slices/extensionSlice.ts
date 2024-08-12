@@ -5,6 +5,7 @@ const initialState: extensionState = {
   extensions: [],
   userExtensions: [],
 };
+
 const extensionSlice = createSlice({
   name: "extension-slice",
   initialState,

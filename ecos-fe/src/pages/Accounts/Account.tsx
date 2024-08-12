@@ -1,24 +1,40 @@
 import React from "react";
 
-import { Avatar, Badge, Box, IconButton, Typography } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Box,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import PhotoCameraRoundedIcon from "@mui/icons-material/PhotoCameraRounded";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
 import SaveRoundedIcon from "@mui/icons-material/SaveRounded";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import MaleRoundedIcon from "@mui/icons-material/MaleRounded";
 import NotificationsNoneRoundedIcon from "@mui/icons-material/NotificationsNoneRounded";
+import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 
 import blankProfile from "../../Assets/img5.jpeg";
 import { ROLES } from "../../global/constants";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { EditableTypography, LocalHeader, RBox } from "../../atoms/AppAtoms";
+import { useAppDispatch } from "../../redux/hooks";
+import { EditableTypography, LocalHeader } from "../../atoms/AppAtoms";
 import { account, notifs, profile } from "../../styles/account.s";
-import { setLocalLoading } from "../../redux/slices/appSlice";
-import { APIMock } from "../../global/helpers";
 
 const Account = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((store) => store.user.currentUser);
+  // const user = useAppSelector((store) => store.user.currentUser); -- hardcode user until API is ready
+  const user = {
+    first_name: "Mirana",
+    last_name: "Love",
+    joined_date: "12th July 2012",
+    active: true,
+    username: "mirana@love",
+    email: "mirana@ecos.com",
+    role: "user",
+    password: "Mirana#2847",
+  };
   const [enableEditing, setenableEditing] = React.useState<boolean>(false);
 
   const [notifications, setNotifications] = React.useState([]);
@@ -27,12 +43,27 @@ const Account = () => {
     setenableEditing((prev) => !prev);
   };
 
+  const options = React.useMemo(
+    () => [
+      {
+        label: "Filter",
+        Icon: FilterAltRoundedIcon,
+      },
+      // {
+      //   label: "Your extensions",
+      //   Icon: ReorderRoundedIcon,
+      // },
+      // {
+      //   label: "Add new extension",
+      //   Icon: AddRoundedIcon,
+      // },
+    ],
+    []
+  );
+
   React.useEffect(() => {
     (async function () {
-      dispatch(setLocalLoading({ loadVal: true, label: "accounts" }));
-      await APIMock();
       setNotifications([]);
-      dispatch(setLocalLoading({ loadVal: false, label: "accounts" }));
     })();
   }, [dispatch]);
 
@@ -41,9 +72,10 @@ const Account = () => {
       <LocalHeader
         pageTitle={"Account"}
         pageCaption={"View and modify your personal info and more"}
+        options={options}
       />
       <Box sx={account.content}>
-        <RBox breakPoint="xs" sx={profile.container}>
+        <Paper sx={profile.container}>
           <Box sx={profile.header}>
             <Badge
               overlap="circular"
@@ -78,7 +110,7 @@ const Account = () => {
                   Account Details
                 </Typography>
 
-                <IconButton onClick={toggleEditing} sx={profile.editIconButton}>
+                <IconButton onClick={toggleEditing} itemType="icon">
                   {enableEditing ? (
                     <SaveRoundedIcon color="inherit" />
                   ) : (
@@ -127,7 +159,7 @@ const Account = () => {
                   Change Password
                 </Typography>
 
-                <IconButton onClick={toggleEditing} sx={profile.editIconButton}>
+                <IconButton onClick={toggleEditing} itemType="icon">
                   {enableEditing ? (
                     <SaveRoundedIcon color="inherit" />
                   ) : (
@@ -162,8 +194,8 @@ const Account = () => {
               )}
             </Box>
           </Box>
-        </RBox>
-        <RBox breakPoint="sm" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Notifications</Typography>
           {notifications.length > 0 ? (
             <Box></Box>
@@ -175,8 +207,8 @@ const Account = () => {
               </Typography>
             </Box>
           )}
-        </RBox>
-        <RBox breakPoint="md" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Account actions</Typography>
           <Box sx={notifs.emptyNotifs}>
             <NotificationsNoneRoundedIcon />
@@ -184,8 +216,8 @@ const Account = () => {
               No actions are available at the moment, please try again later.
             </Typography>
           </Box>
-        </RBox>
-        <RBox breakPoint="lg" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Notifications</Typography>
           <Box sx={notifs.emptyNotifs}>
             <NotificationsNoneRoundedIcon />
@@ -193,8 +225,8 @@ const Account = () => {
               You're all caught up! you've no unread notifications
             </Typography>
           </Box>
-        </RBox>
-        <RBox breakPoint="lg" sx={account.inContainer}>
+        </Paper>
+        <Paper sx={account.inContainer}>
           <Typography sx={account.inHeader}>Notifications</Typography>
           <Box sx={notifs.emptyNotifs}>
             <NotificationsNoneRoundedIcon />
@@ -202,7 +234,7 @@ const Account = () => {
               You're all caught up! you've no unread notifications
             </Typography>
           </Box>
-        </RBox>
+        </Paper>
       </Box>
     </Box>
   );

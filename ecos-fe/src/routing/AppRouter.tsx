@@ -1,10 +1,12 @@
 import * as React from "react";
 
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { UsersList } from "../pages/Users/Index";
+import Overview from "../pages/Overview/Overview";
 
 const PageNotFound = React.lazy(() => import("../layout/PageNotFound"));
 const PermLayer = React.lazy(() => import("../layout/PermLayer"));
-const Overview = React.lazy(() => import("../pages/Overview/Overview"));
+// const Overview = React.lazy(() => import("../pages/Overview/Overview"));
 const UnderProgress = React.lazy(() => import("../layout/UnderProgress"));
 const AppLayout = React.lazy(() => import("../layout/AppLayout"));
 const Extensions = React.lazy(() => import("../pages/Extensions/Extensions"));
@@ -24,10 +26,7 @@ const AppRouter = () => {
             path="settings"
             element={<PermLayer Component={UnderProgress} />}
           />
-          <Route
-            path="users"
-            element={<PermLayer Component={UnderProgress} />}
-          />
+          <Route path="users" element={<PermLayer Component={UsersList} />} />
           <Route path="account" element={<PermLayer Component={Account} />} />
           <Route
             path="logout"
@@ -57,9 +56,12 @@ const AppRouter = () => {
           <Route path="*" element={<PageNotFound />} />
         </Route>
         {/* Redirect from auth routes to app routes */}
-        <Route path="/signin" element={<Navigate to={"/"} />} />
-        <Route path="/personal-details" element={<Navigate to={"/"} />} />
-        <Route path="/signup" element={<Navigate to={"/"} />} />
+        <Route path="/signin" element={<Navigate to={"/overview"} />} />
+        <Route
+          path="/personal-details"
+          element={<Navigate to={"/overview"} />}
+        />
+        <Route path="/signup" element={<Navigate to={"/overview"} />} />
       </Routes>
     </BrowserRouter>
   );

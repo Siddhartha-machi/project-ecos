@@ -1,4 +1,3 @@
-import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
 import { stylesFuncProps } from "../typeDefs/helpers";
@@ -10,25 +9,22 @@ export const extensions = createStyles({
   },
   content: {
     display: "flex",
-    overflow: "scroll",
-    m: 1.8,
+    overflowY: "scroll",
   },
   item: ({ check }: stylesFuncProps) => ({
     display: "flex",
-    bgcolor: check ? theme.white2 : theme.mainBackground,
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    overflow: "hidden",
     gap: 1,
     color: check ? theme.inactive : theme.white10,
     p: 1.5,
-    zIndex: 2000,
+    zIndex: 0,
     transition: "0.3s ease",
-    border: theme.border,
     "&:Hover": {
-      bgcolor: check ? theme.white2 : theme.main0,
+      bgcolor: check ? "none" : theme.primaryDark,
     },
   }),
   img: ({ check }: stylesFuncProps) => ({
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     width: "50px",
     height: "50px",
     opacity: check ? 0.3 : 1,
@@ -36,7 +32,7 @@ export const extensions = createStyles({
   fallBackIcon: {
     fontSize: "30px",
     p: "9px",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     border: "1px solid",
     borderColor: "inherit",
   },
@@ -71,10 +67,25 @@ export const extensions = createStyles({
     },
   },
   seeMore: {
-    mr: "auto",
-    p: 0,
-    pt: 0.3,
     fontSize: "10px",
-    color: "inherit",
+  },
+  gridContainer: {
+    direction: "row",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    overflow: "scroll",
+  },
+  skGridItem: {
+    display: "flex",
+    p: 1.5,
+    borderRadius: theme.borderRadius,
+    border: `1px solid ${theme.white1}`,
+  },
+  skGridItemRight: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    gap: 1,
+    pl: 1,
   },
 });

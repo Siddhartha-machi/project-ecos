@@ -12,7 +12,7 @@ import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { inputConfigType, selectConfigType } from "../../typeDefs/formAtoms";
-import APIClient from "../../api/APIClient";
+import APIClient from "../../services/APIClient";
 
 const PDForm = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +39,7 @@ const PDForm = () => {
         value: "",
         placeHolder: "Mirana Blake",
         type: "text",
-        focus: true,
+        initialFocused: true,
         StartIcon: EmailRoundedIcon,
       },
       {

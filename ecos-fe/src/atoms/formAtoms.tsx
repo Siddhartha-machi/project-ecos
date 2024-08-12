@@ -3,10 +3,11 @@ import * as React from "react";
 import { Box, InputBase, MenuItem, Select, Typography } from "@mui/material";
 
 import { formAtom } from "../styles/formAtom.s";
+import { inputBoxProps, selectFieldProps } from "../typeDefs/formAtoms";
 
 export const InputBox = (props: inputBoxProps) => {
   const { label, type, error, placeHolder, value, changeHandler } = props;
-  const { StartIcon, EndIcon, onKeyDown, initialFocused } = props;
+  const { StartIcon, onKeyDown, initialFocused } = props;
 
   const isError = React.useMemo(() => Boolean(error), [error]);
 
@@ -15,23 +16,20 @@ export const InputBox = (props: inputBoxProps) => {
       <Typography sx={formAtom.formLabel({ check: isError })}>
         {label}
       </Typography>
-      <InputBase
-        id={label}
-        type={type}
-        error={isError}
-        sx={formAtom.inputBox}
-        value={value}
-        autoFocus={initialFocused}
-        onChange={changeHandler}
-        onKeyDown={onKeyDown}
-        placeholder={placeHolder}
-        fullWidth
-        startAdornment={StartIcon && <StartIcon sx={formAtom.startIcon} />}
-        endAdornment={EndIcon && <EndIcon />} // --fix
-        inputProps={{
-          style: formAtom.formInputProps,
-        }}
-      />
+      <Box sx={formAtom.fieldContainer}>
+        {StartIcon && <StartIcon sx={formAtom.startIcon} />}
+        <InputBase
+          id={label}
+          type={type}
+          error={isError}
+          value={value}
+          itemType={StartIcon ? "withIcon" : undefined}
+          autoFocus={initialFocused}
+          onChange={changeHandler}
+          onKeyDown={onKeyDown}
+          placeholder={placeHolder}
+        />
+      </Box>
       {isError && <Typography sx={formAtom.errorText}>{error}</Typography>}
     </Box>
   );
@@ -48,32 +46,15 @@ export const SelectField = (props: selectFieldProps) => {
         required
         value={value.val}
         onChange={changeHandler}
-        sx={formAtom.selectBox}
-        MenuProps={{
-          sx: formAtom.selectOpWrap,
-          slotProps: {
-            paper: {
-              sx: formAtom.selectPaperWrap,
-            },
-          },
-        }}
         startAdornment={value.Icon && <value.Icon />}
         renderValue={() => value.val}
       >
-        <MenuItem
-          disabled
-          value={placeHolder.val}
-          sx={formAtom.selectItemDisabled}
-        >
+        <MenuItem disabled value={placeHolder.val}>
           {placeHolder.val}
           {placeHolder.Icon && <placeHolder.Icon />}
         </MenuItem>
         {options.map((item, index) => (
-          <MenuItem
-            key={`select-${index}`}
-            sx={formAtom.selectItem}
-            value={item.val}
-          >
+          <MenuItem key={`select-${index}`} value={item.val}>
             {item.Icon && <item.Icon />}
             {item.val}
           </MenuItem>

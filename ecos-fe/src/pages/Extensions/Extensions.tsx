@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Grid, Paper, Stack, Typography } from "@mui/material";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import ReorderRoundedIcon from "@mui/icons-material/ReorderRounded";
@@ -9,29 +9,18 @@ import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import ExtensionOffRoundedIcon from "@mui/icons-material/ExtensionOffRounded";
 
 import {
-  AppButton,
   AppChips,
+  AppSkeletons,
   ExtensionActions,
   LocalHeader,
 } from "../../atoms/AppAtoms";
 import { extensions } from "../../styles/extensions.s";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { ROLES } from "../../global/constants";
-import { setLocalLoading } from "../../redux/slices/appSlice";
-import { loadFunArgs } from "../../typeDefs/helpers";
-import { loadMockExtensions } from "../../api/mockHandles";
-import {
-  setExtensions,
-  setUserExtensions,
-} from "../../redux/slices/extensionSlice";
+import { extensionType } from "../../typeDefs/extension";
+import { ExtensionAPI } from "../../redux/services/APIService";
+
+const dataFetcher = ExtensionAPI.useGetExtensionsQuery;
 
 const Extensions = () => {
-  const dispatch = useAppDispatch();
-  const admin = useAppSelector(
-    (store) => store.user.currentUser.role === ROLES.admin
-  );
-  const { mock } = useAppSelector((store) => store.app);
-  const state = useAppSelector((store) => store.extension);
   const options = React.useMemo(
     () => [
       {
@@ -49,46 +38,38 @@ const Extensions = () => {
     ],
     []
   );
+  const admin = true;
+  const { isLoading, isError, data } = dataFetcher({});
 
-  const loading = React.useCallback(
-    (args: loadFunArgs) => {
-      dispatch(setLocalLoading(args));
-    },
-    [dispatch]
-  );
+  // private components
+  const _Skeleton = React.useMemo(() => {
+    return Array.from(Array(5)).map((_, i) => (
+      <Grid item xs={12} sm={6} md={4} lg={3} key={`data-skel-${i}`}>
+        <Box sx={extensions.skGridItem}>
+          <AppSkeletons type={"avatar"} />
+          <Box sx={extensions.skGridItemRight}>
+            <AppSkeletons type={"title"} />
+            <AppSkeletons type={"text"} />
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <AppSkeletons type={"chip"} />
+              <AppSkeletons type={"chip"} />
+              <AppSkeletons type={"chip"} />
+            </Box>
+            <AppSkeletons type={"textButton"} />
+          </Box>
+        </Box>
+      </Grid>
+    ));
+  }, []);
 
-  const loadExtensions = React.useCallback(
-    (data: unknown) => {
-      dispatch(setExtensions(data));
-    },
-    [dispatch]
-  );
-
-  const loadUserExtensions = React.useCallback(
-    (data: unknown) => {
-      dispatch(setUserExtensions(data));
-    },
-    [dispatch]
-  );
-
-  React.useEffect(() => {
-    if (mock) {
-      loadMockExtensions([
-        {
-          path: "extensions",
-          loading,
-          onSuccess: loadExtensions,
-        },
-        {
-          path: "userExtensions",
-          loading,
-          onSuccess: loadUserExtensions,
-        },
-      ]);
-    } else {
-      // --api conversion
-    }
-  }, [mock, loading, loadExtensions, loadUserExtensions]);
+  // --- fix
+  // const status = React.useMemo(() => {
+  //   let _status;
+  //   if (error && 'data' in error) {
+  //     _status = statusCodeToMessage(error.status, "extension");
+  //   }
+  //   return _status;
+  // }, [error]);
 
   return (
     <Stack sx={extensions.container}>
@@ -100,55 +81,73 @@ const Extensions = () => {
         options={options}
       />
       <Box sx={extensions.content}>
-        <Grid container spacing={{ xs: 1, md: 1 }} sx={{ overflow: "scroll" }}>
-          {state.extensions.map((item, index) => {
-            const disabled = item.meta.disabled;
-            return (
-              <Grid
-                item
-                xs={12}
-                sm={8}
-                md={4}
-                lg={3}
-                key={`extension-${index}`}
-              >
-                <Box sx={extensions.item({ check: disabled })}>
-                  {item.image ? (
-                    <Box
-                      component={"img"}
-                      sx={extensions.img({ check: disabled })}
-                      src={item.image}
-                    />
-                  ) : item.meta.disabled ? (
-                    <ExtensionOffRoundedIcon sx={extensions.fallBackIcon} />
-                  ) : (
-                    <ExtensionRoundedIcon sx={extensions.fallBackIcon} />
-                  )}
-                  <Box sx={extensions.right}>
-                    <Box sx={extensions.rightTop}>
-                      <Typography sx={extensions.title}>
-                        {item.title}
+        {isLoading ? (
+          <Grid
+            container
+            spacing={{ xs: 1, md: "12px" }}
+            sx={extensions.gridContainer}
+          >
+            {_Skeleton}
+          </Grid>
+        ) : isError ? (
+          <Box sx={{}}>
+            <Typography>Something went wrong...</Typography>
+          </Box>
+        ) : (
+          <Grid
+            container
+            spacing={{ xs: 1, md: "12px" }}
+            sx={extensions.gridContainer}
+          >
+            {(data as extensionType[]).map((item, index) => {
+              const disabled = item.meta.disabled;
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={`extension-${index}`}
+                >
+                  <Paper sx={extensions.item({ check: disabled })}>
+                    {item.image ? (
+                      <Box
+                        component={"img"}
+                        sx={extensions.img({ check: disabled })}
+                        src={item.image}
+                      />
+                    ) : item.meta.disabled ? (
+                      <ExtensionOffRoundedIcon sx={extensions.fallBackIcon} />
+                    ) : (
+                      <ExtensionRoundedIcon sx={extensions.fallBackIcon} />
+                    )}
+                    <Box sx={extensions.right}>
+                      <Box sx={extensions.rightTop}>
+                        <Typography sx={extensions.title}>
+                          {item.title}
+                        </Typography>
+                        <ExtensionActions data={item} privileged={admin} />
+                      </Box>
+                      <Typography sx={extensions.description}>
+                        {item.description}
                       </Typography>
-                      <ExtensionActions data={item} privileged={admin} />
+                      <AppChips data={item.tags} maxChips={2} />
+                      <Button
+                        variant="text"
+                        disabled={disabled}
+                        sx={extensions.seeMore}
+                        endIcon={<ArrowForwardRoundedIcon />}
+                      >
+                        See more
+                      </Button>
                     </Box>
-                    <Typography sx={extensions.description}>
-                      {item.description}
-                    </Typography>
-                    <AppChips data={item.tags} maxChips={2} />
-                    <AppButton
-                      disableRipple
-                      disabled={disabled}
-                      sx={extensions.seeMore}
-                      endIcon={<ArrowForwardRoundedIcon />}
-                    >
-                      See more
-                    </AppButton>
-                  </Box>
-                </Box>
-              </Grid>
-            );
-          })}
-        </Grid>
+                  </Paper>
+                </Grid>
+              );
+            })}
+          </Grid>
+        )}
       </Box>
     </Stack>
   );

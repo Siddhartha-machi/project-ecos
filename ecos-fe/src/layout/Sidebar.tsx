@@ -1,34 +1,43 @@
 import * as React from "react";
 
-import { Box, IconButton, Stack, Typography } from "@mui/material";
-import { MdDashboard } from "@react-icons/all-files/md/MdDashboard";
-import { IoSettings } from "@react-icons/all-files/io5/IoSettings";
-import { MdAccountCircle } from "@react-icons/all-files/md/MdAccountCircle";
-import { CgUserList } from "@react-icons/all-files/cg/CgUserList";
+import { Box, IconButton, Paper, Typography } from "@mui/material";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
 import WorkspacesRoundedIcon from "@mui/icons-material/WorkspacesRounded";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
+import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import SupportRoundedIcon from "@mui/icons-material/SupportRounded";
 
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { APP_CONSTATNTS, ROLES } from "../global/constants";
 import { sidebar } from "../styles/layout.s";
 import { AppToolTip, MenuListToolTip } from "../atoms/AppAtoms";
 import { sidebarItemType } from "../typeDefs/atom";
+import { resetUser } from "../redux/slices/userSlice";
+import { togglePortal } from "../redux/slices/saveProtalSlice";
 
 export const Sidebar = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const { role } = useAppSelector((store) => store.user.currentUser);
-  const state = useAppSelector((store) => store.extension);
-  const { extensions, userExtensions } = state;
+
+  const { role } = { role: "" }; // useAppSelector((store) => store.user.currentUser);
+  const state = useAppSelector((store) => store.extensions);
+  const { enable } = useAppSelector((store) => store.savePortal);
+
+  const extensions = [],
+    userExtensions = [];
 
   const links = React.useMemo(() => {
     const actions: sidebarItemType[] = [
       {
         label: "Overview",
         path: "/overview",
-        Icon: MdDashboard,
+        Icon: DashboardRoundedIcon,
       },
       {
         label: "Your Space",
@@ -56,31 +65,47 @@ export const Sidebar = () => {
     ];
     const account: sidebarItemType[] = [
       {
-        label: "Settings",
-        path: "/settings",
-        Icon: IoSettings,
-      },
-      {
         label: "Account",
         path: "/account",
-        Icon: MdAccountCircle,
+        Icon: ManageAccountsRoundedIcon,
       },
     ];
     if (role === ROLES.admin) {
       actions.push({
         label: "Users",
         path: "/users",
-        Icon: CgUserList,
+        Icon: GroupRoundedIcon,
       });
     }
     return actions.concat(account);
   }, [extensions, role, navigate, userExtensions]);
 
+  const userActions = React.useMemo(() => {
+    return [
+      {
+        label: "Save portal",
+        Icon: SupportRoundedIcon,
+        active: enable,
+        handler: () => dispatch(togglePortal()),
+      },
+      {
+        label: "Settings",
+        path: "/settings",
+        Icon: SettingsRoundedIcon,
+      },
+      {
+        label: "Sign out",
+        Icon: LogoutRoundedIcon,
+        handler: () => dispatch(resetUser()),
+      },
+    ];
+  }, [dispatch, enable]);
+
   return (
-    <Box sx={sidebar.sideBar}>
+    <Paper sx={sidebar.sideBar}>
       <IconButton
+        itemType="icon"
         key={"logo-link"}
-        disableRipple
         sx={sidebar.logo}
         onClick={() => navigate("/")}
       >
@@ -90,7 +115,7 @@ export const Sidebar = () => {
         </Typography>
       </IconButton>
 
-      <Stack sx={sidebar.iconsContainer}>
+      <Box sx={sidebar.iconsContainer}>
         {links.map((link, index) => {
           const selected = link.path === location.pathname;
           return (
@@ -105,22 +130,38 @@ export const Sidebar = () => {
               key={`action-${index}`}
             >
               <IconButton
-                disableRipple
-                sx={{
-                  ...sidebar.sidebarItem,
-                  ...(selected && sidebar.selectedItem),
-                }}
+                itemType={selected ? "active" : "inactive"}
                 onClick={() => navigate(link.path)}
               >
-                <link.Icon sx={sidebar.sidebarItemIcon} />
-                <Typography sx={sidebar.sidbarItemText}>
+                <link.Icon />
+                {/* <Typography sx={sidebar.sidbarItemText}>
                   {link.label}
-                </Typography>
+                </Typography> */}
               </IconButton>
             </AppToolTip>
           );
         })}
-      </Stack>
-    </Box>
+      </Box>
+
+      <Box sx={sidebar.userActionsContainer}>
+        {userActions.map((uAction, index) => {
+          const selected = uAction.active || uAction.path === location.pathname;
+          return (
+            <AppToolTip title={uAction.label} key={`user-action-${index}`}>
+              <IconButton
+                itemType={selected ? "active" : "inactive"}
+                onClick={
+                  uAction.handler
+                    ? uAction.handler
+                    : () => navigate(uAction.path)
+                }
+              >
+                <uAction.Icon />
+              </IconButton>
+            </AppToolTip>
+          );
+        })}
+      </Box>
+    </Paper>
   );
 };

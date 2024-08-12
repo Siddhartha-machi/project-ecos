@@ -1,16 +1,8 @@
-import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
+import { stylesFuncProps } from "../typeDefs/helpers";
 
 export const toolTip = createStyles({
-  container: {
-    bgcolor: theme.main0,
-    border: theme.borderDark,
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    p: 0,
-    backdropFilter: "blur(5px)",
-    textAlign: "center",
-  },
   title: {
     fontSize: "14px",
     fontWeight: "bold",
@@ -23,9 +15,9 @@ export const localHeader = createStyles({
     alignItems: "center",
     justifyContent: "space-between",
     py: "8px",
-    px: 1,
+    px: "8px",
     gap: 1,
-    borderBottom: theme.border,
+    my: theme.spacing,
   },
   titleWrapper: {
     display: "flex",
@@ -47,31 +39,15 @@ export const localHeader = createStyles({
     display: "flex",
     gap: "12px",
   },
-  button: {
-    textTransform: "none",
-    border: theme.borderLight,
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    px: 2,
-    fontWeight: 600,
-    color: theme.white8,
-    fontSize: "13px",
-  },
 });
 
 export const chip = createStyles({
-  item: {
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    boxShadow: `0 0 6px 0 ${theme.white1}`,
-    border: `1px solid ${theme.white3}`,
-    color: theme.white8,
-    bgcolor: theme.white1,
-    p: "3px 8px",
-    fontSize: "9px",
-  },
   container: {
     display: "flex",
-    flexWrap: "wrap",
+    flexWrap: "nowrap",
+    overflow: "hidden",
     gap: 0.8,
+    maxWidth: "100%",
   },
 });
 
@@ -97,14 +73,14 @@ export const listToolTip = createStyles({
     },
   },
   img: {
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     width: "30px",
     height: "30px",
   },
   fallBackIcon: {
     fontSize: "20px",
     p: "6px",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     border: theme.border,
     color: theme.white3,
   },
@@ -119,7 +95,7 @@ export const listToolTip = createStyles({
     width: "100%",
     py: 1,
     bgcolor: theme.main2,
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     position: "sticky",
@@ -145,7 +121,7 @@ export const listToolTip = createStyles({
     p: "6px 10px",
     mx: 1.5,
     border: "1px solid transparent",
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
     "&:Hover": {
       bgcolor: theme.mainBackground,
       border: theme.borderDark,
@@ -204,20 +180,86 @@ export const editableTypo = createStyles({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  textField: {
-    color: "#fff",
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    border: theme.border,
-    px: 1.5,
-    py: 0.5,
-    fontSize: "14px",
-    "&.Mui-focused": {
-      boxShadow: `0 0 5px ${theme.blue}`,
+});
+
+export const dialog = createStyles({
+  actionContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    position: "absolute",
+    left: 0,
+    top: 0,
+    gap: 1,
+    p: "8px 12px",
+  },
+  title: {
+    py: 0.3,
+    m: 0,
+    textAlign: "center",
+    bgcolor: theme.primaryBgc,
+    fontSize: "15px",
+    borderBottom: theme.border,
+  },
+  footer: {
+    pr: 2,
+    py: 1,
+  },
+  actionButton: ({ value }: stylesFuncProps) => ({
+    color: theme.white3,
+    bgcolor: value || "transparent",
+    p: 0,
+    borderRadius: theme.borderRadius,
+    border: "1px solid",
+    "&:Hover": {
+      color: theme.white10,
+      bgcolor: value || "transparent",
     },
-    "&.Mui-error": {
-      border: "1px solid transparent",
-      borderColor: "error.light",
-      boxShadow: "0 0 10px 0 red",
-    },
+  }),
+  icon: {
+    color: "inherit",
+    fontSize: "12px",
+  },
+});
+
+export const dataBox = createStyles({
+  icon: { fontSize: "100px" },
+  title: { fontSize: "25px", fontWeight: "bold" },
+  msg: { fontSize: "16px", fontWeight: "bold", textAlign: "center" },
+});
+
+export const skeleton = createStyles({
+  avatar: {
+    width: "50px",
+    height: "50px",
+    transform: "unset",
+    borderRadius: theme.borderRadius,
+  },
+  text: {
+    display: "flex",
+    height: "50px",
+    transform: "unset",
+  },
+  title: {
+    display: "flex",
+    flex: 1,
+    transform: "unset",
+  },
+  button: {
+    display: "flex",
+    flex: 1,
+    height: "30px",
+  },
+  chip: {
+    display: "flex",
+    height: "35px",
+    flex: 1,
+    borderRadius: "15px",
+  },
+  textButton: {
+    display: "flex",
+    width: "80px",
+    height: "20px",
+    transform: "unset",
   },
 });

@@ -7,12 +7,12 @@ export const account = createStyles({
   container: {
     display: "flex",
     flexDirection: "column",
-    flex: 1,
     height: "100%",
   },
   content: {
     display: "flex",
     height: "100%",
+    gap: theme.spacing,
     overflow: "scroll",
   },
   accountContainer: {
@@ -87,9 +87,6 @@ export const profile = createStyles({
     color: "#fff",
     alignItems: "center",
     borderBottom: `1px solid ${theme.white4}`,
-  },
-  editIconButton: {
-    color: "#fff",
   },
   detailsFields: {
     display: "flex",

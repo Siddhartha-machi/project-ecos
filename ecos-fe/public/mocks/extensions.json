@@ -74,7 +74,8 @@
         "description": "Add a very simple todo to very complex plan from this extension.",
         "tags": [
             "Productive",
-            "Time Management"
+            "Time Management",
+            "Office"
         ],
         "meta": {
             "added": false

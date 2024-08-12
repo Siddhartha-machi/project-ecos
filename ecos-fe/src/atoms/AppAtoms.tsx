@@ -3,11 +3,21 @@ import * as React from "react";
 import {
   Typography,
   Tooltip,
-  Button,
   IconButton,
-  styled,
   TooltipProps,
   InputBase,
+  Button,
+  Paper,
+  Chip,
+  Dialog,
+  PaperProps,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
+  SxProps,
+  IconButtonProps,
+  Skeleton,
+  useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -15,8 +25,13 @@ import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 import HideSourceRoundedIcon from "@mui/icons-material/HideSourceRounded";
 import SettingsBackupRestoreRoundedIcon from "@mui/icons-material/SettingsBackupRestoreRounded";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
+import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
+import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import CloseIcon from "@mui/icons-material/Close";
+import DataSaverOnRoundedIcon from "@mui/icons-material/DataSaverOnRounded";
 
 import {
+  AppDialogProps,
   appChipProps,
   editableTypoProps,
   extensionActionProps,
@@ -27,19 +42,22 @@ import {
 } from "../typeDefs/atom";
 import {
   chip,
+  dialog,
   editableTypo,
   listToolTip,
   localHeader,
+  skeleton,
   toolTip,
 } from "../styles/atom.s";
 import ErrorContainer from "../layout/ErrorContainer";
-import theme from "../global/theme";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { ROLES } from "../global/constants";
+import { useAppDispatch } from "../redux/hooks";
 import {
   toggleExtension,
   toggleFromCollection,
 } from "../redux/slices/extensionSlice";
+import Draggable from "react-draggable";
+import { voidFun } from "../typeDefs/helpers";
+import theme, { customTheme } from "../global/theme";
 
 // Custom components
 const SimpleToolTip = ({ data }: { data: string }) => {
@@ -49,9 +67,7 @@ const SimpleToolTip = ({ data }: { data: string }) => {
 export const MenuListToolTip = (props: listToolTipItemType) => {
   const { title, option, data } = props;
 
-  const admin = useAppSelector(
-    (store) => store.user.currentUser.role === ROLES.admin
-  );
+  const admin = false;
 
   if (data.length < 1) {
     return (
@@ -191,11 +207,6 @@ export const AppToolTip = (props: TooltipProps) => {
         PopperProps={{
           onMouseLeave: basic ? undefined : handleClose,
         }}
-        componentsProps={{
-          tooltip: {
-            sx: toolTip.container,
-          },
-        }}
         placement={placement || "right"}
         arrow
         {...rest}
@@ -214,43 +225,87 @@ export const AppToolTip = (props: TooltipProps) => {
 
 export const LocalHeader = (props: localHeaderProps) => {
   const { pageTitle, pageCaption, options } = props;
+  const aboveXS = useMediaQuery(customTheme.breakpoints.up("sm"));
+
   return (
-    <Box sx={localHeader.container}>
+    <Paper sx={localHeader.container}>
       <Box sx={localHeader.titleWrapper}>
         <AppToolTip title={pageCaption} placement={"bottom"}>
           <Typography sx={localHeader.pageTitle}>{pageTitle}</Typography>
         </AppToolTip>
-        <Typography sx={localHeader.pageCaption}>{pageCaption}</Typography>
+        {aboveXS && (
+          <Typography sx={localHeader.pageCaption}>{pageCaption}</Typography>
+        )}
       </Box>
       <Box sx={localHeader.actionsWrapper}>
-        {options?.map((action, index) => (
-          <Button
-            sx={{ ...localHeader.button }}
-            startIcon={<action.Icon />}
-            key={`local-action-${index}`}
-          >
-            {action.label}
-          </Button>
-        ))}
+        {options?.map((action, index) => {
+          if (aboveXS) {
+            return (
+              <Button
+                variant="outlined"
+                startIcon={<action.Icon />}
+                key={`local-action-${index}`}
+              >
+                {action.label}
+              </Button>
+            );
+          }
+          return (
+            <IconButton key={`local-action-${index}`}>
+              <action.Icon />
+            </IconButton>
+          );
+        })}
       </Box>
-    </Box>
+    </Paper>
   );
 };
 
 export const AppChips = (props: appChipProps) => {
-  const { data, maxChips } = props;
+  const [showMore, setShowMore] = React.useState(false);
+  const [activeCount, setActiveCount] = React.useState(0);
+
+  const parentRef = React.useRef<HTMLDivElement | null>(null);
+  const { data } = props;
   const length = data.length;
+
+  const setChipsState = React.useCallback(() => {
+    let childrenWidth = 0,
+      count = 0;
+    if (parentRef && parentRef.current) {
+      const parent = parentRef.current;
+      const containerWidth = parent.offsetWidth;
+
+      for (const child of parent.children) {
+        childrenWidth += (child as HTMLElement).offsetWidth;
+        count += 1;
+        if (childrenWidth >= containerWidth && count < length) {
+          count -= 1;
+          break;
+        }
+      }
+    }
+    if (count < length - 1) {
+      setShowMore(true);
+    }
+    setActiveCount(count);
+    // console.log({ childrenWidth, count, showMore: count < length - 1 });
+  }, [length]);
+
+  React.useEffect(() => {
+    setChipsState();
+  }, [setChipsState]);
+
   return (
-    <Box sx={chip.container}>
-      {data.slice(0, maxChips).map((item, index) => (
-        <Typography key={`chip-${index}`} sx={chip.item}>
-          {item}
-        </Typography>
+    <Box sx={chip.container} ref={parentRef}>
+      {data.slice(0, activeCount + 1).map((item, index) => (
+        <Chip label={item} key={`chip-${index}`} />
       ))}
-      {maxChips && length > maxChips && (
-        <Typography key={"+chips-item"} sx={chip.item}>
-          {`+ ${length - maxChips} more`}
-        </Typography>
+      {showMore && (
+        <Chip
+          label={`+ ${length - activeCount - 1} more`}
+          key={"+chips-item"}
+        />
       )}
     </Box>
   );
@@ -288,9 +343,9 @@ export const EditableTypography = (props: editableTypoProps) => {
         {enableEditing ? (
           <InputBase
             fullWidth
+            size="small"
             value={value}
             type={valueType}
-            sx={editableTypo.textField}
             onChange={(e) => action(e.target.value)}
           />
         ) : (
@@ -301,6 +356,119 @@ export const EditableTypography = (props: editableTypoProps) => {
   );
 };
 
+export const TTIconButton = (props: IconButtonProps) => {
+  const { title, ...rest } = props;
+  const _Button = <IconButton {...rest} />;
+  if (rest.disabled) {
+    return _Button;
+  }
+  return <AppToolTip title={title} placement="bottom" children={_Button} />;
+};
+
+export const AppDialog = (props: AppDialogProps) => {
+  const [fullScreen, setFullScreen] = React.useState(false);
+  const [styles, setStyles] = React.useState<SxProps>({
+    cursor: "move",
+    position: "initial",
+  });
+
+  const { open, enableResizing, children, closeHandler } = props;
+  const { title, actions } = props;
+
+  const minimizeHandler = React.useCallback(() => setFullScreen(false), []);
+
+  const miximizeHandler = React.useCallback(() => {
+    setFullScreen(true);
+    setStyles({
+      cursor: "default",
+      position: "absolute",
+    });
+  }, []);
+
+  const actionHandlerWrapper = async (fn: voidFun) => {
+    await fn();
+    closeHandler();
+  };
+
+  return (
+    <Dialog
+      fullScreen={fullScreen}
+      open={open}
+      PaperComponent={fullScreen ? _DialogWrap : _DraggableBox}
+      hideBackdrop
+      disableEnforceFocus={!fullScreen}
+      sx={styles}
+    >
+      <Box sx={dialog.actionContainer}>
+        <TTIconButton
+          title="Close"
+          onClick={closeHandler}
+          sx={dialog.actionButton({ value: theme.red })}
+        >
+          <CloseIcon sx={dialog.icon} />
+        </TTIconButton>
+        <TTIconButton
+          title="Save to portal for later access"
+          onClick={() => console.warn("save to portal handler not configured")}
+          sx={dialog.actionButton({ value: theme.primaryBlue })}
+        >
+          <DataSaverOnRoundedIcon sx={dialog.icon} />
+        </TTIconButton>
+        {enableResizing && (
+          <React.Fragment>
+            <TTIconButton
+              title="Restore to original"
+              disabled={!fullScreen}
+              onClick={minimizeHandler}
+              sx={dialog.actionButton({ value: theme.yellow })}
+            >
+              <CloseFullscreenIcon sx={dialog.icon} />
+            </TTIconButton>
+            <TTIconButton
+              title="Maximize"
+              onClick={miximizeHandler}
+              disabled={fullScreen}
+              sx={dialog.actionButton({ value: theme.green })}
+            >
+              <OpenInFullIcon sx={dialog.icon} />
+            </TTIconButton>
+          </React.Fragment>
+        )}
+      </Box>
+
+      <DialogTitle sx={dialog.title}>{title}</DialogTitle>
+      <DialogContent>{children}</DialogContent>
+      <DialogActions sx={dialog.footer}>
+        {actions.map((action, index) => (
+          <Button
+            key={`dialog-action-btn-${index}`}
+            onClick={() => actionHandlerWrapper(action.handler)}
+          >
+            {action.label}
+          </Button>
+        ))}
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+const _DialogWrap = (props: PaperProps) => (
+  <Paper {...props} sx={{ borderRadius: "30px" }} />
+);
+
+const _DraggableBox = (props: PaperProps) => {
+  return (
+    <Draggable cancel={'[class*="MuiDialogContent-root"]'}>
+      <Paper {...props} />
+    </Draggable>
+  );
+};
+
+export const AppSkeletons = ({ type }) => {
+  return <Skeleton sx={skeleton[type]} />;
+};
+
+// work in progress components
 export const RBox = (props: responsiveBox) => {
   const { sx, children, part, breakPoint } = props;
   return (
@@ -315,16 +483,3 @@ export const RBox = (props: responsiveBox) => {
     </Box>
   );
 };
-// styled components
-export const AppButton = styled(Button)({
-  textTransform: "none",
-  fontWeight: "bold",
-  color: theme.white8,
-  "&:Hover": {
-    backgroundColor: "transparent",
-    color: theme.white10,
-  },
-  "&:disabled": {
-    color: theme.inactive,
-  },
-});

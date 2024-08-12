@@ -41,6 +41,12 @@ export const auth = createStyles({
     color: "#fff",
     px: 4,
   },
+  formFooter: {
+    display: "flex",
+    flexDirection: "column",
+    mt: 2,
+    gap: 0.5,
+  },
   formHeader: {
     display: "flex",
     alignItems: "center",
@@ -103,7 +109,6 @@ export const auth = createStyles({
   formToggleText: {
     fontSize: "13px",
     textAlign: "center",
-    mt: 1,
   },
   inlineButton: {
     display: "inline-flex",

@@ -1,60 +1,62 @@
 import { APP_CONSTATNTS } from "../global/constants";
 import { createStyles } from "../global/helpers";
 import theme from "../global/theme";
+import { stylesFuncProps } from "../typeDefs/helpers";
 
-const CONTAINER_MARGIN = 25;
-const CONTENT_WIDTH = 2 + APP_CONSTATNTS.sidebarWidth;
+const CONTENT_RESIDUE = APP_CONSTATNTS.sidebarWidth + APP_CONSTATNTS.gap;
+const SPACING = APP_CONSTATNTS.gap * 2;
 
 export const layout = createStyles({
   container: {
     display: "flex",
     flex: 1,
     position: "absolute",
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    top: CONTAINER_MARGIN,
-    bottom: CONTAINER_MARGIN,
-    left: CONTAINER_MARGIN,
-    right: CONTAINER_MARGIN,
-    width: `calc(100% - ${CONTAINER_MARGIN * 2}px)`,
-    boxShadow: "0 25px 23px rgba(0, 0, 0, 0.15)",
-    background: "rgba(16 18 27 / 40%)",
-    border: theme.border,
-    backdropFilter: "blur(3px)",
+    inset: 0,
+    width: `calc(100% - ${SPACING}px)`,
+    height: `calc(100vh - ${SPACING}px)`,
+    gap: theme.spacing,
+    m: theme.spacing,
   },
 
   content: {
     display: "flex",
+    position: "relative",
     flexDirection: "column",
     flex: 1,
-    width: `calc(100% - ${CONTENT_WIDTH}px)`,
+    width: `calc(100% - ${CONTENT_RESIDUE}px)`,
+    alignItems: "stretch",
   },
+
+  savePortalContainer: ({ check }: stylesFuncProps) => ({
+    display: check ? "flex" : "none",
+    position: "relative",
+    flexDirection: "column",
+    flex: 1,
+    width: `calc(100% - ${CONTENT_RESIDUE / 2.5}px)`,
+    alignItems: "stretch",
+    backgroundColor: "transparent",
+    transition: "0.3s ease",
+  }),
   stickyHeader: {
     display: "flex",
     position: "sticky",
     top: 0,
-    gap: 1.2,
-    borderBottom: theme.border,
-    borderTopRightRadius: APP_CONSTATNTS.borderRadius,
+    gap: theme.spacing,
+    borderRadius: theme.borderRadius,
     color: "#fff",
-    justifyContent: "space-between",
+    justifyContent: "stretch",
     alignItems: "center",
-    pr: 1.2,
+  },
+  userDetailContainer: {
+    display: "flex",
+    py: 0.35,
+    pr: 0.5,
+    gap: 1.5,
   },
   globalSearch: {
     flex: 1,
-    color: theme.white6,
-    py: 0.8,
+    py: 0.85,
     pl: 1.2,
-    m: "8px 0px 8px 8px",
-    fontSize: "16px",
-    fontWeight: "bold",
-    borderRadius: "5px",
-    "&:hover": {
-      bgcolor: theme.mainBackground,
-    },
-    "&.Mui-focused": {
-      bgcolor: theme.mainBackground,
-    },
   },
   notifications: {
     color: "#fff",
@@ -70,15 +72,6 @@ export const layout = createStyles({
     fontSize: "13px",
     fontWeight: 600,
     color: theme.blue,
-  },
-  avatar: {
-    width: 35,
-    height: 35,
-    p: 0,
-    border: theme.border,
-    "&:Hover": {
-      cursor: "pointer",
-    },
   },
   userDetail: {
     display: "flex",
@@ -99,78 +92,52 @@ export const layout = createStyles({
   innerContent: {
     display: "flex",
     flexDirection: "column",
-    flex: 1,
-    width: "calc(100%)",
+    height: "100%",
+    width: "calc(100% - 0px)",
     overflow: "scroll",
   },
 
   // backdrop styles
   backdrop: {
-    borderRadius: APP_CONSTATNTS.borderRadius,
+    borderRadius: theme.borderRadius,
+    backgroundColor: theme.black6,
+    zIndex: 4000,
   },
 });
 
 export const sidebar = createStyles({
   sideBar: {
-    display: "flex",
+    display: { xs: "none", sm: "flex" },
     flexDirection: "column",
-    width: APP_CONSTATNTS.sidebarWidth,
-    pb: 1.3,
-    gap: "12px",
-    borderRight: theme.border,
-    borderTopLeftRadius: APP_CONSTATNTS.borderRadius,
-    borderBottomLeftRadius: APP_CONSTATNTS.borderRadius,
+    maxWidth: `${APP_CONSTATNTS.sidebarWidth}px`,
+    minWidth: `${APP_CONSTATNTS.sidebarWidth}px`,
+    gap: 1,
+    borderRadius: theme.borderRadius,
+    py: 1,
   },
   iconsContainer: {
-    flexDirection: "column",
-    mx: "auto",
-    mt: 1,
-    gap: 2,
-  },
-  sidebarItem: {
     display: "flex",
     flexDirection: "column",
-    borderRadius: APP_CONSTATNTS.borderRadius,
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.white6,
-    py: 1.2,
-    px: 0.5,
-    gap: 1,
-    border: "1px solid transparent",
-    transition: "all 0.2s ease-in-out",
-    "&:Hover": {
-      color: theme.white10,
-      boxShadow: "0 25px 23px rgba(0, 0, 0, 0.25)",
-      background: "rgba(16 18 27 / 80%)",
-      border: theme.border,
-    },
+    borderTop: theme.borderDark,
+    gap: 1.5,
+    mx: "auto",
+    pt: 1.5,
   },
-  selectedItem: {
-    color: theme.white10,
-    boxShadow: "0 25px 23px rgba(0, 0, 0, 0.25)",
-    background: "rgba(16 18 27 / 80%)",
-    border: theme.border,
-  },
-  sidebarItemIcon: {
-    fontSize: 25,
-    color: "inherit",
+  userActionsContainer: {
+    display: "flex",
+    flexDirection: "column",
+    borderTop: theme.borderDark,
+    gap: 1.5,
+    pt: 1.5,
+    mt: "auto",
+    mx: "auto",
   },
   logo: {
     display: "flex",
     flexDirection: "column",
-    borderRadius: "50%",
-    borderBottom: theme.borderLight,
-    color: theme.white8,
-    p: "0px 20px 18px 20px",
+    borderRadius: theme.borderRadius,
     gap: 0.6,
-    my: 1,
     mx: "auto",
-    "&:Hover": {
-      boxShadow: `0px 6px 1px 0px ${theme.blue}`,
-      color: theme.white8,
-      borderBottom: `1px solid ${theme.white8}`,
-    },
   },
   sidbarItemText: {
     fontSize: "12px",

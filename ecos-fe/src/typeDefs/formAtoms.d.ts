@@ -47,5 +47,4 @@ interface inputBoxProps extends inputConfigType {
     HTMLTextAreaElement | HTMLInputElement
   >;
   StartIcon?: React.ElementType;
-  EndIcon?: React.ElementType;
 }

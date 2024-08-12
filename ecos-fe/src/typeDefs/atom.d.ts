@@ -89,3 +89,23 @@ export interface responsiveBox {
   sx?: SxProps;
   part?: number;
 }
+
+export type AppDialogProps = {
+  open: boolean;
+  title: string;
+  actions: { label: string; handler: () => void }[];
+  enableResizing?: boolean;
+  children?: React.ReactNode;
+  closeHandler: () => void;
+};
+
+export interface anyObject {
+  [k: string]: unknown;
+}
+
+type dataQueryReturnType = {
+  isError: boolean;
+  isLoading: boolean;
+  error: unknown;
+  data: unknown;
+};

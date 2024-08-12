@@ -7,6 +7,8 @@ import {
   Box,
   IconButton,
   InputBase,
+  Paper,
+  ThemeProvider,
   Typography,
 } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -22,7 +24,7 @@ import { layout } from "../styles/layout.s";
 import { strFormat } from "../global/helpers";
 import GlobalLoader from "../atoms/GlobalLoader";
 import { setSearchDisable } from "../redux/slices/appSlice";
-import AppBackground from "../atoms/AppBackground";
+import { customTheme } from "../global/theme";
 
 const AppLayout = () => {
   const { localLoading, loadingLabel, disableSearch } = useAppSelector(
@@ -30,7 +32,9 @@ const AppLayout = () => {
   );
   const location = useLocation().pathname;
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((store) => store.user.currentUser);
+  const currentUser = { first_name: "", last_name: "", role: "" };
+  const { enable } = useAppSelector((store) => store.savePortal);
+
   const { first_name, last_name, role } = currentUser;
 
   React.useEffect(() => {
@@ -43,25 +47,26 @@ const AppLayout = () => {
   }, [dispatch, location]);
 
   return (
-    <>
-      <AppBackground />
+    <ThemeProvider theme={customTheme}>
+      <Backdrop sx={layout.backdrop} open={localLoading}>
+        <GlobalLoader
+          loadLabel={`Loading ${loadingLabel || ""} please wait...`}
+          size="large"
+        />
+      </Backdrop>
       <Box sx={layout.container}>
         <Sidebar />
-        <Backdrop sx={layout.backdrop} open={localLoading}>
-          <GlobalLoader
-            loadLabel={`Loading ${loadingLabel || ""} please wait...`}
-            size="large"
-          />
-        </Backdrop>
         <Box sx={layout.content}>
-          {!disableSearch && (
-            <Box sx={layout.stickyHeader}>
-              <InputBase
-                sx={layout.globalSearch}
-                placeholder="Search"
-                startAdornment={<SearchRoundedIcon sx={{ pr: 1 }} />}
-                inputProps={{ "aria-label": "search" }}
-              />
+          <Box sx={layout.stickyHeader}>
+            <InputBase
+              disabled={disableSearch}
+              sx={layout.globalSearch}
+              placeholder="Search"
+              itemType="simple"
+              startAdornment={<SearchRoundedIcon sx={{ pr: 1 }} />}
+              inputProps={{ "aria-label": "search" }}
+            />
+            <Paper sx={layout.userDetailContainer}>
               <IconButton sx={layout.notifications}>
                 <Badge
                   badgeContent={234}
@@ -93,16 +98,20 @@ const AppLayout = () => {
                   </Box>
                 )}
               </Box>
-
-              <Avatar alt="user avatar" src={avatar} sx={layout.avatar} />
-            </Box>
-          )}
+            </Paper>
+            <Avatar
+              alt="user avatar"
+              src={avatar}
+              sx={{ width: "48px", height: "48px" }}
+            />
+          </Box>
           <Box sx={layout.innerContent}>
             <Outlet />
           </Box>
         </Box>
+        <Paper sx={{ ...layout.savePortalContainer({ check: enable }) }} />
       </Box>
-    </>
+    </ThemeProvider>
   );
 };
 

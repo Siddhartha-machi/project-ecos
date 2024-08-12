@@ -15,7 +15,7 @@ import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
 import { formReturnTypes } from "../../typeDefs/atom";
 import { selectConfigType, inputConfigType } from "../../typeDefs/formAtoms";
-import APIClient from "../../api/APIClient";
+import APIClient from "../../services/APIClient";
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +45,7 @@ const Register = () => {
           value: "",
           placeHolder: "mirana@ecos.com",
           type: "email",
-          focus: true,
+          initialFocused: true,
           StartIcon: EmailRoundedIcon,
           validator: validateEmail,
         },
