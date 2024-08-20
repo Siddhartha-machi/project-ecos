@@ -5,9 +5,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import { strFormatArgsType, stylesFuncProps } from "../typeDefs/helpers";
 
-export function createStyles<
-  T extends Record<string, SxProps> | ((params: stylesFuncProps) => SxProps)
->(styles: T) {
+export function createStyles<T extends Record<string, SxProps> | ((params: stylesFuncProps) => SxProps)>(styles: T) {
   return styles;
 }
 
@@ -34,13 +32,7 @@ export const singleNestedCopy = (original: any[]) => {
 };
 
 export const validateEmail = (email: string) => {
-  const valid = email
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    )
-    ? true
-    : false;
+  const valid = email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) ? true : false;
   if (valid) {
     return {
       valid,
@@ -75,8 +67,7 @@ export const checkPasswordStrength = (password: string) => {
   }
   return {
     valid,
-    message:
-      "Password should be atleast 8 characters long and must contain a uppercase, lowercase, sepcial character and a number.",
+    message: "Password should be atleast 8 characters long and must contain a uppercase, lowercase, sepcial character and a number.",
   };
 };
 
@@ -102,28 +93,17 @@ export const NullOrUndefined = (value: unknown) => {
   return value === undefined || value === null;
 };
 
-export const isObject = (value: unknown) =>
-  typeof value === "object" &&
-  Object.prototype.isPrototypeOf.call(Object.getPrototypeOf(value), Object);
+export const isObject = (value: unknown) => typeof value === "object" && Object.prototype.isPrototypeOf.call(Object.getPrototypeOf(value), Object);
 
 export const isArray = (obj: unknown) => {
   return typeof obj === "object" && obj?.constructor === Array;
-};
-
-export const isEmpty = (value: unknown) => {
-  const _isArray = isArray(value) && (value as Array<unknown>).length > 0;
-  const _isObj = isObject(value) && Object.keys(value as object).length > 0;
-  return NullOrUndefined(value) || !_isArray || !_isObj;
 };
 
 export const isAlpha = (str: string) => {
   return str.match(/[a-z][A-Z]/) !== null;
 };
 
-export const statusCodeToMessage = (
-  code: number = 500,
-  label: string = "Resource"
-) => {
+export const statusCodeToMessage = (code: number = 500, label: string = "Resource") => {
   const _config = {
     msg: "Request completed successfully",
     result: "success",
@@ -149,8 +129,7 @@ export const statusCodeToMessage = (
       _config.Icon = AirIcon;
       break;
     default:
-      _config.msg =
-        "Uh oh! something went seriously wrong on our end. We'll fix this issue ASAP.";
+      _config.msg = "Uh oh! something went seriously wrong on our end. We'll fix this issue ASAP.";
       _config.result = "error";
       _config.Icon = ReportIcon;
   }

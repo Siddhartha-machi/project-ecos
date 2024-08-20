@@ -5,11 +5,7 @@ import { useNavigate } from "react-router";
 import EmailRoundedIcon from "@mui/icons-material/EmailRounded";
 import KeyRoundedIcon from "@mui/icons-material/KeyRounded";
 
-import {
-  checkPassEquality,
-  checkPasswordStrength,
-  validateEmail,
-} from "../../global/helpers";
+import { checkPassEquality, checkPasswordStrength, validateEmail } from "../../global/helpers";
 import { useAppDispatch } from "../../redux/hooks";
 import { setCurrentUser } from "../../redux/slices/userSlice";
 import GenericForm from "../../atoms/GenericForm";
@@ -37,46 +33,39 @@ const Register = () => {
     return response.message;
   };
 
-  const registerFormConfig: Array<selectConfigType | inputConfigType> =
-    React.useMemo(
-      () => [
-        {
-          label: "Email",
-          value: "",
-          placeHolder: "mirana@ecos.com",
-          type: "email",
-          initialFocused: true,
-          StartIcon: EmailRoundedIcon,
-          validator: validateEmail,
-        },
-        {
-          label: "Password",
-          value: "",
-          placeHolder: "mirana#2847",
-          type: "password",
-          StartIcon: KeyRoundedIcon,
-          validator: checkPasswordStrength,
-        },
-        {
-          label: "Confirm Password",
-          value: "",
-          CVType: true,
-          placeHolder: "mirana#2847",
-          type: "password",
-          StartIcon: KeyRoundedIcon,
-          validator: checkPassEquality,
-        },
-      ],
-      []
-    );
-
-  return (
-    <GenericForm
-      formFields={registerFormConfig}
-      submitHandler={submitHandler}
-      formTitle={"Sign up"}
-    />
+  const registerFormConfig: Array<selectConfigType | inputConfigType> = React.useMemo(
+    () => [
+      {
+        label: "Email",
+        value: "",
+        placeholder: "mirana@ecos.com",
+        type: "email",
+        initialFocused: true,
+        StartIcon: EmailRoundedIcon,
+        validator: validateEmail,
+      },
+      {
+        label: "Password",
+        value: "",
+        placeholder: "mirana#2847",
+        type: "password",
+        StartIcon: KeyRoundedIcon,
+        validator: checkPasswordStrength,
+      },
+      {
+        label: "Confirm Password",
+        value: "",
+        CVType: true,
+        placeholder: "mirana#2847",
+        type: "password",
+        StartIcon: KeyRoundedIcon,
+        validator: checkPassEquality,
+      },
+    ],
+    []
   );
+
+  return <GenericForm formFields={registerFormConfig} submitHandler={submitHandler} formTitle={"Sign up"} />;
 };
 
 export default Register;

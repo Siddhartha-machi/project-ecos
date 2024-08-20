@@ -13,11 +13,7 @@ export enum HTTP {
 const baseQueryWithAuth =
   (path: string): baseQueryFn =>
   async (args, api, extraOptions = {}) => {
-    const result = await fetchBaseQuery({ baseUrl: BASE_URL + path })(
-      args,
-      api,
-      extraOptions
-    );
+    const result = await fetchBaseQuery({ baseUrl: BASE_URL + path })(args, api, extraOptions);
 
     return { ...result, res: "my response message" };
   };

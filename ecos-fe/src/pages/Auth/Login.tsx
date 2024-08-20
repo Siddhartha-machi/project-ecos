@@ -42,7 +42,7 @@ const Login = () => {
       {
         label: "Email",
         value: mock ? mockUser.email : "",
-        placeHolder: "mirana@ecos.com",
+        placeholder: "mirana@ecos.com",
         type: "email",
         StartIcon: EmailRoundedIcon,
         initialFocused: true,
@@ -51,7 +51,7 @@ const Login = () => {
       {
         label: "Password",
         value: mock ? mockUser.password : "",
-        placeHolder: "Mirana#2847",
+        placeholder: "Mirana#2847",
         type: "password",
         StartIcon: KeyRoundedIcon,
         validator: checkPasswordStrength,

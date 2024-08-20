@@ -15,9 +15,9 @@ import {
   DialogTitle,
   DialogActions,
   SxProps,
-  IconButtonProps,
   Skeleton,
   useMediaQuery,
+  Divider,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
@@ -29,6 +29,8 @@ import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import CloseIcon from "@mui/icons-material/Close";
 import DataSaverOnRoundedIcon from "@mui/icons-material/DataSaverOnRounded";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
+import StarOutlineRoundedIcon from "@mui/icons-material/StarOutlineRounded";
 
 import {
   AppDialogProps,
@@ -37,27 +39,21 @@ import {
   extensionActionProps,
   listToolTipItemType,
   localHeaderProps,
+  ratingStatProps,
   responsiveBox,
+  textDividerProps,
   truncateTypoTypes,
+  ttlIconButtonProps,
 } from "../typeDefs/atom";
-import {
-  chip,
-  dialog,
-  editableTypo,
-  listToolTip,
-  localHeader,
-  skeleton,
-  toolTip,
-} from "../styles/atom.s";
+import { chip, dialog, divider, editableTypo, listToolTip, localHeader, rating, skeleton, toolTip } from "../styles/atom.s";
 import ErrorContainer from "../layout/ErrorContainer";
 import { useAppDispatch } from "../redux/hooks";
-import {
-  toggleExtension,
-  toggleFromCollection,
-} from "../redux/slices/extensionSlice";
+import { toggleExtension, toggleFromCollection } from "../redux/slices/extensionSlice";
 import Draggable from "react-draggable";
 import { voidFun } from "../typeDefs/helpers";
 import theme, { customTheme } from "../global/theme";
+import { NullOrUndefined } from "../global/helpers";
+import { useNavigate } from "react-router-dom";
 
 // Custom components
 const SimpleToolTip = ({ data }: { data: string }) => {
@@ -66,8 +62,19 @@ const SimpleToolTip = ({ data }: { data: string }) => {
 
 export const MenuListToolTip = (props: listToolTipItemType) => {
   const { title, option, data } = props;
+  const navigate = useNavigate();
 
   const admin = false;
+  const onClickHandler = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (e) {
+      e.stopPropagation();
+      let _text = (e.target as HTMLDivElement).innerText;
+      if (NullOrUndefined(_text)) {
+        _text = (e.target as HTMLDivElement).parentElement?.innerText || "";
+      }
+      navigate(`/extensions/${_text}`);
+    }
+  };
 
   if (data.length < 1) {
     return (
@@ -76,15 +83,9 @@ export const MenuListToolTip = (props: listToolTipItemType) => {
           <Typography sx={toolTip.title}>{title}</Typography>
         </Box>
         <Box sx={listToolTip.emptyContent}>
-          <Typography sx={listToolTip.fallbackMessage}>
-            Nothing here!
-          </Typography>
+          <Typography sx={listToolTip.fallbackMessage}>Nothing here!</Typography>
           {option && (
-            <Button
-              endIcon={option.Icon && <option.Icon />}
-              onClick={option.action}
-              sx={listToolTip.addButton}
-            >
+            <Button endIcon={option.Icon && <option.Icon />} onClick={option.action} sx={listToolTip.addButton}>
               {option.label}
             </Button>
           )}
@@ -92,33 +93,32 @@ export const MenuListToolTip = (props: listToolTipItemType) => {
       </Box>
     );
   }
+
   return (
     <Box sx={listToolTip.listContainer}>
       <Box sx={listToolTip.titleContainer}>
         <Typography sx={toolTip.title}>{title}</Typography>
       </Box>
-      <Box sx={listToolTip.content}>
+      <Box sx={listToolTip.content} onClick={onClickHandler}>
         {data.map((item, index: number) => (
-          <Box key={`list-tip-${index}`} sx={listToolTip.listItemContainer}>
-            {item.image ? (
-              <Box component={"img"} sx={listToolTip.img} src={item.image} />
-            ) : (
-              <ExtensionRoundedIcon sx={listToolTip.fallBackIcon} />
-            )}
+          <Box
+            key={`list-tip-${index}`}
+            sx={{
+              ...listToolTip.listItemContainer,
+              ...(item.meta.added && listToolTip.onHover),
+            }}
+          >
+            {item.image ? <Box component={"img"} sx={listToolTip.img} src={item.image} /> : <ExtensionRoundedIcon sx={listToolTip.fallBackIcon} />}
             <Typography sx={listToolTip.title}>{item.title}</Typography>
             <ExtensionActions privileged={admin} data={item} />
           </Box>
         ))}
-        {option && (
-          <Button
-            startIcon={option.Icon && <option.Icon />}
-            onClick={option.action}
-            sx={listToolTip.addButton}
-          >
-            {option.label}
-          </Button>
-        )}
       </Box>
+      {option && (
+        <Button startIcon={option.Icon && <option.Icon />} onClick={option.action} sx={listToolTip.addButton}>
+          {option.label}
+        </Button>
+      )}
     </Box>
   );
 };
@@ -140,48 +140,23 @@ export const ExtensionActions = (props: extensionActionProps) => {
     <Box sx={listToolTip.actionsContainer}>
       {!data.meta.disabled &&
         (!data.meta.added ? (
-          <AppToolTip title={"Add extension to my space"} placement="bottom">
-            <IconButton
-              onClick={addRemoveHandler}
-              sx={listToolTip.actionButton}
-            >
-              <AddRoundedIcon sx={{ color: "primary.dark" }} />
-            </IconButton>
-          </AppToolTip>
+          <TTIconButton itemType="icon" title={"Add extension to my space"} onClick={addRemoveHandler}>
+            <AddRoundedIcon sx={{ color: "secondary.dark" }} />
+          </TTIconButton>
         ) : (
-          <AppToolTip
-            title={"Remove extension from my space"}
-            placement="bottom"
-          >
-            <IconButton
-              onClick={addRemoveHandler}
-              sx={listToolTip.actionButton}
-            >
-              <RemoveRoundedIcon sx={{ color: "error.dark" }} />
-            </IconButton>
-          </AppToolTip>
+          <TTIconButton itemType="icon" title={"Remove extension from my space"} onClick={addRemoveHandler}>
+            <RemoveRoundedIcon sx={{ color: "error.dark" }} />
+          </TTIconButton>
         ))}
       {privileged &&
         (data.meta.disabled ? (
-          <AppToolTip title={`Enable extension in ECOS`} placement="bottom">
-            <IconButton
-              onClick={enableDisableHandler}
-              sx={listToolTip.actionButton}
-            >
-              <SettingsBackupRestoreRoundedIcon
-                sx={{ color: "success.dark" }}
-              />
-            </IconButton>
-          </AppToolTip>
+          <TTIconButton itemType="icon" title={`Enable extension in ECOS`} onClick={enableDisableHandler}>
+            <SettingsBackupRestoreRoundedIcon sx={{ color: "success.dark" }} />
+          </TTIconButton>
         ) : (
-          <AppToolTip title={`Disable extension from ECOS`} placement="bottom">
-            <IconButton
-              onClick={enableDisableHandler}
-              sx={listToolTip.actionButton}
-            >
-              <HideSourceRoundedIcon sx={{ color: "error.dark" }} />
-            </IconButton>
-          </AppToolTip>
+          <TTIconButton itemType="icon" title={`Disable extension from ECOS`} onClick={enableDisableHandler}>
+            <HideSourceRoundedIcon sx={{ color: "error.dark" }} />
+          </TTIconButton>
         ))}
     </Box>
   );
@@ -211,11 +186,7 @@ export const AppToolTip = (props: TooltipProps) => {
         arrow
         {...rest}
         disableInteractive={basic ? true : false}
-        title={
-          <ErrorContainer overrideErrorMessage="Can't load tooltip">
-            {basic ? <SimpleToolTip data={title as string} /> : title}
-          </ErrorContainer>
-        }
+        title={<ErrorContainer overrideErrorMessage="Can't load tooltip">{basic ? <SimpleToolTip data={title as string} /> : title}</ErrorContainer>}
       >
         {children}
       </Tooltip>
@@ -233,19 +204,13 @@ export const LocalHeader = (props: localHeaderProps) => {
         <AppToolTip title={pageCaption} placement={"bottom"}>
           <Typography sx={localHeader.pageTitle}>{pageTitle}</Typography>
         </AppToolTip>
-        {aboveXS && (
-          <Typography sx={localHeader.pageCaption}>{pageCaption}</Typography>
-        )}
+        {aboveXS && <Typography sx={localHeader.pageCaption}>{pageCaption}</Typography>}
       </Box>
       <Box sx={localHeader.actionsWrapper}>
         {options?.map((action, index) => {
           if (aboveXS) {
             return (
-              <Button
-                variant="outlined"
-                startIcon={<action.Icon />}
-                key={`local-action-${index}`}
-              >
+              <Button variant="outlined" startIcon={<action.Icon />} key={`local-action-${index}`}>
                 {action.label}
               </Button>
             );
@@ -301,12 +266,7 @@ export const AppChips = (props: appChipProps) => {
       {data.slice(0, activeCount + 1).map((item, index) => (
         <Chip label={item} key={`chip-${index}`} />
       ))}
-      {showMore && (
-        <Chip
-          label={`+ ${length - activeCount - 1} more`}
-          key={"+chips-item"}
-        />
-      )}
+      {showMore && <Chip label={`+ ${length - activeCount - 1} more`} key={"+chips-item"} />}
     </Box>
   );
 };
@@ -341,13 +301,7 @@ export const EditableTypography = (props: editableTypoProps) => {
       </Typography>
       <Box sx={editableTypo.fieldContainer}>
         {enableEditing ? (
-          <InputBase
-            fullWidth
-            size="small"
-            value={value}
-            type={valueType}
-            onChange={(e) => action(e.target.value)}
-          />
+          <InputBase fullWidth size="small" value={value} type={valueType} onChange={(e) => action(e.target.value)} />
         ) : (
           <TruncateTypography content={value} styles={editableTypo.value} />
         )}
@@ -356,13 +310,13 @@ export const EditableTypography = (props: editableTypoProps) => {
   );
 };
 
-export const TTIconButton = (props: IconButtonProps) => {
-  const { title, ...rest } = props;
+export const TTIconButton = (props: ttlIconButtonProps) => {
+  const { title, placement, ...rest } = props;
   const _Button = <IconButton {...rest} />;
   if (rest.disabled) {
     return _Button;
   }
-  return <AppToolTip title={title} placement="bottom" children={_Button} />;
+  return <AppToolTip title={title} placement={placement || "bottom"} children={_Button} />;
 };
 
 export const AppDialog = (props: AppDialogProps) => {
@@ -375,7 +329,13 @@ export const AppDialog = (props: AppDialogProps) => {
   const { open, enableResizing, children, closeHandler } = props;
   const { title, actions } = props;
 
-  const minimizeHandler = React.useCallback(() => setFullScreen(false), []);
+  const minimizeHandler = React.useCallback(() => {
+    setFullScreen(false);
+    setStyles({
+      cursor: "move",
+      position: "initial",
+    });
+  }, []);
 
   const miximizeHandler = React.useCallback(() => {
     setFullScreen(true);
@@ -391,59 +351,36 @@ export const AppDialog = (props: AppDialogProps) => {
   };
 
   return (
-    <Dialog
-      fullScreen={fullScreen}
-      open={open}
-      PaperComponent={fullScreen ? _DialogWrap : _DraggableBox}
-      hideBackdrop
-      disableEnforceFocus={!fullScreen}
-      sx={styles}
-    >
-      <Box sx={dialog.actionContainer}>
-        <TTIconButton
-          title="Close"
-          onClick={closeHandler}
-          sx={dialog.actionButton({ value: theme.red })}
-        >
-          <CloseIcon sx={dialog.icon} />
-        </TTIconButton>
-        <TTIconButton
-          title="Save to portal for later access"
-          onClick={() => console.warn("save to portal handler not configured")}
-          sx={dialog.actionButton({ value: theme.primaryBlue })}
-        >
-          <DataSaverOnRoundedIcon sx={dialog.icon} />
-        </TTIconButton>
-        {enableResizing && (
-          <React.Fragment>
-            <TTIconButton
-              title="Restore to original"
-              disabled={!fullScreen}
-              onClick={minimizeHandler}
-              sx={dialog.actionButton({ value: theme.yellow })}
-            >
-              <CloseFullscreenIcon sx={dialog.icon} />
-            </TTIconButton>
-            <TTIconButton
-              title="Maximize"
-              onClick={miximizeHandler}
-              disabled={fullScreen}
-              sx={dialog.actionButton({ value: theme.green })}
-            >
-              <OpenInFullIcon sx={dialog.icon} />
-            </TTIconButton>
-          </React.Fragment>
-        )}
-      </Box>
-
-      <DialogTitle sx={dialog.title}>{title}</DialogTitle>
+    <Dialog fullScreen={fullScreen} open={open} PaperComponent={fullScreen ? _DialogWrap : _DraggableBox} hideBackdrop disableEnforceFocus={!fullScreen} sx={styles}>
+      <DialogTitle sx={dialog.header}>
+        <Box sx={dialog.actionContainer}>
+          <TTIconButton title="Close" onClick={closeHandler} sx={dialog.actionButton({ value: theme.red })}>
+            <CloseIcon sx={dialog.icon} />
+          </TTIconButton>
+          <TTIconButton
+            title="Save to portal for later access"
+            onClick={() => console.warn("save to portal handler not configured")}
+            sx={dialog.actionButton({ value: theme.primaryBlue })}
+          >
+            <DataSaverOnRoundedIcon sx={dialog.icon} />
+          </TTIconButton>
+          {enableResizing && (
+            <React.Fragment>
+              <TTIconButton title="Restore to original" disabled={!fullScreen} onClick={minimizeHandler} sx={dialog.actionButton({ value: theme.yellow })}>
+                <CloseFullscreenIcon sx={dialog.icon} />
+              </TTIconButton>
+              <TTIconButton title="Maximize" onClick={miximizeHandler} disabled={fullScreen} sx={dialog.actionButton({ value: theme.green })}>
+                <OpenInFullIcon sx={dialog.icon} />
+              </TTIconButton>
+            </React.Fragment>
+          )}
+        </Box>
+        <Typography sx={dialog.title}>{title}</Typography>
+      </DialogTitle>
       <DialogContent>{children}</DialogContent>
       <DialogActions sx={dialog.footer}>
         {actions.map((action, index) => (
-          <Button
-            key={`dialog-action-btn-${index}`}
-            onClick={() => actionHandlerWrapper(action.handler)}
-          >
+          <Button key={`dialog-action-btn-${index}`} onClick={() => actionHandlerWrapper(action.handler)}>
             {action.label}
           </Button>
         ))}
@@ -452,9 +389,7 @@ export const AppDialog = (props: AppDialogProps) => {
   );
 };
 
-const _DialogWrap = (props: PaperProps) => (
-  <Paper {...props} sx={{ borderRadius: "30px" }} />
-);
+const _DialogWrap = (props: PaperProps) => <Paper {...props} sx={{ borderRadius: "30px" }} />;
 
 const _DraggableBox = (props: PaperProps) => {
   return (
@@ -466,6 +401,31 @@ const _DraggableBox = (props: PaperProps) => {
 
 export const AppSkeletons = ({ type }) => {
   return <Skeleton sx={skeleton[type]} />;
+};
+
+export const RatingStatic = (props: ratingStatProps) => {
+  const { count, filled, size, color } = props;
+
+  const sx = React.useMemo<SxProps>(() => {
+    return { fontSize: size ? `${size}px` : "medium", color };
+  }, [size, color]);
+  return (
+    <Box sx={rating.container}>
+      {Array.from(Array(count || 5)).map((_, index) => {
+        if (filled > index) return <StarRoundedIcon key={`rating-icon-fill-${index}`} sx={sx} />;
+        return <StarOutlineRoundedIcon key={`rating-icon-${index}`} sx={sx} />;
+      })}
+    </Box>
+  );
+};
+
+export const TextDivider = (props: textDividerProps) => {
+  const { label, textAlign } = props;
+  return (
+    <Divider textAlign={textAlign || "left"}>
+      <Typography sx={divider.dividerLabel}>{label}</Typography>
+    </Divider>
+  );
 };
 
 // work in progress components

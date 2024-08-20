@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material";
 import { APP_CONSTATNTS } from "./constants";
+import { blueGrey, green, red } from "@mui/material/colors";
 
 const theme = {
   primary: "#4A90E2",
@@ -7,7 +8,7 @@ const theme = {
   primaryDark: "#111927",
   secondary: "#2ea44f",
   inactive: "#4b5663",
-  primaryBgc: "rgba(29, 78, 129, 0.3)",
+  // primaryBgc: "rgba(29, 78, 129, 0.3)", --- theme.p.m
   bgDark: "#111927",
 
   borderColor: "rgba(255, 255, 255, 0.125)",
@@ -21,9 +22,6 @@ const theme = {
   yellow: "#f59e0b",
   red: "#d81e5b",
   // Error colors
-  redMain: "#ef5350",
-  redLight: "#e57373",
-  redDark: "#b71c1c",
 
   border: "1px solid rgba(255, 255, 255, 0.125)",
   borderDark: "1px solid rgba(255,255,255, 0.2)",
@@ -57,8 +55,13 @@ const theme = {
   black10: "rgba(0,0,0,1)",
 
   spacing: `${APP_CONSTATNTS.gap}px`,
-  borderRadius: `${APP_CONSTATNTS.radius}px`,
 };
+
+export const colors = {
+  borderColor: blueGrey[800],
+};
+
+export const borderRadius = { xs: 0, sm: "10px" };
 
 export default theme;
 
@@ -66,11 +69,32 @@ export const customTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: theme.white1,
+      light: "rgba(255, 255, 255, 0.1)",
+      main: "rgba(29, 78, 129, 0.3)",
+      dark: theme.black5,
     },
     secondary: {
-      main: "rgba(0,255,0,1)",
+      light: green[600],
+      main: green[700],
+      dark: green[900],
     },
+    error: {
+      main: red[700],
+    },
+    success: {
+      light: green[600],
+      main: green[700],
+      dark: green[900],
+    },
+    text: {
+      primary: "#fff",
+    },
+    common: {
+      black: "rgba(0, 0, 0, 0.1)",
+    },
+  },
+  shape: {
+    borderRadius: APP_CONSTATNTS.radius,
   },
   breakpoints: {
     values: {
@@ -86,46 +110,47 @@ export const customTheme = createTheme({
       variants: [
         {
           props: { variant: "text" },
-          style: {
+          style: ({ theme }) => ({
             display: "inline-flex",
             width: "fit-content",
             padding: 0,
-            color: theme.primaryBlue,
-            backgroundImage: "none",
+            color: theme.palette.secondary.main,
             backgroundColor: "transparent",
+            border: "none",
             "&:Hover": {
+              color: theme.palette.secondary.main,
               backgroundColor: "transparent",
               transform: "scale(1.02)",
+              border: "none",
             },
             "&:disabled": {
-              color: theme.inactive,
+              color: theme.palette.text.disabled,
               backgroundColor: "transparent",
+              borderColor: theme.palette.text.disabled,
             },
-          },
+          }),
         },
       ],
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           // Base style overrides
           textTransform: "none",
-          letterSpacing: "-0.025em",
           fontWeight: "bold",
-          color: theme.white10,
-          backgroundColor: theme.secondary,
-          border: 0,
-          borderRadius: theme.borderRadius,
-          backgroundImage:
-            "linear-gradient(180deg,hsla(0,0%,100%,.15),hsla(0,0%,100%,0))",
+          color: theme.palette.text.primary,
+          backgroundColor: theme.palette.secondary.main,
+          border: `1.5px solid ${theme.palette.secondary.light}`,
+          borderRadius: theme.shape.borderRadius,
           "&:Hover": {
-            backgroundColor: theme.secondary,
-            backgroundImage: "none",
-            border: 0,
+            border: `1.5px solid ${theme.palette.secondary.light}`,
+            backgroundColor: theme.palette.secondary.light,
+            // color: theme.palette.text.primary,
           },
           "&:disabled": {
-            color: theme.white10,
-            backgroundColor: theme.inactive,
+            color: theme.palette.text.disabled,
+            backgroundColor: theme.palette.text.disabled,
+            borderColor: "transparent",
           },
-        },
+        }),
       },
       defaultProps: {
         disableRipple: true,
@@ -135,59 +160,65 @@ export const customTheme = createTheme({
       variants: [
         {
           props: { itemType: "active" },
-          style: {
-            color: theme.white10,
-            backgroundColor: theme.primaryBlue,
-            border: `2px solid ${theme.white3}`,
+          style: ({ theme }) => ({
+            color: theme.palette.text.primary,
+            backgroundColor: theme.palette.secondary.main,
+            border: `1.5px solid ${theme.palette.secondary.light}`,
             "&:Hover": {
-              color: theme.white10,
-              backgroundColor: theme.primaryBlue,
+              backgroundColor: theme.palette.secondary.light,
             },
-          },
+            "&:disabled": {
+              borderColor: theme.palette.text.disabled,
+            },
+          }),
         },
         {
           props: { itemType: "inactive" },
-          style: {
-            color: theme.white8,
-            border: "2px solid transparent",
+          style: ({ theme }) => ({
+            color: theme.palette.text.secondary,
             "&:Hover": {
-              color: theme.white10,
-              border: `2px solid ${theme.white3}`,
-              backgroundColor: theme.primaryBlue,
+              color: theme.palette.text.primary,
             },
-          },
+          }),
         },
         {
           props: { itemType: "icon" },
-          style: {
-            color: theme.white10,
+          style: ({ theme }) => ({
+            color: theme.palette.text.secondary,
+            padding: 0,
+            border: 0,
             "&:Hover": {
               backgroundColor: "transparent",
-              color: theme.secondary,
+              color: theme.palette.secondary.main,
+              border: 0,
+              padding: 0,
             },
-          },
+          }),
         },
       ],
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           // Base style overrides
-          color: theme.white6,
-          border: "1px solid transparent",
-          borderRadius: theme.borderRadius,
+          color: theme.palette.text.secondary,
+          border: "1.5px solid transparent",
+          borderRadius: theme.shape.borderRadius,
           "&:Hover": {
-            color: theme.white10,
-            backgroundColor: theme.secondary,
+            color: theme.palette.text.primary,
+            backgroundColor: theme.palette.secondary.main,
+            border: `1.5px solid ${theme.palette.secondary.light}`,
           },
           "&:disabled": {
-            color: theme.white5,
+            color: theme.palette.text.disabled,
+            borderColor: theme.palette.text.disabled,
           },
-        },
+        }),
       },
       defaultProps: {
         disableRipple: true,
       },
     },
     MuiPaper: {
+      // probable deprication feature
       variants: [
         {
           props: { itemType: "animation" },
@@ -211,46 +242,41 @@ export const customTheme = createTheme({
         },
       ],
       styleOverrides: {
-        root: {
-          color: theme.white10,
+        root: ({ theme }) => ({
+          color: theme.palette.text.secondary,
           backdropFilter: "blur(10px) saturate(102%)",
           WebkitBackdropFilter: "blur(10px) saturate(102%)",
-          backgroundColor: theme.primaryBgc,
-          borderRadius: theme.borderRadius,
-          border: "1px solid transparent",
-          borderColor: theme.borderColor,
-        },
+          backgroundColor: theme.palette.primary.main,
+          borderRadius: theme.shape.borderRadius,
+          border: "1px solid",
+          borderColor: theme.palette.primary.light,
+        }),
       },
     },
     MuiInputBase: {
       variants: [
         {
           props: {
-            itemType: "simple",
-          },
-          style: {
-            padding: "0px 12px",
-          },
-        },
-        {
-          props: {
             itemType: "withIcon",
           },
-          style: {
+          style: ({ theme }) => ({
             borderBottomLeftRadius: 0,
             borderTopLeftRadius: 0,
             "&.Mui-focused, &:hover": {
-              boxShadow: `0 0 4px 0 ${theme.secondary}`,
-              border: `1px solid ${theme.secondary}`,
+              boxShadow: `0 0 4px 0 ${theme.palette.secondary.main}`,
+              border: `1.5px solid ${theme.palette.secondary.light}`,
             },
-          },
+          }),
         },
       ],
       styleOverrides: {
-        input: {
+        input: ({ theme }) => ({
           "&:-webkit-autofill": {
-            WebkitBoxShadow: "0 0 0 100px #1f2a37 inset",
-            WebkitTextFillColor: theme.white10,
+            boxShadow: "0 0 0 100px #1f2a37 inset",
+            WebkitTextFillColor: theme.palette.text.primary,
+            borderRadius: theme.shape.borderRadius,
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
           },
           "::-webkit-calendar-picker-indicator": {
             display: "none",
@@ -258,30 +284,29 @@ export const customTheme = createTheme({
           "::-webkit-datetime-edit-text": {
             padding: "15px",
           },
-        },
-        root: {
-          color: theme.white10,
-          borderRadius: theme.borderRadius,
-          backgroundColor: theme.iBgc,
-          border: theme.iborder,
+        }),
+        root: ({ theme }) => ({
+          color: theme.palette.text.primary,
+          borderRadius: theme.shape.borderRadius,
+          backgroundColor: theme.palette.common.black,
+          border: `1.5px solid ${colors.borderColor}`,
           "&.Mui-focused, &:hover": {
-            border: `1px solid ${theme.secondary}`,
-            backgroundColor: theme.iborderClr,
+            border: `1.5px solid ${theme.palette.secondary.main}`,
+            backgroundColor: theme.palette.primary.light,
           },
           "&.Mui-error": {
-            border: "1px solid transparent",
-            borderColor: theme.redMain,
-            boxShadow: `0 0 4px 0 ${theme.redMain}`,
+            border: `1.5px solid ${theme.palette.error.main}`,
+            boxShadow: `0 0 4px 0 ${theme.palette.error.dark}`,
           },
           "&.Mui-disabled": {
-            borderColor: theme.borderColor,
-            backgroundColor: theme.iborderClr,
-            color: theme.white1,
+            borderColor: colors.borderColor,
+            backgroundColor: theme.palette.primary.light,
+            cursor: "not-allowed",
           },
           "&.Mui-disabled input::placeholder": {
-            WebkitTextFillColor: theme.white3,
+            WebkitTextFillColor: theme.palette.text.disabled,
           },
-        },
+        }),
       },
       defaultProps: {
         fullWidth: true,
@@ -290,32 +315,42 @@ export const customTheme = createTheme({
             display: "flex",
             p: "12px",
             fontWeight: "bold",
-            borderRadius: theme.borderRadius,
             backgroundColor: "transparent",
+            "&:disabled": {
+              cursor: "not-allowed",
+            },
           },
         },
       },
     },
     MuiSelect: {
       styleOverrides: {
-        root: {
-          color: "#fff",
-          borderRadius: theme.borderRadius,
-          border: `1px solid ${theme.white6}`,
+        root: ({ theme }) => ({
+          color: theme.palette.text.primary,
+          borderRadius: theme.shape.borderRadius,
+          backgroundColor: theme.palette.common.black,
+          border: `1.5px solid ${theme.palette.primary.light}`,
           "&.Mui-focused": {
             boxShadow: "0 0 10px 0 #fff",
           },
           "&.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline": {
             border: 0,
           },
-          "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-            {
-              border: 0,
-            },
+          "&.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            border: 0,
+          },
           "&.Mui-error": {
-            border: "1px solid transparent",
-            borderColor: "error.light",
-            boxShadow: "0 0 10px 0 red",
+            border: "1.5px solid transparent",
+            borderColor: theme.palette.error.main,
+            boxShadow: `0 0 4px 0 ${theme.palette.error.dark}`,
+          },
+          "&.Mui-disabled": {
+            borderColor: theme.palette.text.disabled,
+            backgroundColor: theme.palette.primary.light,
+            cursor: "not-allowed",
+          },
+          "&.Mui-disabled input::placeholder": {
+            WebkitTextFillColor: theme.palette.text.disabled,
           },
           "& .MuiSelect-select": {
             padding: "12px 0px 12px 16px",
@@ -324,7 +359,7 @@ export const customTheme = createTheme({
           ".MuiSvgIcon-root ": {
             fill: "white !important",
           },
-        },
+        }),
       },
       defaultProps: {
         MenuProps: {
@@ -344,7 +379,7 @@ export const customTheme = createTheme({
           slotProps: {
             paper: {
               sx: {
-                borderRadius: theme.borderRadius,
+                // borderRadius: theme.borderRadius,
                 bgcolor: theme.primaryDark,
                 border: `1px solid ${theme.white3}`,
                 color: theme.white10,
@@ -363,7 +398,7 @@ export const customTheme = createTheme({
           gap: 2,
           margin: "6px 12px",
           fontWeight: "bold",
-          borderRadius: theme.borderRadius,
+          // borderRadius: theme.borderRadius,
           "&:Hover": {
             backgroundColor: theme.white10,
             color: theme.black10,
@@ -374,7 +409,7 @@ export const customTheme = createTheme({
     MuiAvatar: {
       styleOverrides: {
         root: {
-          borderRadius: theme.borderRadius,
+          // borderRadius: theme.borderRadius,
           padding: 0,
           border: `1px solid ${theme.white3}`,
           "&:Hover": {
@@ -387,7 +422,6 @@ export const customTheme = createTheme({
       styleOverrides: {
         root: {
           fontSize: "20px",
-          backgroundColor: theme.white3,
         },
       },
     },
@@ -396,7 +430,7 @@ export const customTheme = createTheme({
         tooltip: {
           backgroundColor: theme.main0,
           border: theme.borderDark,
-          borderRadius: theme.borderRadius,
+          // borderRadius: theme.borderRadius,
           padding: 0,
           backdropFilter: "blur(5px)",
           textAlign: "center",
@@ -406,7 +440,7 @@ export const customTheme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: theme.borderRadius,
+          // borderRadius: theme.borderRadius,
           boxShadow: `0 0 6px 0 ${theme.white1}`,
           border: `1px solid ${theme.white3}`,
           color: theme.white8,

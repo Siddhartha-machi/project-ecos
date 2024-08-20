@@ -1,6 +1,8 @@
 import { createStyles } from "../global/helpers";
-import theme from "../global/theme";
+import { colors, customTheme } from "../global/theme";
 import { stylesFuncProps } from "../typeDefs/helpers";
+
+const BORDER_RADIUS = `${customTheme.shape.borderRadius}px`;
 
 export const formAtom = createStyles({
   container: {
@@ -8,7 +10,7 @@ export const formAtom = createStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    gap: 4,
+    gap: 2.5,
   },
   loginError: {
     display: "flex",
@@ -19,7 +21,7 @@ export const formAtom = createStyles({
     justifyContent: "center",
     py: 1,
     gap: 1,
-    borderRadius: theme.borderRadius,
+    borderRadius: BORDER_RADIUS,
   },
   formTitle: {
     fontSize: "20px",
@@ -34,7 +36,7 @@ export const formAtom = createStyles({
     textTransform: "none",
     fontWeight: "bold",
     my: 1,
-    borderRadius: theme.borderRadius,
+    borderRadius: BORDER_RADIUS,
     "&:disabled": {
       backgroundColor: "rgba(255,255,255,0.3)",
       color: "rgba(255,255,255,0.4)",
@@ -53,25 +55,20 @@ export const formAtom = createStyles({
   startIcon: {
     py: "11.5px",
     px: "15px",
-    border: theme.iborder,
-    borderRadius: theme.borderRadius,
+    border: `1.5px solid ${colors.borderColor}`,
+    borderRadius: BORDER_RADIUS,
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
     borderRight: 0,
   },
-  fieldsWrap: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 2.5,
-  },
   formLabel: ({ check }: stylesFuncProps) => ({
     fontSize: "14px",
     fontWeight: "bold",
-    color: check ? theme.redMain : "rgba(255,255,255,0.9)",
+    color: check ? "error.main" : "rgba(255,255,255,0.9)",
   }),
   errorText: {
     fontSize: "12px",
-    color: theme.redMain,
+    color: "error.main",
     mt: 0.5,
     fontWeight: "bold",
   },

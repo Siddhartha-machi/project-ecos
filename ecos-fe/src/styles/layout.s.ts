@@ -12,37 +12,39 @@ export const layout = createStyles({
     flex: 1,
     position: "absolute",
     inset: 0,
-    width: `calc(100% - ${SPACING}px)`,
-    height: `calc(100vh - ${SPACING}px)`,
+    width: { xs: `calc(100% - 0px)`, sm: `calc(100% - ${SPACING}px)` },
+    height: { xs: `calc(100vh - 0px)`, sm: `calc(100vh - ${SPACING}px)` },
     gap: theme.spacing,
-    m: theme.spacing,
+    m: { xs: 0, sm: theme.spacing },
   },
 
-  content: {
+  content: ({ check }: stylesFuncProps) => ({
     display: "flex",
     position: "relative",
     flexDirection: "column",
     flex: 1,
-    width: `calc(100% - ${CONTENT_RESIDUE}px)`,
+    width: check ? `calc(55% - ${CONTENT_RESIDUE}px)` : `calc(100% - ${CONTENT_RESIDUE}px)`,
     alignItems: "stretch",
-  },
+  }),
 
   savePortalContainer: ({ check }: stylesFuncProps) => ({
     display: check ? "flex" : "none",
     position: "relative",
     flexDirection: "column",
     flex: 1,
-    width: `calc(100% - ${CONTENT_RESIDUE / 2.5}px)`,
+    width: `calc(100% - ${CONTENT_RESIDUE}px)`,
     alignItems: "stretch",
     backgroundColor: "transparent",
     transition: "0.3s ease",
+    border: theme.border,
+    // borderRadius: theme.borderRadius,
   }),
   stickyHeader: {
     display: "flex",
     position: "sticky",
     top: 0,
     gap: theme.spacing,
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     color: "#fff",
     justifyContent: "stretch",
     alignItems: "center",
@@ -99,7 +101,7 @@ export const layout = createStyles({
 
   // backdrop styles
   backdrop: {
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     backgroundColor: theme.black6,
     zIndex: 4000,
   },
@@ -112,7 +114,7 @@ export const sidebar = createStyles({
     maxWidth: `${APP_CONSTATNTS.sidebarWidth}px`,
     minWidth: `${APP_CONSTATNTS.sidebarWidth}px`,
     gap: 1,
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     py: 1,
   },
   iconsContainer: {
@@ -135,7 +137,7 @@ export const sidebar = createStyles({
   logo: {
     display: "flex",
     flexDirection: "column",
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     gap: 0.6,
     mx: "auto",
   },

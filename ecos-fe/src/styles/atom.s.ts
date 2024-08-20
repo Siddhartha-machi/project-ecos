@@ -73,14 +73,14 @@ export const listToolTip = createStyles({
     },
   },
   img: {
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     width: "30px",
     height: "30px",
   },
   fallBackIcon: {
     fontSize: "20px",
     p: "6px",
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     border: theme.border,
     color: theme.white3,
   },
@@ -95,7 +95,7 @@ export const listToolTip = createStyles({
     width: "100%",
     py: 1,
     bgcolor: theme.main2,
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
     position: "sticky",
@@ -121,7 +121,7 @@ export const listToolTip = createStyles({
     p: "6px 10px",
     mx: 1.5,
     border: "1px solid transparent",
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
     "&:Hover": {
       bgcolor: theme.mainBackground,
       border: theme.borderDark,
@@ -132,7 +132,8 @@ export const listToolTip = createStyles({
     display: "flex",
     flexDirection: "column",
     gap: 1,
-    my: 1.5,
+    mt: 1.5,
+    mb: 1,
   },
   emptyContent: {
     display: "flex",
@@ -142,15 +143,11 @@ export const listToolTip = createStyles({
     justifyContent: "center",
   },
   addButton: {
-    fontSize: "12px",
-    textTransform: "none",
-    fontWeight: "bold",
-    p: 0,
-    mb: 1,
-    "&:Hover": {
-      color: theme.white10,
-      bgcolor: "transparent",
-    },
+    mx: "auto",
+    pb: 1.2,
+  },
+  onHover: {
+    cursor: "pointer",
   },
 });
 
@@ -183,42 +180,40 @@ export const editableTypo = createStyles({
 });
 
 export const dialog = createStyles({
+  header: {
+    display: "flex",
+    alignItems: "center",
+    p: "6px 12px",
+    borderBottom: theme.border,
+  },
   actionContainer: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    position: "absolute",
-    left: 0,
-    top: 0,
     gap: 1,
-    p: "8px 12px",
   },
   title: {
-    py: 0.3,
-    m: 0,
+    width: 'calc(100% - 50px)',
     textAlign: "center",
-    bgcolor: theme.primaryBgc,
     fontSize: "15px",
-    borderBottom: theme.border,
+    color: "text.primary",
   },
   footer: {
     pr: 2,
     py: 1,
   },
   actionButton: ({ value }: stylesFuncProps) => ({
-    color: theme.white3,
     bgcolor: value || "transparent",
-    p: 0,
-    borderRadius: theme.borderRadius,
-    border: "1px solid",
+    borderColor: value || "",
+    padding: 0.1,
     "&:Hover": {
-      color: theme.white10,
-      bgcolor: value || "transparent",
+      backgroundColor: value || "",
+      borderColor: value || "",
     },
   }),
   icon: {
     color: "inherit",
-    fontSize: "12px",
+    fontSize: "11px",
   },
 });
 
@@ -233,7 +228,7 @@ export const skeleton = createStyles({
     width: "50px",
     height: "50px",
     transform: "unset",
-    borderRadius: theme.borderRadius,
+    // borderRadius: theme.borderRadius,
   },
   text: {
     display: "flex",
@@ -261,5 +256,22 @@ export const skeleton = createStyles({
     width: "80px",
     height: "20px",
     transform: "unset",
+  },
+});
+
+export const rating = createStyles({
+  container: {
+    display: "flex",
+    gap: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+});
+
+export const divider = createStyles({
+  dividerLabel: {
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: theme.white8,
   },
 });

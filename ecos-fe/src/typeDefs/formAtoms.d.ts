@@ -1,50 +1,24 @@
-import { SelectChangeEvent } from "@mui/material";
+import { InputProps } from "@mui/material";
 
 export type selectDataType = {
   val: string;
   Icon?: React.ElementType;
 };
 
-interface genericFieldType {
-  required?: boolean;
+interface fieldMutationType {
   label: string;
-  initialFocused?: boolean;
-  error?: string;
-  validator?: (
-    val: string,
-    compare: string
-  ) => { message: string; valid: boolean };
+  error: boolean;
+  errorText?: string;
+  validator?: (val: string, compare: string) => { message: string; valid: boolean };
   dependentField?: string;
 }
 
-interface selectConfigType extends genericFieldType {
+interface selectConfigType extends SelectProps, fieldMutationType {
   value: selectDataType;
   placeHolder: selectDataType;
   options: selectDataType[];
 }
 
-interface inputConfigType extends genericFieldType {
-  value: string;
-  type: "text" | "email" | "number" | "password" | "date";
-  placeHolder: string;
-  StartIcon?: React.ElementType;
-}
-
-interface selectFieldProps extends selectConfigType {
-  changeHandler: (
-    event: SelectChangeEvent<string>,
-    child: React.ReactNode
-  ) => void;
-}
-
-interface inputBoxProps extends inputConfigType {
-  changeHandler: (
-    e:
-      | React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-      | React.ReactNode
-  ) => void;
-  onKeyDown?: React.KeyboardEventHandler<
-    HTMLTextAreaElement | HTMLInputElement
-  >;
+interface inputConfigType extends InputProps, fieldMutationType {
   StartIcon?: React.ElementType;
 }

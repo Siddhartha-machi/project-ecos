@@ -1,16 +1,6 @@
 import * as React from "react";
 
-import {
-  Avatar,
-  Backdrop,
-  Badge,
-  Box,
-  IconButton,
-  InputBase,
-  Paper,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Avatar, Backdrop, Badge, Box, IconButton, InputBase, Paper, ThemeProvider, Typography } from "@mui/material";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import AdminPanelSettingsRoundedIcon from "@mui/icons-material/AdminPanelSettingsRounded";
@@ -27,9 +17,7 @@ import { setSearchDisable } from "../redux/slices/appSlice";
 import { customTheme } from "../global/theme";
 
 const AppLayout = () => {
-  const { localLoading, loadingLabel, disableSearch } = useAppSelector(
-    (store) => store.app
-  );
+  const { localLoading, loadingLabel, disableSearch } = useAppSelector((store) => store.app);
   const location = useLocation().pathname;
   const dispatch = useAppDispatch();
   const currentUser = { first_name: "", last_name: "", role: "" };
@@ -49,31 +37,22 @@ const AppLayout = () => {
   return (
     <ThemeProvider theme={customTheme}>
       <Backdrop sx={layout.backdrop} open={localLoading}>
-        <GlobalLoader
-          loadLabel={`Loading ${loadingLabel || ""} please wait...`}
-          size="large"
-        />
+        <GlobalLoader loadLabel={`Loading ${loadingLabel || ""} please wait...`} size="large" />
       </Backdrop>
       <Box sx={layout.container}>
         <Sidebar />
-        <Box sx={layout.content}>
+        <Box sx={{ ...layout.content({ check: enable }) }}>
           <Box sx={layout.stickyHeader}>
             <InputBase
               disabled={disableSearch}
               sx={layout.globalSearch}
               placeholder="Search"
-              itemType="simple"
               startAdornment={<SearchRoundedIcon sx={{ pr: 1 }} />}
               inputProps={{ "aria-label": "search" }}
             />
             <Paper sx={layout.userDetailContainer}>
               <IconButton sx={layout.notifications}>
-                <Badge
-                  badgeContent={234}
-                  color="primary"
-                  max={9}
-                  sx={layout.notifyCount}
-                >
+                <Badge badgeContent={234} color="primary" max={9} sx={layout.notifyCount}>
                   <NotificationsRoundedIcon />
                 </Badge>
               </IconButton>
@@ -83,11 +62,7 @@ const AppLayout = () => {
                 </Typography>
                 {role !== "user" && (
                   <Box sx={layout.roleWrapper}>
-                    {role === "admin" ? (
-                      <AdminPanelSettingsRoundedIcon fontSize="small" />
-                    ) : (
-                      <SupervisedUserCircleRoundedIcon fontSize="small" />
-                    )}
+                    {role === "admin" ? <AdminPanelSettingsRoundedIcon fontSize="small" /> : <SupervisedUserCircleRoundedIcon fontSize="small" />}
                     <Typography sx={layout.inlineRole}>
                       {strFormat({
                         str: role as string,
@@ -99,17 +74,13 @@ const AppLayout = () => {
                 )}
               </Box>
             </Paper>
-            <Avatar
-              alt="user avatar"
-              src={avatar}
-              sx={{ width: "48px", height: "48px" }}
-            />
+            <Avatar alt="user avatar" src={avatar} sx={{ width: "48px", height: "48px" }} />
           </Box>
           <Box sx={layout.innerContent}>
             <Outlet />
           </Box>
         </Box>
-        <Paper sx={{ ...layout.savePortalContainer({ check: enable }) }} />
+        <Box sx={{ ...layout.savePortalContainer({ check: enable }) }} />
       </Box>
     </ThemeProvider>
   );

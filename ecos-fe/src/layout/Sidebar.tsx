@@ -2,14 +2,14 @@ import * as React from "react";
 
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import ExtensionRoundedIcon from "@mui/icons-material/ExtensionRounded";
-import WorkspacesRoundedIcon from "@mui/icons-material/WorkspacesRounded";
-import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import SupportRoundedIcon from "@mui/icons-material/SupportRounded";
+import WorkspacesRoundedIcon from "@mui/icons-material/WorkspacesRounded";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -25,12 +25,24 @@ export const Sidebar = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const { role } = { role: "" }; // useAppSelector((store) => store.user.currentUser);
-  const state = useAppSelector((store) => store.extensions);
+  const { role } = { role: ROLES.admin }; // useAppSelector((store) => store.user.currentUser);
+  // const state = useAppSelector((store) => store.extensions);
   const { enable } = useAppSelector((store) => store.savePortal);
 
-  const extensions = [],
-    userExtensions = [];
+  const extensions = React.useMemo(
+    () => [
+      {
+        id: "10",
+        title: "Todos - 10",
+        description: "Add a very simple todo to very complex plan from this extension.",
+        tags: ["Productive", "Time Management"],
+        meta: {
+          added: true,
+        },
+      },
+    ],
+    []
+  );
 
   const links = React.useMemo(() => {
     const actions: sidebarItemType[] = [
@@ -44,7 +56,7 @@ export const Sidebar = () => {
         path: "/your-space",
         Icon: WorkspacesRoundedIcon,
         children: {
-          data: userExtensions,
+          data: extensions,
           title: "Your apps",
           option: {
             label: "Add app",
@@ -78,7 +90,7 @@ export const Sidebar = () => {
       });
     }
     return actions.concat(account);
-  }, [extensions, role, navigate, userExtensions]);
+  }, [extensions, navigate, role]);
 
   const userActions = React.useMemo(() => {
     return [
@@ -103,40 +115,18 @@ export const Sidebar = () => {
 
   return (
     <Paper sx={sidebar.sideBar}>
-      <IconButton
-        itemType="icon"
-        key={"logo-link"}
-        sx={sidebar.logo}
-        onClick={() => navigate("/")}
-      >
+      <IconButton itemType="icon" key={"logo-link"} sx={sidebar.logo} onClick={() => navigate("/")}>
         <APP_CONSTATNTS.appIcon />
-        <Typography sx={sidebar.sidbarItemText}>
-          {APP_CONSTATNTS.appName}
-        </Typography>
+        <Typography sx={sidebar.sidbarItemText}>{APP_CONSTATNTS.appName}</Typography>
       </IconButton>
 
       <Box sx={sidebar.iconsContainer}>
         {links.map((link, index) => {
-          const selected = link.path === location.pathname;
+          const selected = location.pathname.includes(link.path);
           return (
-            <AppToolTip
-              title={
-                link.children ? (
-                  <MenuListToolTip {...link.children} />
-                ) : (
-                  link.label
-                )
-              }
-              key={`action-${index}`}
-            >
-              <IconButton
-                itemType={selected ? "active" : "inactive"}
-                onClick={() => navigate(link.path)}
-              >
+            <AppToolTip title={link.children ? <MenuListToolTip {...link.children} /> : link.label} key={`main-action-${index}`}>
+              <IconButton itemType={selected ? "active" : "inactive"} onClick={() => navigate(link.path)}>
                 <link.Icon />
-                {/* <Typography sx={sidebar.sidbarItemText}>
-                  {link.label}
-                </Typography> */}
               </IconButton>
             </AppToolTip>
           );
@@ -148,14 +138,7 @@ export const Sidebar = () => {
           const selected = uAction.active || uAction.path === location.pathname;
           return (
             <AppToolTip title={uAction.label} key={`user-action-${index}`}>
-              <IconButton
-                itemType={selected ? "active" : "inactive"}
-                onClick={
-                  uAction.handler
-                    ? uAction.handler
-                    : () => navigate(uAction.path)
-                }
-              >
+              <IconButton itemType={selected ? "active" : "inactive"} onClick={uAction.handler ? uAction.handler : () => navigate(uAction.path)}>
                 <uAction.Icon />
               </IconButton>
             </AppToolTip>

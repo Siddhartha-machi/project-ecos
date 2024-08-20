@@ -1,6 +1,6 @@
 import { inputConfigType, selectConfigType } from "./formAtoms";
 import { extensionType } from "./extension";
-import { SxProps } from "@mui/material";
+import { DividerProps, IconButtonProps, SxProps, TooltipProps } from "@mui/material";
 
 export type GLoaderProps = {
   loadLabel?: string;
@@ -13,8 +13,11 @@ export type formReturnTypes = {
 
 export type genericFormProps = {
   formFields: Array<selectConfigType | inputConfigType>;
-  formTitle: string;
   submitHandler: (formData: formReturnTypes) => Promise<string>;
+  formTitle?: string;
+  submitButtonText?: string;
+  formContainerSx?: SxProps;
+  formTitleSx?: SxProps;
 };
 
 export interface eActionType {
@@ -103,9 +106,24 @@ export interface anyObject {
   [k: string]: unknown;
 }
 
+export interface ttlIconButtonProps extends IconButtonProps, TooltipProps {
+
+}
+
 type dataQueryReturnType = {
   isError: boolean;
   isLoading: boolean;
   error: unknown;
   data: unknown;
 };
+
+export type ratingStatProps = {
+  filled: number;
+  count?: number;
+  size?: number;
+  color?: string;
+};
+
+export interface textDividerProps extends DividerProps {
+  label: string;
+}
